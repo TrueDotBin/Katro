@@ -1,3 +1,5 @@
+using Katro.Logging;
+using Katro.Terminal;
 using System;
 using Sys = Cosmos.Kernel.System;
 
@@ -10,7 +12,7 @@ namespace Katro
     {
         protected override void BeforeRun()
         {
-            Console.WriteLine("Katro booted successfully");
+            Logger.Ok("Katro booted successfully");
         }
 
         protected override void Run()
