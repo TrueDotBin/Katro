@@ -1,4 +1,5 @@
 ﻿using Cosmos.Kernel.System;
+using System.Text;
 
 namespace Katro.Terminal
 {
@@ -20,28 +21,26 @@ namespace Katro.Terminal
 
             Console.Clear();
 
-            Console.WriteLine("Katro System Error");
-            Console.WriteLine();
-            Console.WriteLine("The system has detected a failure.");
-            Console.WriteLine("It has now stopped to prevent data loss.");
-            Console.WriteLine(message);
-            Console.WriteLine("Press ENTER to reboot.");
-            Console.WriteLine();
-            Console.WriteLine("Additional details:");
+            Console.WriteLine("SYSTEM ERROR");
+
+            Console.WriteLine("Katro has encountered an error that the system couldn't handle.");
+            Console.WriteLine("The system has stopped to prevent data loss.");
+            Console.WriteLine($"Error message: {message}");
+
+            Console.CursorTop += 2;
+
+            Console.WriteLine("=== ADDITIONAL INFORMATION ===");
             Console.WriteLine($"Error code: {errorCode}");
+
+            Console.CursorTop = Console.WindowHeight - 1;
+            Console.Write("Press ENTER to reboot");
 
             while (true)
             {
                 var key = Console.ReadKey();
 
                 if (key.Key == ConsoleKey.Enter)
-                {
-                    Console.ResetColor();
-                    Console.Clear();
-                    Console.WriteLine("Rebooting");
-
                     Power.Reboot();
-                }
             }
         }
     }
