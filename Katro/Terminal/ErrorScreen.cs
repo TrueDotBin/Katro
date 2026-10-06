@@ -18,6 +18,7 @@ namespace Katro.Terminal
         {
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.ForegroundColor = ConsoleColor.White;
+            Console.CursorVisible = false;
 
             Console.Clear();
 
@@ -26,9 +27,7 @@ namespace Katro.Terminal
             Console.WriteLine("Katro has encountered an error that the system couldn't handle.");
             Console.WriteLine("The system has stopped to prevent data loss.");
             Console.WriteLine($"Error message: {message}");
-
-            Console.CursorTop += 2;
-
+            Console.WriteLine();
             Console.WriteLine("=== ADDITIONAL INFORMATION ===");
             Console.WriteLine($"Error code: {errorCode}");
 
@@ -37,7 +36,7 @@ namespace Katro.Terminal
 
             while (true)
             {
-                var key = Console.ReadKey();
+                var key = Console.ReadKey(true);
 
                 if (key.Key == ConsoleKey.Enter)
                     Power.Reboot();
