@@ -483,3 +483,6 @@ $RECYCLE.BIN/
 
 # Cosmos output folder
 output-*/
+
+# Disk images
+*.img
