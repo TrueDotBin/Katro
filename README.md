@@ -32,5 +32,34 @@ The first parameter ("level") can only be one of those:
 | `warn` | `warning` | Logs a warning |
 | `error` | None | Logs an error |
 
+## Building
+
+Requires the Cosmos dev kit and .NET.  
+**Install Cosmos [here][cosmos-install].**
+
+Create a disk image using `qemu-img`
+
+```bash
+# 64MB disk image
+qemu-img create katro.img 64M
+```
+
+Build and run the kernel:
+
+```bash
+cosmos build
+cosmos run --disk katro.img
+```
+
+Or, without a filesystem:
+
+```bash
+cosmos run
+# pick "Katro (No file system)" in the boot menu
+```
+
+Licensed under BSD-3-Clause, see the [LICENSE] file for more details.
+
 [cosmos-lua]: https://github.com/CosmosOS/Cosmos.Executable.Lua
 [cosmos-gen3]: https://gocosmos.org
+[cosmos-install]: https://cosmosos.github.io/articles/user/install.html
