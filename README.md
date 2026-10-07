@@ -1,11 +1,19 @@
 # Katro
 
-An operating system made in [Cosmos gen3][cosmos-gen3]
+A kernel made in [Cosmos gen3][cosmos-gen3]
 
 ## Features
 
 - FAT32 filesystem (You can disable it by booting into "Katro (No file system)" in the boot menu)
 - Lua script execution (powered by [Cosmos.Executable.Lua][cosmos-lua]) with some of the Katro functions, [Supported functions](#katro-lua-functions)
+
+## Roadmap
+
+- [x] Implement file system
+- [x] Add Lua script execution
+- [ ] Add networking
+- [ ] Add more Katro functions to Lua
+- [ ] Add a desktop and some apps
 
 ## Katro Lua Functions
 
