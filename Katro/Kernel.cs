@@ -33,25 +33,6 @@ namespace Katro
                 Directory.SetCurrentDirectory("/katro");
             }
 
-            Logger.Info("Testing Lua...");
-
-            var sampleScript = """
-                -- Sample Lua script for Katro
-                print("Running Lua on Katro!")
-                print(_VERSION)
-
-                local a = 5
-                local b = 2
-                local c = a + b
-                print("a="..a)
-                print("b="..b)
-                print("c=a+b="..c)
-                """;
-
-            LuaRunner.RunString(sampleScript);
-
-            Logger.Ok("Lua test finished!");
-
             Logger.Ok("Katro booted successfully");
         }
 
