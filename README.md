@@ -58,7 +58,7 @@ cosmos run
 # pick "Katro (No file system)" in the boot menu
 ```
 
-Licensed under BSD-3-Clause, see the [LICENSE] file for more details.
+Licensed under BSD-3-Clause, see the [LICENSE](LICENSE) file for more details.
 
 [cosmos-lua]: https://github.com/CosmosOS/Cosmos.Executable.Lua
 [cosmos-gen3]: https://gocosmos.org
