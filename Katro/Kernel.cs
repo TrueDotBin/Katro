@@ -29,6 +29,7 @@ namespace Katro
             if (!DontUseFilesystem)
             {
                 Logger.Info("Initializing file system");
+
                 FileSystemManager.Init();
                 Directory.SetCurrentDirectory("/katro");
             }
