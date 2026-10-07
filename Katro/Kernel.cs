@@ -4,6 +4,7 @@ using Katro.Extensions;
 using Katro.FileSystem;
 using Katro.Logging;
 using Katro.Terminal;
+using Katro.Utils;
 using System;
 using Sys = Cosmos.Kernel.System;
 
@@ -14,22 +15,33 @@ namespace Katro
     /// </summary>
     public class Kernel : Sys.Kernel
     {
+        private bool _dontUseFs;
         protected override void BeforeRun()
         {
             KernelConsole.Default?.SetFontFromResource("Katro.Resources.ZapVga16.psf");
 
-            Logger.Info("Initializing file system");
-            FileSystemManager.Init();
+            _dontUseFs = CmdLineUtils.HasArg("nofs");
+            if (_dontUseFs)
+            {
+                Logger.Info("Initializing file system");
+                FileSystemManager.Init();
+                Directory.SetCurrentDirectory("/katro");
+            }
 
             Logger.Ok("Katro booted successfully");
-
-            Directory.SetCurrentDirectory("/katro");
         }
 
         protected override void Run()
         {
-            var current = Directory.GetCurrentDirectory();
-            Console.Write($"{current} > ");
+            if (_dontUseFs)
+            {
+                var current = Directory.GetCurrentDirectory();
+                Console.Write($"{current} > ");
+            }
+            else
+            {
+                Console.Write("Katro > ");
+            }
 
             var input = Console.ReadLine();
 
