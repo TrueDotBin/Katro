@@ -8,7 +8,7 @@ A kernel made in [Cosmos gen3][cosmos-gen3]
 ## Features
 
 - FAT32 filesystem (You can disable it by booting into "Katro (No file system)" in the boot menu)
-- Lua script execution (powered by [Cosmos.Executable.Lua][cosmos-lua]) with some of the Katro functions, [Read more](docs/lua/README.md)
+- Lua script execution with some of Katro's functions, [Read more](docs/lua/README.md)
 
 ## Roadmap
 
