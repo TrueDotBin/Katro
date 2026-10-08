@@ -13,6 +13,11 @@ namespace Katro.Constants
         /// <summary>
         /// The specified command was not found.
         /// </summary>
-        CommandNotFound = -1
+        CommandNotFound = -1,
+
+        /// <summary>
+        /// The command ran with no issues.
+        /// </summary>
+        Success = 0
     }
 }
