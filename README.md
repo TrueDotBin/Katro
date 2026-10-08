@@ -16,7 +16,6 @@ A kernel made in [Cosmos gen3][cosmos-gen3]
 - [x] Add Lua script execution
 - [ ] Implement command-line shell
 - [ ] Add networking
-- [ ] Add more Katro functions to Lua
 - [ ] Add a desktop and some apps
 
 ## Building
