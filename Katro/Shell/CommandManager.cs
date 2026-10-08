@@ -27,5 +27,13 @@ namespace Katro.Shell
         {
             s_commands.Add(command);
         }
+
+        /// <summary>
+        /// Finds a command.
+        /// </summary>
+        /// <param name="name">The name of the command.</param>
+        /// <returns>The command that was found.</returns>
+        public static Command? Get(string name)
+            => Commands.FirstOrDefault(c => c.Name == name || c.Aliases.Contains(name));
     }
 }

@@ -72,25 +72,33 @@ namespace Katro.Shell.Parsing
         /// Parses the input string for a command.
         /// </summary>
         /// <param name="input">The input string.</param>
-        /// <param name="command">A reference to the command.</param>
-        public static void Parse(string input, Command command)
+        /// <return>The parsed command.</return>
+        public static Command? Parse(string input)
         {
             var parts = SplitQuotes(input);
 
             if (parts.Count == 0)
-                return;
+                return null;
+
+            var name = parts.First();
+            var args = parts.Count > 1 ? parts.Skip(1) : [];
 
             var positionalIndex = 0;
 
-            foreach (var part in parts)
+            var command = CommandManager.Get(name);
+
+            if (command == null)
+                return null;
+
+            foreach (var arg in args)
             {
-                if (part.StartsWith(LongOptPrefix))
+                if (arg.StartsWith(LongOptPrefix))
                 {
-                    ParseOption(command, part, LongOptPrefix);
+                    ParseOption(command, arg, LongOptPrefix);
                 }
-                else if (part.StartsWith(ShortOptPrefix))
+                else if (arg.StartsWith(ShortOptPrefix))
                 {
-                    ParseOption(command, part, ShortOptPrefix);
+                    ParseOption(command, arg, ShortOptPrefix);
                 }
                 else
                 {
@@ -99,10 +107,12 @@ namespace Katro.Shell.Parsing
                     if (positional == null)
                         continue;
 
-                    positional.Value = part;
+                    positional.Value = arg;
                     positionalIndex++;
                 }
             }
+
+            return command;
         }
     }
 }
