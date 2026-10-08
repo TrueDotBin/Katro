@@ -1,0 +1,18 @@
+﻿using Katro.Shell.Commands;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Katro.Constants
+{
+    /// <summary>
+    /// A <see cref="Command"/>'s return code.
+    /// </summary>
+    public enum CommandReturnCode
+    {
+        /// <summary>
+        /// The specified command was not found.
+        /// </summary>
+        CommandNotFound = -1
+    }
+}
