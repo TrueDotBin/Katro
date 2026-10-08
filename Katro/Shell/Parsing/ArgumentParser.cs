@@ -40,30 +40,30 @@ namespace Katro.Shell.Parsing
 
             foreach (var c in input)
             {
-                if (c == '"')
+                if (c == '\'' || c == '"')
                 {
-                    if (inQuotes)
+                    inQuotes = !inQuotes;
+                }
+                else if (char.IsWhiteSpace(c))
+                {
+                    if (!inQuotes)
                     {
                         output.Add(current.ToString());
                         current.Clear();
                     }
-
-                    inQuotes = !inQuotes;
+                    else
+                    {
+                        current.Append(c);
+                    }
                 }
                 else
                 {
-                    if (char.IsWhiteSpace(c) && !inQuotes)
-                        continue;
-
                     current.Append(c);
                 }
             }
 
-            if (inQuotes)
-            {
+            if (current.Length > 0)
                 output.Add(current.ToString());
-                current.Clear();
-            }
 
             return output;
         }
