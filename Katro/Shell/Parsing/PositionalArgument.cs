@@ -8,11 +8,11 @@ namespace Katro.Shell.Parsing
     /// <summary>
     /// A <see cref="Command"/>'s positional argument.
     /// </summary>
-    public class PositionalArgument : CommandArgument
+    public class PositionalArgument(int position) : CommandArgument
     {
         /// <summary>
         /// The position of this argument.
         /// </summary>
-        public int Position { get; init; }
+        public int Position { get; init; } = position;
     }
 }
