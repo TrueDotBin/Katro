@@ -1,5 +1,6 @@
 ﻿using Katro.Constants;
 using Katro.Logging;
+using Katro.Shell.Commands;
 using Katro.Shell.Parsing;
 using System;
 using System.Collections.Generic;
@@ -37,9 +38,6 @@ namespace Katro.Shell
         /// <summary>
         /// Initializes the shell.
         /// </summary>
-        /// <remarks>
-        /// This method currently does nothing.
-        /// </remarks>
         public static void Init() { }
 
         /// <summary>
@@ -53,12 +51,7 @@ namespace Katro.Shell
             if (string.IsNullOrWhiteSpace(input))
                 return;
 
-            var code = CommandManager.Run(input);
-
-            if (code == (int)CommandReturnCode.CommandNotFound)
-            {
-                Logger.Error("Command not found");
-            }
+            
         }
     }
 }
