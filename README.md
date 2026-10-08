@@ -14,7 +14,7 @@ A kernel made in [Cosmos gen3][cosmos-gen3]
 
 - [x] Implement file system
 - [x] Add Lua script execution
-- [ ] Implement command-line shell
+- [x] Implement command-line shell
 - [ ] Add networking
 - [ ] Add a desktop and some apps
 
