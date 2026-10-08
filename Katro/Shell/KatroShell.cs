@@ -36,9 +36,32 @@ namespace Katro.Shell
         }
 
         /// <summary>
+        /// Runs a command.
+        /// </summary>
+        /// <param name="input">The input to use.</param>
+        /// <returns>The command's return code.</returns>
+        public static int Run(string input)
+        {
+            var cmd = ArgumentParser.Parse(input);
+
+            if (cmd == null)
+                return (int)CommandReturnCode.CommandNotFound;
+
+            var code = cmd.Run();
+
+            foreach (var arg in cmd.Args)
+                arg.ResetValueToDefault();
+
+            return code;
+        }
+
+        /// <summary>
         /// Initializes the shell.
         /// </summary>
-        public static void Init() { }
+        public static void Init()
+        {
+            CommandManager.Register(new EchoCommand());
+        }
 
         /// <summary>
         /// Runs the shell once.
@@ -51,7 +74,10 @@ namespace Katro.Shell
             if (string.IsNullOrWhiteSpace(input))
                 return;
 
-            
+            var code = Run(input);
+
+            if (code == (int)CommandReturnCode.CommandNotFound)
+                Logger.Error("Command not found");
         }
     }
 }
