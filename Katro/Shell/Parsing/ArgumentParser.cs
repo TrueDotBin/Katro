@@ -86,19 +86,14 @@ namespace Katro.Shell.Parsing
             {
                 if (part.StartsWith(LongOptPrefix))
                 {
-                    Logger.Info("Part is a long option");
                     ParseOption(command, part, LongOptPrefix);
                 }
                 else if (part.StartsWith(ShortOptPrefix))
                 {
-                    Logger.Info("Part is a short option");
                     ParseOption(command, part, ShortOptPrefix);
                 }
                 else
                 {
-                    Logger.Info("Part is a positional argument");
-                    Logger.Info($"Current index: {positionalIndex}");
-
                     var positional = command.Args.FirstOrDefault(a => a is PositionalArgument pos && pos.Position == positionalIndex);
 
                     if (positional == null)
@@ -106,8 +101,6 @@ namespace Katro.Shell.Parsing
 
                     positional.Value = part;
                     positionalIndex++;
-
-                    Logger.Info($"New index: {positionalIndex}");
                 }
             }
         }
