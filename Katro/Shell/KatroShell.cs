@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Katro.Constants;
+using Katro.Logging;
+using Katro.Shell.Parsing;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -50,7 +53,12 @@ namespace Katro.Shell
             if (string.IsNullOrWhiteSpace(input))
                 return;
 
-            Console.WriteLine($"Input: {input}");
+            var code = CommandManager.Run(input);
+
+            if (code == (int)CommandReturnCode.CommandNotFound)
+            {
+                Logger.Error("Command not found");
+            }
         }
     }
 }
