@@ -54,7 +54,7 @@ namespace Katro.Shell.Commands
         /// <returns>Whether the option was found.</returns>
         public bool TryGetOption(string key, out OptionArgument arg)
         {
-            var opt = Args.FirstOrDefault(a => a is OptionArgument opt && opt.Key == key || opt.ShortKey == key);
+            var opt = Args.FirstOrDefault(a => a is OptionArgument opt && (opt.Key == key || opt.ShortKey == key));
 
             if (opt == null)
             {
