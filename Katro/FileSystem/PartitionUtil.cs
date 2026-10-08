@@ -1,9 +1,6 @@
-﻿using Cosmos.Kernel.HAL.Interfaces.Devices;
+﻿using Cosmos.Kernel.HAL.Devices.Storage;
 using Cosmos.Kernel.System.Storage;
 using Katro.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Katro.FileSystem
 {

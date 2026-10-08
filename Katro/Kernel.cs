@@ -4,6 +4,7 @@ using Katro.Extensions;
 using Katro.FileSystem;
 using Katro.Logging;
 using Katro.Lua;
+using Katro.Shell;
 using Katro.Terminal;
 using Katro.Utils;
 using System;
@@ -34,27 +35,15 @@ namespace Katro
                 Directory.SetCurrentDirectory("/katro");
             }
 
+            Logger.Info("Initializing shell");
+            KatroShell.Init();
+
             Logger.Ok("Katro booted successfully");
         }
 
         protected override void Run()
         {
-            if (!DontUseFilesystem)
-            {
-                var current = Directory.GetCurrentDirectory();
-                Console.Write($"{current} > ");
-            }
-            else
-            {
-                Console.Write("Katro > ");
-            }
-
-            var input = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(input))
-                return;
-
-            Console.WriteLine($"Input: {input}");
+            KatroShell.Run();   
         }
     }
 }

@@ -1,15 +1,11 @@
-﻿using Cosmos.Kernel.HAL.Interfaces.Devices;
-using Cosmos.Kernel.HAL.Vfs;
-using Cosmos.Kernel.System.Filesystems.Ext2;
-using Cosmos.Kernel.System.Filesystems.Fat;
+﻿using System.IO;
+using Cosmos.Kernel.HAL.Devices.Storage;
+using Cosmos.Kernel.System.FileSystem;
+using Cosmos.Kernel.System.FileSystem.Fat;
 using Cosmos.Kernel.System.Storage;
-using Cosmos.Kernel.System.Vfs;
 using Katro.Constants;
 using Katro.Logging;
 using Katro.Terminal;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Katro.FileSystem
 {
@@ -24,8 +20,8 @@ namespace Katro.FileSystem
         /// <returns>Whether the filesystem type was registered successfully.</returns>
         public static bool Register()
         {
-            var fat = new FatFilesystemType();
-            return VfsManager.RegisterFilesystem("fat", fat);
+            var fat = new FatFileSystemType();
+            return VfsManager.RegisterFileSystem("fat", fat);
         }
 
         /// <summary>
@@ -116,7 +112,7 @@ namespace Katro.FileSystem
                 return;
             }
 
-            if (VfsManager.TryMount("fat", StorageManager.Partitions[0], MountFlags.None, "/katro", out VfsManager.VfsMount? mount))
+            if (VfsManager.TryMount("fat", StorageManager.Partitions[0], MountFlags.None, "/katro", out VfsMount? mount))
                 Logger.Ok($"Mounted {mount.Source} -> {mount.MountPoint}");
             else
                 ErrorScreen.Show("Failed to mount root partition", ErrorCodes.FailedToMountRootPartition);

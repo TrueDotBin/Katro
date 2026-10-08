@@ -1,4 +1,4 @@
-﻿<Project Sdk="Cosmos.Sdk/3.0.89">
+﻿<Project Sdk="Cosmos.Sdk/3.0.91">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -16,8 +16,9 @@
   <!-- Core kernel packages -->
   <ItemGroup>
     <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
-    <PackageReference Include="Cosmos.Kernel" Version="3.0.89" />
-    <PackageReference Include="Cosmos.Kernel.System" Version="3.0.89" />
+    <PackageReference Include="Cosmos.Kernel" Version="3.0.91" />
+    <PackageReference Include="Cosmos.Kernel.Drivers" Version="3.0.91" />
+    <PackageReference Include="Cosmos.Kernel.System" Version="3.0.91" />
   </ItemGroup>
 
 </Project>
