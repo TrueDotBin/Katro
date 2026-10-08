@@ -9,6 +9,28 @@ namespace Katro.Shell
     /// </summary>
     public static class KatroShell
     {
+        private static void WritePrompt()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Katro ");
+            Console.ResetColor();
+
+            if (!Kernel.DontUseFilesystem)
+            {
+                var current = Directory.GetCurrentDirectory();
+
+                Console.Write("[ ");
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(current);
+                Console.ResetColor();
+
+                Console.Write(" ] ");
+            }
+
+            Console.Write($":> "); // its a smiley face!!
+        }
+
         /// <summary>
         /// Initializes the shell.
         /// </summary>
@@ -22,16 +44,7 @@ namespace Katro.Shell
         /// </summary>
         public static void Run()
         {
-            if (!Kernel.DontUseFilesystem)
-            {
-                var current = Directory.GetCurrentDirectory();
-                Console.Write($"{current} > ");
-            }
-            else
-            {
-                Console.Write("Katro > ");
-            }
-
+            WritePrompt();
             var input = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(input))
