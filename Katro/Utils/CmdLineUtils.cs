@@ -16,13 +16,8 @@ namespace Katro.Utils
         /// <returns>Whether the target argument was found in the provided command-line arguments.</returns>
         public static bool HasArg(string target)
         {
-            foreach (var arg in Environment.GetCommandLineArgs())
-            {
-                if (arg == target)
-                    return true;
-            }
-
-            return false;
+            var args = Environment.GetCommandLineArgs();
+            return args.FirstOrDefault(a => a == target) != null;
         }
     }
 }
