@@ -14,7 +14,7 @@ namespace Katro.Shell.Commands
         public override string Name { get; } = "help";
         public override string Description { get; } = "Displays available commands.";
         public override string Usage { get; } = "help [command]";
-
+        public override string[] Aliases { get; } = ["commands", "cmdls"];
         public override CommandArgument[] Args { get; } =
         [
             new PositionalArgument("command", 0, "If specified, prints info about that command", false)
@@ -87,7 +87,7 @@ namespace Katro.Shell.Commands
                 var name = commandName.Value?.ToString();
 
                 if (string.IsNullOrEmpty(name))
-                    return (int)CommandReturnCode.GeneralFailure;
+                    return (int)CommandReturnCode.BadArgument;
 
                 var command = CommandManager.Get(name);
 

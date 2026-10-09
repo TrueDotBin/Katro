@@ -23,6 +23,26 @@ namespace Katro.Enums
         /// <summary>
         /// General failure.
         /// </summary>
-        GeneralFailure = 1
+        GeneralFailure = 1,
+
+        /// <summary>
+        /// The user has not provided any arguments.
+        /// </summary>
+        NoArguments = 2,
+
+        /// <summary>
+        /// The user has provided an invalid argument.
+        /// </summary>
+        BadArgument = 3,
+
+        /// <summary>
+        /// The command couldn't find a directory.
+        /// </summary>
+        DirNotFound = 4,
+
+        /// <summary>
+        /// The command couldn't find a file.
+        /// </summary>
+        FileNotFound = 5
     }
 }

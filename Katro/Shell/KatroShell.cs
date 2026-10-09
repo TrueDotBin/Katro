@@ -63,6 +63,7 @@ namespace Katro.Shell
             CommandManager.Register(new EchoCommand());
             CommandManager.Register(new HelpCommand());
             CommandManager.Register(new PwdCommand());
+            CommandManager.Register(new CdCommand());
         }
 
         /// <summary>
@@ -78,8 +79,35 @@ namespace Katro.Shell
 
             var code = Run(input);
 
-            if (code == (int)CommandReturnCode.CommandNotFound)
-                Logger.Error("Command not found");
+            switch (code)
+            {
+                case (int)CommandReturnCode.CommandNotFound:
+                    Logger.Error("Command not found");
+                    break;
+
+                case (int)CommandReturnCode.GeneralFailure:
+                    Logger.Error("The command failed");
+                    break;
+
+                case (int)CommandReturnCode.NoArguments:
+                    Logger.Error("No arguments provided");
+                    break;
+
+                case (int)CommandReturnCode.BadArgument:
+                    Logger.Error("Invalid argument(s)");
+                    break;
+
+                case (int)CommandReturnCode.DirNotFound:
+                    Logger.Error("Directory not found");
+                    break;
+
+                case (int)CommandReturnCode.FileNotFound:
+                    Logger.Error("File not found");
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }

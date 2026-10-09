@@ -1,8 +1,5 @@
 ﻿using Katro.Enums;
 using Katro.Shell.Parsing;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Katro.Shell.Commands
 {
@@ -12,11 +9,9 @@ namespace Katro.Shell.Commands
     public class EchoCommand : Command
     {
         public override string Name { get; } = "echo";
-
         public override string Description { get; } = "Displays a message.";
-
         public override string Usage { get; } = "echo [message]";
-
+        public override string[] Aliases { get; } = ["print", "write"];
         public override CommandArgument[] Args { get; } =
         [
             new PositionalArgument("message", 0, "The message to display", false)
