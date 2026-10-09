@@ -6,9 +6,6 @@ using System.Text;
 
 namespace Katro.Shell.Commands
 {
-    /// <summary>
-    /// help [command]
-    /// </summary>
     public class HelpCommand : Command
     {
         public override string Name { get; } = "help";

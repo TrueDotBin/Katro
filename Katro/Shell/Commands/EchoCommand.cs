@@ -3,9 +3,6 @@ using Katro.Shell.Parsing;
 
 namespace Katro.Shell.Commands
 {
-    /// <summary>
-    /// echo [message]
-    /// </summary>
     public class EchoCommand : Command
     {
         public override string Name { get; } = "echo";
