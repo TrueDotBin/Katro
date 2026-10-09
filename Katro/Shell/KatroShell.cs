@@ -66,6 +66,7 @@ namespace Katro.Shell
             CommandManager.Register(new CdCommand());
             CommandManager.Register(new LsCommand());
             CommandManager.Register(new MkdirCommand());
+            CommandManager.Register(new ClearCommand());
         }
 
         /// <summary>
