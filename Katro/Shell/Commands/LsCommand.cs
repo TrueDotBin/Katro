@@ -51,7 +51,7 @@ namespace Katro.Shell.Commands
                 Console.Write("[DIR] ");
                 Console.ResetColor();
 
-                var dirName = Path.GetDirectoryName(dir);
+                var dirName = Path.GetFileName(dir);
                 Console.WriteLine(dirName);
             }
 
