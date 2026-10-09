@@ -1,5 +1,6 @@
 ﻿using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,8 +18,15 @@ namespace Katro.Shell.Commands
             if (!FileSystemManager.EnsureFilesystem())
                 return (int)CommandReturnCode.Success;
 
-            var currentDir = Directory.GetCurrentDirectory();
-            Console.WriteLine(currentDir);
+            try
+            {
+                var currentDir = Directory.GetCurrentDirectory();
+                Console.WriteLine(currentDir);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
 
             return (int)CommandReturnCode.Success;
         }

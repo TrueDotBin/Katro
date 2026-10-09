@@ -1,5 +1,6 @@
 ﻿using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Logging;
 using Katro.Shell.Parsing;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,14 @@ namespace Katro.Shell.Commands
             if (string.IsNullOrEmpty(path))
                 return (int)CommandReturnCode.BadArgument;
 
-            Directory.CreateDirectory(path);
+            try
+            {
+                Directory.CreateDirectory(path);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
 
             return (int)CommandReturnCode.Success;
         }

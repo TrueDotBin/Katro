@@ -1,5 +1,6 @@
 ﻿using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Logging;
 using Katro.Shell.Parsing;
 using System;
 using System.Collections.Generic;
@@ -38,23 +39,30 @@ namespace Katro.Shell.Commands
             if (!Directory.Exists(path))
                 return (int)CommandReturnCode.DirNotFound;
 
-            var dirs = Directory.GetDirectories(path);
-            var files = Directory.GetFiles(path);
-
-            foreach (var dir in dirs)
+            try
             {
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("[DIR] ");
-                Console.ResetColor();
+                var dirs = Directory.GetDirectories(path);
+                var files = Directory.GetFiles(path);
 
-                var dirName = Path.GetFileName(dir);
-                Console.WriteLine(dirName);
+                foreach (var dir in dirs)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.Write("[DIR] ");
+                    Console.ResetColor();
+
+                    var dirName = Path.GetFileName(dir);
+                    Console.WriteLine(dirName);
+                }
+
+                foreach (var file in files)
+                {
+                    var fileName = Path.GetFileName(file);
+                    Console.WriteLine($"      {fileName}");
+                }
             }
-
-            foreach (var file in files)
+            catch (Exception ex)
             {
-                var fileName = Path.GetFileName(file);
-                Console.WriteLine($"      {fileName}");
+                Logger.Error(ex.Message);
             }
 
             return (int)CommandReturnCode.Success;

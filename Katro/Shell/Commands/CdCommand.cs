@@ -1,5 +1,6 @@
 ﻿using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Logging;
 using Katro.Shell.Parsing;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,14 @@ namespace Katro.Shell.Commands
             if (!Directory.Exists(path))
                 return (int)CommandReturnCode.DirNotFound;
 
-            Directory.SetCurrentDirectory(path);
+            try
+            {
+                Directory.SetCurrentDirectory(path);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
 
             return (int)CommandReturnCode.Success;
         }
