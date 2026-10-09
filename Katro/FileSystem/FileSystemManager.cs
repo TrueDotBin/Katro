@@ -15,6 +15,18 @@ namespace Katro.FileSystem
     public static class FileSystemManager
     {
         /// <summary>
+        /// Ensures that the file system is enabled.
+        /// </summary>
+        public static bool EnsureFilesystem()
+        {
+            if (!Kernel.DontUseFilesystem) return true;
+
+            Console.WriteLine("You aren't using the file system!");
+            Console.WriteLine("Reboot and select \"Katro (no file system)\" from the boot menu.");
+            return false;
+        }
+
+        /// <summary>
         /// Registers the filesystem type.
         /// </summary>
         /// <returns>Whether the filesystem type was registered successfully.</returns>

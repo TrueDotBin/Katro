@@ -1,4 +1,5 @@
 ﻿using Katro.Enums;
+using Katro.FileSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,13 +14,8 @@ namespace Katro.Shell.Commands
 
         public override int Run()
         {
-            if (Kernel.DontUseFilesystem)
-            {
-                Console.WriteLine("You aren't using the file system!");
-                Console.WriteLine("Reboot and select \"Katro (no file system)\" from the boot menu.");
-
+            if (!FileSystemManager.EnsureFilesystem())
                 return (int)CommandReturnCode.Success;
-            }
 
             var currentDir = Directory.GetCurrentDirectory();
             Console.WriteLine(currentDir);
