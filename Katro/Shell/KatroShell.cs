@@ -71,6 +71,8 @@ namespace Katro.Shell
             CommandManager.Register(new RmCommand());
             CommandManager.Register(new KteditCommand());
             CommandManager.Register(new LuaCommand());
+            CommandManager.Register(new ShutdownCommand());
+            CommandManager.Register(new RebootCommand());
         }
 
         /// <summary>
