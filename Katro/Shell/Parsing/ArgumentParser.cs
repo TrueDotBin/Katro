@@ -11,8 +11,15 @@ namespace Katro.Shell.Parsing
     /// </summary>
     public static class ArgumentParser
     {
-        private const string LongOptPrefix = "--";
-        private const string ShortOptPrefix = "-";
+        /// <summary>
+        /// --option
+        /// </summary>
+        public const string LongOptPrefix = "--";
+
+        /// <summary>
+        /// -o
+        /// </summary>
+        public const string ShortOptPrefix = "-";
 
         private static bool IsValidOpt(string value, OptionArgument opt)
             => opt.Key == value || opt.ShortKey == value;
@@ -25,7 +32,7 @@ namespace Katro.Shell.Parsing
             if (option == null)
                 return;
 
-            option.Value = substr;
+            option.Value = true;
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using Katro.Constants;
+﻿using Katro.Enums;
 using Katro.Logging;
 using Katro.Shell.Commands;
 using Katro.Shell.Parsing;
@@ -61,6 +61,7 @@ namespace Katro.Shell
         public static void Init()
         {
             CommandManager.Register(new EchoCommand());
+            CommandManager.Register(new HelpCommand());
         }
 
         /// <summary>

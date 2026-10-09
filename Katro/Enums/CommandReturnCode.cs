@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Katro.Constants
+namespace Katro.Enums
 {
     /// <summary>
     /// A <see cref="Command"/>'s return code.
@@ -18,6 +18,11 @@ namespace Katro.Constants
         /// <summary>
         /// The command ran with no issues.
         /// </summary>
-        Success = 0
+        Success = 0,
+
+        /// <summary>
+        /// General failure.
+        /// </summary>
+        GeneralFailure = 1
     }
 }

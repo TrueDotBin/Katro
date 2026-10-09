@@ -56,7 +56,7 @@ namespace Katro.Shell.Commands
         {
             var opt = Args.FirstOrDefault(a => a is OptionArgument opt && (opt.Key == key || opt.ShortKey == key));
 
-            if (opt == null)
+            if (opt == null || opt.Value == null)
             {
                 arg = null!;
                 return false;
@@ -76,7 +76,7 @@ namespace Katro.Shell.Commands
         {
             var pos = Args.FirstOrDefault(a => a is PositionalArgument pos && pos.Position == position);
 
-            if (pos == null)
+            if (pos == null || pos.Value == null)
             {
                 arg = null!;
                 return false;

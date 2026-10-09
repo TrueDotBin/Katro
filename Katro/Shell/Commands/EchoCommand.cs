@@ -1,4 +1,4 @@
-﻿using Katro.Constants;
+﻿using Katro.Enums;
 using Katro.Shell.Parsing;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Katro.Shell.Commands
 
         public override CommandArgument[] Args { get; } =
         [
-            new PositionalArgument(0)
+            new PositionalArgument("message", 0, "The message to display", false)
         ];
 
         public override int Run()
