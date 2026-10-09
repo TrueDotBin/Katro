@@ -69,6 +69,7 @@ namespace Katro.Shell
             CommandManager.Register(new ClearCommand());
             CommandManager.Register(new CatCommand());
             CommandManager.Register(new RmCommand());
+            CommandManager.Register(new KteditCommand());
         }
 
         /// <summary>

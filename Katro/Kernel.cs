@@ -1,5 +1,6 @@
 using Cosmos.Kernel.System.Diagnostics;
 using Cosmos.Kernel.System.Graphics;
+using Katro.Editor;
 using Katro.Extensions;
 using Katro.FileSystem;
 using Katro.Logging;
