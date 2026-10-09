@@ -63,6 +63,7 @@ namespace Katro.Shell.Commands
             catch (Exception ex)
             {
                 Logger.Error(ex.Message);
+                return (int)CommandReturnCode.GeneralFailure;
             }
 
             return (int)CommandReturnCode.Success;
