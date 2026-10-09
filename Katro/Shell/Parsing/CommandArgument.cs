@@ -35,7 +35,7 @@ namespace Katro.Shell.Parsing
         /// </summary>
         public virtual void ResetValueToDefault()
         {
-            Value = string.Empty;
+            Value = null;
         }
     }
 }

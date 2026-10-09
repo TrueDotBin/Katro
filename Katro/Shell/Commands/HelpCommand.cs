@@ -12,7 +12,7 @@ namespace Katro.Shell.Commands
     public class HelpCommand : Command
     {
         public override string Name { get; } = "help";
-        public override string Description { get; } = "Displays available commands";
+        public override string Description { get; } = "Displays available commands.";
         public override string Usage { get; } = "help [command]";
 
         public override CommandArgument[] Args { get; } =
@@ -24,10 +24,11 @@ namespace Katro.Shell.Commands
         {
             Console.WriteLine($"{command.Name} - {command.Description}");
             Console.WriteLine($"Usage: {command.Usage}");
-            Console.WriteLine();
 
             if (command.Aliases.Length > 0)
             {
+                Console.WriteLine();
+
                 Console.WriteLine("Aliases:");
 
                 foreach (var alias in command.Aliases)
@@ -38,6 +39,8 @@ namespace Katro.Shell.Commands
 
             if (command.Args.Length > 0)
             {
+                Console.WriteLine();
+
                 Console.WriteLine("Arguments:");
 
                 foreach (var arg in command.Args)
@@ -99,7 +102,7 @@ namespace Katro.Shell.Commands
                 {
                     Console.Write($"{command.Name} - ");
 
-                    if (!string.IsNullOrEmpty(Description))
+                    if (!string.IsNullOrEmpty(command.Description))
                     {
                         Console.WriteLine(command.Description);
                     }

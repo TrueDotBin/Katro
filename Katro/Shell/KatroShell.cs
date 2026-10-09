@@ -62,6 +62,7 @@ namespace Katro.Shell
         {
             CommandManager.Register(new EchoCommand());
             CommandManager.Register(new HelpCommand());
+            CommandManager.Register(new PwdCommand());
         }
 
         /// <summary>
