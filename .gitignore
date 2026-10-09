@@ -486,3 +486,6 @@ output-*/
 
 # Disk images
 *.img
+
+# Cosmos folder
+.cosmos/
