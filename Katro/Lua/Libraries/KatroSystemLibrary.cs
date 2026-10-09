@@ -1,5 +1,6 @@
 ﻿using Cosmos.Executable.Lua;
 using Katro.Logging;
+using Katro.Shell.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,6 +27,31 @@ namespace Katro.Lua.Libraries
             var state = lua.State;
 
             RegisterCSharpFunction(state, Log, "katro_log");
+            RegisterCSharpFunction(state, RunShellCommand, "katro_runsh");
+        }
+
+        /// <summary>
+        /// Runs a shell command.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int RunShellCommand(ILuaState state)
+        {
+            var name = state.L_CheckString(1);
+            string args = "";
+
+            if (!state.IsNoneOrNil(2))
+                args = state.L_CheckString(2);
+
+            var command = ArgumentParser.Parse($"{name} {args}");
+
+            if (command == null)
+            {
+                state.L_Error("command not found: {0}", name);
+                return 0;
+            }
+
+            state.PushInteger(command.Run());
+            return 1;
         }
 
         /// <summary>
@@ -56,7 +82,8 @@ namespace Katro.Lua.Libraries
                     break;
 
                 default:
-                    return state.L_Error("invalid log level: {0}", level);
+                    state.L_Error("invalid log level: {0}", level);
+                    break;
             }
 
             return 0;

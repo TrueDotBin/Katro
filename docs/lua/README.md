@@ -28,19 +28,37 @@ Once Katro expands, it may be replaced with `katro_tmpname()` (Actual function n
 
 Here is a list of all available KTLua functions:
 
-| Function | Description | Example Usage |
-|----------|-------------|---------------|
-| `katro_log(level, message)` | Logs a message to Katro, [invalid log levels will throw an error](#valid-log-levels) | `katro_log("info", "Informational message")` |         
+| Function                    | Description                                                                                                                                      | Example Usage                                |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| `katro_log(level, message)` | Logs a message to Katro, [invalid log levels will throw an error](#valid-log-levels)                                                             | `katro_log("info", "Informational message")` |
+| `katro_runsh(name, args)`   | Executes a command and returns its exit code, the `args` parameter is optional. [A note about shell command arguments](#shell-command-arguments) | `katro_runsh("echo", "\"Hello, Katro!\"")`   |
 
 ## Valid Log Levels
 
 The `katro_log` function is strict, and **will** throw an error if the first parameter doesn't match the following:
 
-| Level | Aliases | Meaning |
-|-------|---------|---------|
-| `information` | `info` | Logs an informational message
-| `success` | `ok` | Logs a successful message
-| `warn` | `warning` | Logs a warning
-| `error` | - | Logs an error
+| Level         | Aliases | Meaning                       |
+| ------------- | ------- | ----------------------------- |
+| `information` | `info`  | Logs an informational message |
+| `success`     | `ok`    | Logs a successful message     |
+| `warning`     | `warn`  | Logs a warning                |
+| `error`       | -       | Logs an error                 |
+
+## Shell Command Arguments
+
+If you want spaces in an argument, you should quote it.
+This matters because the Lua code can change from this:
+
+```lua
+katro_runsh("echo", "Hello, Katro!") -- only prints "Hello,"
+```
+
+to this:
+
+```lua
+katro_runsh("echo", "\"Hello, Katro!\"") -- prints "Hello, Katro!"
+```
+
+(You need to escape quotes with `\` so you don't accidentally close the string)
 
 [cosmos-lua]: https://github.com/CosmosOS/Cosmos.Executable.Lua
