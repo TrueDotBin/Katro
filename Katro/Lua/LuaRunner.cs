@@ -57,6 +57,12 @@ namespace Katro.Lua
             }
         }
 
+        /// <summary>
+        /// Starts a Lua shell.
+        /// </summary>
+        public static void StartRepl()
+            => s_interpreter.RunPrompt();
+
         private static void LogLuaException(LuaException e)
         {
             Logger.Error($"Lua Script Error: {e.Message}");

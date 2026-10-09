@@ -70,6 +70,7 @@ namespace Katro.Shell
             CommandManager.Register(new CatCommand());
             CommandManager.Register(new RmCommand());
             CommandManager.Register(new KteditCommand());
+            CommandManager.Register(new LuaCommand());
         }
 
         /// <summary>
