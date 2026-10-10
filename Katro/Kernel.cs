@@ -34,6 +34,9 @@ namespace Katro
 
                 FileSystemManager.Init();
                 Directory.SetCurrentDirectory("/katro");
+
+                if (File.Exists("/katro/autorun.lua"))
+                    LuaRunner.RunFile("/katro/autorun.lua");
             }
 
             Logger.Info("Initializing shell");

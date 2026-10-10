@@ -10,7 +10,7 @@ Under the hood, Katro uses the [Cosmos.Executable.Lua][cosmos-lua] library to ru
 ## Quick start
 
 ```lua
--- No need to require("katro"), Katro registers the functions globally.
+-- Katro registers the functions globally.
 
 -- Logs a message to Katro
 katro_log("info", "Hello, Lua!")
@@ -62,3 +62,10 @@ katro_runsh("echo", "\"Hello, Katro!\"") -- prints "Hello, Katro!"
 (You need to escape quotes with `\` so you don't accidentally close the string)
 
 [cosmos-lua]: https://github.com/CosmosOS/Cosmos.Executable.Lua
+
+## `autorun.lua`
+
+`autorun.lua` is a **special** file that automatically gets executed when Katro starts.  
+This is similar to a `.bashrc` file, except it uses Lua instead of shell scripts.
+
+The file **MUST** be placed **EXACTLY** in `/katro/autorun.lua`, otherwise it won't load!
