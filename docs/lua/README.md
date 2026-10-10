@@ -66,6 +66,6 @@ katro_runsh("echo", "\"Hello, Katro!\"") -- prints "Hello, Katro!"
 ## `autorun.lua`
 
 `autorun.lua` is a **special** file that automatically gets executed when Katro starts.  
-This is similar to a `.bashrc` file, except it uses Lua instead of shell scripts.
+In other words, it's basically a startup script.
 
 The file **MUST** be placed **EXACTLY** in `/katro/autorun.lua`, otherwise it won't load!
