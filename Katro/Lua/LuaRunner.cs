@@ -17,10 +17,6 @@ namespace Katro.Lua
         static LuaRunner()
         {
             s_interpreter = new LuaInterpreter();
-
-            if (!Kernel.DontUseFilesystem)
-                s_interpreter.WorkingDirectory = "/katro";
-
             KatroSystemLibrary.RegisterToLua(s_interpreter);
         }
 
