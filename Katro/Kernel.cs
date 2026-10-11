@@ -5,6 +5,7 @@ using Katro.Extensions;
 using Katro.FileSystem;
 using Katro.Logging;
 using Katro.Lua;
+using Katro.Network;
 using Katro.Shell;
 using Katro.Terminal;
 using Katro.Utils;
@@ -39,8 +40,11 @@ namespace Katro
                     LuaRunner.RunFile("/katro/autorun.lua");
             }
 
-            Logger.Info("Initializing shell");
+            Logger.Info("Initializing the shell");
             KatroShell.Init();
+
+            Logger.Info("Initializing the network");
+            NetworkManager.Init();
 
             Logger.Ok("Katro booted successfully");
         }
