@@ -3,6 +3,8 @@ using Cosmos.Kernel.System.Graphics.Fonts;
 using Cosmos.Kernel.System.Input;
 using Katro.GUI.Widgets;
 using Katro.GUI.Windows;
+using Katro.Processing;
+using Katro.Processing.Processes;
 using Katro.Utils;
 using System;
 using System.Collections.Generic;
@@ -29,27 +31,13 @@ namespace Katro.GUI
         private static bool s_isInitialized = false;
         private static Png? s_wallpaper;
 
-        private static void CreateTestWindow()
+        private static void CreateTestProcesses()
         {
-            var testWindow = new Window()
-            {
-                X = 10,
-                Y = 10,
-                Width = 300,
-                Height = 300,
-                Title = "Test Window"
-            };
+            var testWindowProc = new TestWindowProcess();
+            var testProc = new TestProcess();
 
-            var label = new Label()
-            {
-                X = 10,
-                Y = 10,
-                Text = "Hello, World!",
-                Foreground = Color.White
-            };
-
-            testWindow.Widgets.Add(label);
-            WindowManager.Windows.Add(testWindow);
+            ProcessManager.Start(testProc);
+            ProcessManager.Start(testWindowProc);
         }
 
         private static void LoadFonts()
@@ -96,7 +84,7 @@ namespace Katro.GUI
             s_wallpaper = new Png(wallpaperBytes);
 
             LoadFonts();
-            CreateTestWindow();
+            CreateTestProcesses();
 
             s_isInitialized = true;
         }
@@ -113,6 +101,8 @@ namespace Katro.GUI
                 CurrentCanvas.Clear();
             else
                 CurrentCanvas.DrawImage(s_wallpaper, 0, 0, CurrentCanvas.Width, CurrentCanvas.Height);
+
+            ProcessManager.Update();
 
             WindowManager.Update();
             WindowManager.Draw(CurrentCanvas);
