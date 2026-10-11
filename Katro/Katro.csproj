@@ -6,12 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\InterBold.ttf" />
+    <None Remove="Resources\Fonts\InterRegular.ttf" />
     <None Remove="Resources\Images\Cursors\cursor.png" />
     <None Remove="Resources\Images\Wallpapers\wallpaper.png" />
     <None Remove="Resources\ZapVga16.psf" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\InterBold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\InterRegular.ttf" />
     <EmbeddedResource Include="Resources\Fonts\ZapVga16.psf" />
     <EmbeddedResource Include="Resources\Images\Cursors\cursor.png" />
     <EmbeddedResource Include="Resources\Images\Wallpapers\wallpaper.png" />
@@ -22,9 +26,6 @@
     <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
     <PackageReference Include="Cosmos.Kernel" Version="3.0.94" />
     <PackageReference Include="Cosmos.Kernel.System" Version="3.0.94" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GUI\Widgets\" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,12 @@
 ﻿using Cosmos.Kernel.System.Graphics;
+using Cosmos.Kernel.System.Graphics.Fonts;
 using Cosmos.Kernel.System.Input;
+using Katro.GUI.Widgets;
+using Katro.GUI.Windows;
 using Katro.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace Katro.GUI
@@ -24,6 +28,38 @@ namespace Katro.GUI
 
         private static bool s_isInitialized = false;
         private static Png? s_wallpaper;
+
+        private static void CreateTestWindow()
+        {
+            var testWindow = new Window()
+            {
+                X = 10,
+                Y = 10,
+                Width = 300,
+                Height = 300,
+                Title = "Test Window"
+            };
+
+            var label = new Label()
+            {
+                X = 10,
+                Y = 10,
+                Text = "Hello, World!",
+                Foreground = Color.White
+            };
+
+            testWindow.Widgets.Add(label);
+            WindowManager.Windows.Add(testWindow);
+        }
+
+        private static void LoadFonts()
+        {
+            var interRegularBytes = EmbeddedResourceManager.GetEmbeddedResource("Katro.Resources.Fonts.InterRegular.ttf");
+            FontManager.InterRegular = new TrueTypeFont(interRegularBytes);
+
+            var interBoldBytes = EmbeddedResourceManager.GetEmbeddedResource("Katro.Resources.Fonts.InterBold.ttf");
+            FontManager.InterBold = new TrueTypeFont(interBoldBytes);
+        }
 
         /// <summary>
         /// Initializes the desktop and marks it as running.
@@ -59,11 +95,14 @@ namespace Katro.GUI
             var wallpaperBytes = EmbeddedResourceManager.GetEmbeddedResource("Katro.Resources.Images.Wallpapers.wallpaper.png");
             s_wallpaper = new Png(wallpaperBytes);
 
+            LoadFonts();
+            CreateTestWindow();
+
             s_isInitialized = true;
         }
 
         /// <summary>
-        /// 
+        /// Draws the desktop.
         /// </summary>
         public static void Draw()
         {
@@ -75,7 +114,10 @@ namespace Katro.GUI
             else
                 CurrentCanvas.DrawImage(s_wallpaper, 0, 0, CurrentCanvas.Width, CurrentCanvas.Height);
 
-            MouseCursor.Draw(CurrentCanvas); 
+            WindowManager.Update();
+            WindowManager.Draw(CurrentCanvas);
+
+            MouseCursor.Draw(CurrentCanvas);
 
             CurrentCanvas.Display();
         }
