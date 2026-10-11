@@ -1,5 +1,6 @@
 ﻿using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Input;
+using Katro.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Katro.GUI
         public static bool IsRunning { get; private set; } = false;
 
         private static bool s_isInitialized = false;
+        private static Png? s_wallpaper;
 
         /// <summary>
         /// Initializes the desktop and marks it as running.
@@ -54,6 +56,9 @@ namespace Katro.GUI
             MouseManager.SetScreenSize(CurrentCanvas.Width, CurrentCanvas.Height);
             MouseManager.SetPosition(CurrentCanvas.Width / 2, CurrentCanvas.Height / 2);
 
+            var wallpaperBytes = EmbeddedResourceManager.GetEmbeddedResource("Katro.Resources.Images.Wallpapers.wallpaper.png");
+            s_wallpaper = new Png(wallpaperBytes);
+
             s_isInitialized = true;
         }
 
@@ -65,7 +70,10 @@ namespace Katro.GUI
             if (CurrentCanvas == null)
                 return;
 
-            CurrentCanvas.Clear();
+            if (s_wallpaper == null)
+                CurrentCanvas.Clear();
+            else
+                CurrentCanvas.DrawImage(s_wallpaper, 0, 0, CurrentCanvas.Width, CurrentCanvas.Height);
 
             MouseCursor.Draw(CurrentCanvas); 
 

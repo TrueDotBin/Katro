@@ -7,12 +7,14 @@
 
   <ItemGroup>
     <None Remove="Resources\Images\Cursors\cursor.png" />
+    <None Remove="Resources\Images\Wallpapers\wallpaper.png" />
     <None Remove="Resources\ZapVga16.psf" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Fonts\ZapVga16.psf" />
     <EmbeddedResource Include="Resources\Images\Cursors\cursor.png" />
+    <EmbeddedResource Include="Resources\Images\Wallpapers\wallpaper.png" />
   </ItemGroup>
 
   <!-- Core kernel packages -->
