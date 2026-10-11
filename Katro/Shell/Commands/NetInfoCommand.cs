@@ -20,28 +20,37 @@ namespace Katro.Shell.Commands
             new OptionArgument("primary", "p", "Whether to use the primary network device", false)
         ];
 
+        private static bool PrintInfoAboutDevice(NetworkAdapter device)
+        {
+            Console.WriteLine($"Network Device {device.Name}");
+            Console.WriteLine();
+            Console.WriteLine($"Ready: {device.Ready}");
+            Console.WriteLine($"Link up: {device.LinkUp}");
+            Console.WriteLine($"MAC Address: {device.MacAddress}");
+
+            var ipConfig = device.IPConfig;
+
+            if (ipConfig is null)
+            {
+                Logger.Error($"Could not fetch IP configuration for device {device.Name}");
+                return false;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("IP Configuration:");
+            Console.WriteLine($"IP Address: {ipConfig.Address}");
+            Console.WriteLine($"Default Gateway: {ipConfig.DefaultGateway}");
+            Console.WriteLine($"Subnet Mask: {ipConfig.SubnetMask}");
+
+            return true;
+        }
+
         public override int Run()
         {
             if (TryGetOption("primary", out var opt))
             {
                 var device = NetworkManager.Primary;
-
-                Console.WriteLine($"Network Device {device.Name}");
-                Console.WriteLine($"Is ready: {device.Ready}");
-                Console.WriteLine($"Link up: {device.LinkUp}");
-                Console.WriteLine($"MAC Address: {device.MacAddress}");
-
-                var ipConfig = device.IPConfig;
-
-                if (ipConfig is null)
-                {
-                    Logger.Error("Could not fetch IP configuration, was the network initialized?");
-                    return (int)CommandReturnCode.GeneralFailure;
-                }
-
-                Console.WriteLine($"IP Address: {ipConfig.Address}");
-                Console.WriteLine($"Default Gateway: {ipConfig.DefaultGateway}");
-                Console.WriteLine($"Subnet Mask: {ipConfig.SubnetMask}");
+                PrintInfoAboutDevice(device);
             }
             else
             {
@@ -50,23 +59,7 @@ namespace Katro.Shell.Commands
                 for (int i = 0; i < devices; i++)
                 {
                     var device = NetworkManager.GetAdapter(i);
-
-                    Console.WriteLine($"Network Device {device.Name}");
-                    Console.WriteLine($"Is ready: {device.Ready}");
-                    Console.WriteLine($"Link up: {device.LinkUp}");
-                    Console.WriteLine($"MAC Address: {device.MacAddress}");
-
-                    var ipConfig = device.IPConfig;
-
-                    if (ipConfig is null)
-                    {
-                        Logger.Error($"Could not fetch IP configuration for device {device.Name}");
-                        continue;
-                    }
-
-                    Console.WriteLine($"IP Address: {ipConfig.Address}");
-                    Console.WriteLine($"Default Gateway: {ipConfig.DefaultGateway}");
-                    Console.WriteLine($"Subnet Mask: {ipConfig.SubnetMask}");
+                    PrintInfoAboutDevice(device);
                 }
             }
 
