@@ -19,6 +19,7 @@ namespace Katro.Shell.Commands
         [
             new PositionalArgument("domainName", 0, "The domain name to resolve")
         ];
+
         public override int Run()
         {
             if (!TryGetPositional(0, out var domainNameArg))
