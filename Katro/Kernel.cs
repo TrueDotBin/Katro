@@ -53,5 +53,10 @@ namespace Katro
         {
             KatroShell.Run();   
         }
+
+        protected override void AfterRun()
+        {
+            NetworkManager.Close();
+        }
     }
 }

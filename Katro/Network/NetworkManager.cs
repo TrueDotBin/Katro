@@ -81,9 +81,16 @@ namespace Katro.Network
             }
 
             address = addr;
-            s_dns.Close();
 
             return success;
+        }
+
+        /// <summary>
+        /// Closes the DNS client.
+        /// </summary>
+        public static void Close()
+        {
+            s_dns.Close();
         }
     }
 }
