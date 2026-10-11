@@ -40,7 +40,7 @@ namespace Katro
                     LuaRunner.RunFile("/katro/autorun.lua");
             }
 
-            Logger.Info("Initializing shell");
+            Logger.Info("Initializing the shell");
             KatroShell.Init();
 
             Logger.Info("Initializing the network");
