@@ -74,6 +74,7 @@ namespace Katro.Shell
             CommandManager.Register(new ShutdownCommand());
             CommandManager.Register(new RebootCommand());
             CommandManager.Register(new NetInfoCommand());
+            CommandManager.Register(new DnsResolveCommand());
         }
 
         /// <summary>
