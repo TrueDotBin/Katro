@@ -21,7 +21,7 @@ namespace Katro.GUI
         /// </summary>
         public static bool IsRunning { get; private set; } = false;
 
-        private static bool s_isInitialized = false
+        private static bool s_isInitialized = false;
 
         /// <summary>
         /// Initializes the desktop and marks it as running.
