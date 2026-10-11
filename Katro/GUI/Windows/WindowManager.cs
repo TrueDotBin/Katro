@@ -1,5 +1,6 @@
 ﻿using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Graphics.Fonts;
+using Cosmos.Kernel.System.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,6 +19,11 @@ namespace Katro.GUI.Windows
         public static List<Window> Windows { get; set; } = [];
 
         /// <summary>
+        /// The height of the title bar.
+        /// </summary>
+        public static int TitlebarHeight { get; private set; }
+
+        /// <summary>
         /// The title font.
         /// </summary>
         public static readonly Font? TitleFont = FontManager.InterBold;
@@ -26,6 +32,10 @@ namespace Katro.GUI.Windows
         /// The window title margin.
         /// </summary>
         public const int WindowTitleMargin = 5;
+
+        private static Window? s_currentlyDragging;
+        private static int s_dragOffsetX;
+        private static int s_dragOffsetY;
 
         private static void DrawWindow(Canvas canvas, Window win)
         {
@@ -36,8 +46,8 @@ namespace Katro.GUI.Windows
 
             if (TitleFont != null)
             {
-                var titleBarHeight = TitleFont.GetLineHeight() + (WindowTitleMargin * 2);
-                canvas.DrawFilledRectangle(Colors.WindowTitlebar, win.X, win.Y, win.Width, titleBarHeight);
+                TitlebarHeight = TitleFont.GetLineHeight() + (WindowTitleMargin * 2);
+                canvas.DrawFilledRectangle(Colors.WindowTitlebar, win.X, win.Y, win.Width, TitlebarHeight);
 
                 canvas.DrawString(win.Title, TitleFont, Colors.Text, titleX, titleY);
             }
@@ -50,8 +60,35 @@ namespace Katro.GUI.Windows
         /// </summary>
         public static void Update()
         {
+            if (s_currentlyDragging != null)
+            {
+                if (!MouseManager.LeftButton)
+                    s_currentlyDragging = null;
+                
+                s_currentlyDragging?.X = MouseManager.X - s_dragOffsetX;
+                s_currentlyDragging?.Y = MouseManager.Y - s_dragOffsetY;
+            }
+
             foreach (var window in Windows)
+            {
                 window.UpdateWidgets();
+
+                if (MouseManager.LeftButton)
+                {
+                    var mouseX = MouseManager.X;
+                    var mouseY = MouseManager.Y;
+
+                    var mouseBounds = new Rectangle(mouseX, mouseY, 1, 1);
+
+                    if (window.DragBounds.IntersectsWith(mouseBounds))
+                    {
+                        s_currentlyDragging = window;
+
+                        s_dragOffsetX = mouseX - window.X;
+                        s_dragOffsetY = mouseY - window.Y;
+                    }
+                }
+            }
         }
 
         /// <summary>
