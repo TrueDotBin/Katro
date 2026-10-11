@@ -73,6 +73,7 @@ namespace Katro.Shell
             CommandManager.Register(new LuaCommand());
             CommandManager.Register(new ShutdownCommand());
             CommandManager.Register(new RebootCommand());
+            CommandManager.Register(new NetInfoCommand());
         }
 
         /// <summary>
