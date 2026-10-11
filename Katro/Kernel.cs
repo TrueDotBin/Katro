@@ -26,7 +26,7 @@ namespace Katro
 
         protected override void BeforeRun()
         {
-            KernelConsole.Default?.SetFontFromResource("Katro.Resources.ZapVga16.psf");
+            KernelConsole.Default?.SetFontFromResource("Katro.Resources.Fonts.ZapVga16.psf");
 
             DontUseFilesystem = CmdLineUtils.HasArg("nofs");
             if (!DontUseFilesystem)
