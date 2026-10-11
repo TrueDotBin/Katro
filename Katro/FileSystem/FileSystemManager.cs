@@ -22,7 +22,7 @@ namespace Katro.FileSystem
             if (!Kernel.DontUseFilesystem) return true;
 
             Console.WriteLine("You aren't using the file system!");
-            Console.WriteLine("Reboot and select \"Katro (no file system)\" from the boot menu.");
+            Console.WriteLine("Reboot and select \"Katro\" from the boot menu.");
             return false;
         }
 
