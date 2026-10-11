@@ -56,6 +56,7 @@ namespace Katro.Network
             ResolveIpAddress();
 
             CNetwork.DnsConfig.Add(s_nameserver);
+            s_dns.Connect(s_nameserver);
         }
 
         /// <summary>
@@ -66,7 +67,6 @@ namespace Katro.Network
         /// <returns>The address of the server.</returns>
         public static bool TryDnsResolve(string domainName, out CNetwork.Address? address)
         {
-            s_dns.Connect(s_nameserver);
             s_dns.SendQuery(domainName);
 
             var success = true;
@@ -90,7 +90,7 @@ namespace Katro.Network
         /// </summary>
         public static void Close()
         {
-            s_dns.Close();
+                        s_dns.Close();
         }
     }
 }
