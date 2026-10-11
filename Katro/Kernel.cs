@@ -3,6 +3,7 @@ using Cosmos.Kernel.System.Graphics;
 using Katro.Editor;
 using Katro.Extensions;
 using Katro.FileSystem;
+using Katro.GUI;
 using Katro.Logging;
 using Katro.Lua;
 using Katro.Network;
@@ -47,11 +48,17 @@ namespace Katro
             NetworkManager.Init();
 
             Logger.Ok("Katro booted successfully");
+
+            // TODO: remove after desktop is done and add a command that starts it
+            Desktop.Start();
         }
 
         protected override void Run()
         {
-            KatroShell.Run();   
+            if (Desktop.IsRunning)
+                Desktop.Draw();
+            else
+                KatroShell.Run();
         }
 
         protected override void AfterRun()
