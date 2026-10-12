@@ -5,22 +5,6 @@
     <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Fonts\InterBold.ttf" />
-    <None Remove="Resources\Fonts\InterRegular.ttf" />
-    <None Remove="Resources\Images\Cursors\cursor.png" />
-    <None Remove="Resources\Images\Wallpapers\wallpaper.png" />
-    <None Remove="Resources\ZapVga16.psf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Fonts\InterBold.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\InterRegular.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\ZapVga16.psf" />
-    <EmbeddedResource Include="Resources\Images\Cursors\cursor.png" />
-    <EmbeddedResource Include="Resources\Images\Wallpapers\wallpaper.png" />
-  </ItemGroup>
-
   <!-- Core kernel packages -->
   <ItemGroup>
     <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
