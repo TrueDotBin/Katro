@@ -9,12 +9,18 @@ namespace Katro
     {
         protected override void BeforeRun()
         {
-            
+            Console.WriteLine("Katro booted successfully.");
         }
 
         protected override void Run()
         {
-            
+            Console.Write("> ");
+            var input = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(input))
+                return;
+
+            Console.WriteLine(input);
         }
     }
 }
