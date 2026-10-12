@@ -16,6 +16,11 @@ namespace Katro.Assets
         /// </summary>
         public static PCScreenFont ConsoleFont { get; private set; } = PCScreenFont.DefaultFont;
 
+        /// <summary>
+        /// THe raw bytes of the ktsh.lua file.
+        /// </summary>
+        public static byte[] KatroShell { get; private set; } = [];
+
         private static readonly Assembly s_assembly = typeof(Kernel).Assembly;
 
         private static byte[] LoadResourceFromAssembly(string path)
@@ -35,6 +40,8 @@ namespace Katro.Assets
         {
             var consoleFontBytes = LoadResourceFromAssembly("Katro.Resources.Fonts.PSF.Spleen.psfu");
             ConsoleFont = PCScreenFont.LoadFont(consoleFontBytes);
+
+            KatroShell = LoadResourceFromAssembly("Katro.Resources.Scripts.ktsh.lua");
         }
     }
 }

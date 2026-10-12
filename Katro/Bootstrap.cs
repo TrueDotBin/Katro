@@ -22,6 +22,18 @@ namespace Katro
             "##   ## ##   ##    ##    ##   ##  ######  "
         };
 
+        private static void CreateSystemFiles()
+        {
+            Logger.Info("Creating system files");
+            File.WriteAllBytes("/katro/bin/ktsh.lua", AssetManager.KatroShell);
+        }
+
+        private static void CreateSystemDirectories()
+        {
+            Logger.Info("Creating system directories");
+            Directory.CreateDirectory("/katro/bin");
+        }
+
         /// <summary>
         /// Prints the boot logo.
         /// </summary>
@@ -48,6 +60,9 @@ namespace Katro
 
             Logger.Info("Initializing file system");
             FileSystemManager.Init();
+
+            CreateSystemDirectories();
+            CreateSystemFiles();
 
             Directory.SetCurrentDirectory(FileSystemManager.RootPartitionMountPoint);
         }

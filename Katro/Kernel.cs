@@ -2,6 +2,7 @@ using Cosmos.Kernel.System.Graphics;
 using Katro.Assets;
 using Katro.FileSystem;
 using Katro.Logging;
+using Katro.Lua;
 using Sys = Cosmos.Kernel.System;
 
 namespace Katro
@@ -15,17 +16,16 @@ namespace Katro
         {
             Bootstrap.Init();
             Logger.Ok("Katro booted successfully.");
+
+            if (File.Exists("/katro/bin/ktsh.lua"))
+                LuaRunner.RunFile("/katro/bin/ktsh.lua");
+            else
+                Logger.Error("KTSH was not found");
         }
 
         protected override void Run()
         {
-            Console.Write("> ");
-            var input = Console.ReadLine();
-
-            if (string.IsNullOrEmpty(input))
-                return;
-
-            Console.WriteLine(input);
+            // do something else here
         }
     }
 }
