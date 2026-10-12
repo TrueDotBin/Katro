@@ -30,6 +30,7 @@ namespace Katro.GUI
 
         private static bool s_isInitialized = false;
         private static Png? s_wallpaper;
+        private static Image? s_resizedWallpaper;
 
         private static void CreateTestProcesses()
         {
@@ -86,6 +87,9 @@ namespace Katro.GUI
             LoadFonts();
             CreateTestProcesses();
 
+            CurrentCanvas.DrawImage(s_wallpaper, 0, 0, CurrentCanvas.Width, CurrentCanvas.Height);
+            s_resizedWallpaper = CurrentCanvas.GetImage(0, 0, CurrentCanvas.Width, CurrentCanvas.Height);
+
             s_isInitialized = true;
         }
 
@@ -97,10 +101,10 @@ namespace Katro.GUI
             if (CurrentCanvas == null)
                 return;
 
-            if (s_wallpaper == null)
+            if (s_resizedWallpaper == null)
                 CurrentCanvas.Clear();
             else
-                CurrentCanvas.DrawImage(s_wallpaper, 0, 0, CurrentCanvas.Width, CurrentCanvas.Height);
+                CurrentCanvas.DrawImage(s_resizedWallpaper, 0, 0, CurrentCanvas.Width, CurrentCanvas.Height);
 
             ProcessManager.Update();
 
