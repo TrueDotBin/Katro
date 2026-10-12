@@ -24,12 +24,14 @@ namespace Katro.Lua
         /// Runs a Lua file.
         /// </summary>
         /// <param name="path">The path of the Lua file.</param>
+        /// <param name="isolate">Whether to use a fresh interpreter instead of using the global one.</param>
         /// <param name="args">The arguments to provide to the Lua interpreter.</param>
-        public static void RunFile(string path, params string[] args)
+        public static void RunFile(string path, bool isolate = false, params string[] args)
         {
             try
             {
-                s_interpreter.DoFile(path, args);
+                var interpreter = isolate ? new LuaInterpreter() : s_interpreter;
+                interpreter.DoFile(path, args);
             }
             catch (LuaException e)
             {
@@ -41,23 +43,19 @@ namespace Katro.Lua
         /// Runs a Lua string.
         /// </summary>
         /// <param name="lua">The Lua string to run.</param>
-        public static void RunString(string lua)
+        /// <param name="isolate">Whether to use a fresh interpreter instead of using the global one.</param>
+        public static void RunString(string lua, bool isolate = false)
         {
             try
             {
-                s_interpreter.DoString(lua);
+                var interpreter = isolate ? new LuaInterpreter() : s_interpreter;
+                interpreter.DoString(lua);
             }
             catch (LuaException e)
             {
                 LogLuaException(e);
             }
         }
-
-        /// <summary>
-        /// Starts a Lua shell.
-        /// </summary>
-        public static void StartRepl()
-            => s_interpreter.RunPrompt();
 
         private static void LogLuaException(LuaException e)
         {
