@@ -1,6 +1,7 @@
 using Cosmos.Kernel.System.Graphics;
 using Katro.Assets;
 using Katro.FileSystem;
+using Katro.Logging;
 using Sys = Cosmos.Kernel.System;
 
 namespace Katro
@@ -17,7 +18,7 @@ namespace Katro
 
             FileSystemManager.Init();
 
-            Console.WriteLine("Katro booted successfully.");
+            Logger.Ok("Katro booted successfully.");
         }
 
         protected override void Run()

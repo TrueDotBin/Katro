@@ -2,6 +2,7 @@
 using Cosmos.Kernel.System.FileSystem;
 using Cosmos.Kernel.System.FileSystem.Fat;
 using Cosmos.Kernel.System.Storage;
+using Katro.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -59,7 +60,7 @@ namespace Katro.FileSystem
         {
             if (!RegisterFatDriver())
             {
-                Console.WriteLine("Failed to register FAT driver");
+                Logger.Error("Failed to register FAT driver");
                 return;
             }
 
@@ -67,31 +68,31 @@ namespace Katro.FileSystem
 
             if (primary is null)
             {
-                Console.WriteLine("No disk");
+                Logger.Error("No disk");
                 return;
             }
 
             if (!Gpt.IsGpt(primary) && !Mbr.IsMbr(primary))
             {
-                Console.WriteLine("No partition table found.");
+                Logger.Info("No partition table found.");
                 Gpt.Create(primary);
             }
 
             if (StorageManager.Partitions.Count == 0)
             {
-                Console.WriteLine("No partitions found, creating root partition");
+                Logger.Warn("No partitions found, creating root partition");
 
                 if (!CreateAndFormatRootPartition(primary))
                 {
-                    Console.WriteLine("Failed to create and format root partition");
+                    Logger.Error("Failed to create and format root partition");
                     return;
                 }
             }
 
             if (VfsManager.TryMount(FatDriverName, StorageManager.Partitions[0], MountFlags.None, RootPartitionMountPoint, out var mnt))
-                Console.WriteLine($"Mounted partition {mnt.Source} -> {mnt.MountPoint}");
+                Logger.Ok($"Mounted partition {mnt.Source} -> {mnt.MountPoint}");
             else
-                Console.WriteLine($"Failed to mount partition");
+                Logger.Error($"Failed to mount partition");
         }
     }
 }
