@@ -26,8 +26,77 @@ namespace Katro.Lua.Libraries
             var state = lua.State;
 
             RegisterCSharpFunction(state, Log, "katro_log");
-            RegisterCSharpFunction(state, GetCwd, "katro_getcwd");
-            RegisterCSharpFunction(state, ReadString, "katro_readstr");
+            RegisterCSharpFunction(state, GetCwd, "katro_get_cwd");
+            RegisterCSharpFunction(state, ReadString, "katro_read_string");
+            RegisterCSharpFunction(state, SetColor, "katro_set_color");
+            RegisterCSharpFunction(state, ResetColor, "katro_reset_color");
+            RegisterCSharpFunction(state, Write, "katro_write");
+            RegisterCSharpFunction(state, WriteLn, "katro_writeln");
+        }
+
+        /// <summary>
+        /// Sets the foreground and background color.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int SetColor(ILuaState state)
+        {
+            var foreground = state.L_CheckString(1);
+            var background = "black";
+
+            if (!state.IsNoneOrNil(2))
+                background = state.L_CheckString(2);
+
+            if (!Enum.TryParse<ConsoleColor>(foreground, true, out var consoleFg))
+                return state.L_Error("invalid foreground color: ", foreground);
+
+            if (!Enum.TryParse<ConsoleColor>(background, true, out var consoleBg))
+                return state.L_Error("invalid background color: ", background);
+
+            Console.ForegroundColor = consoleFg;
+            Console.BackgroundColor = consoleBg;
+            return 0;
+        }
+
+        /// <summary>
+        /// Rests the foreground and background color.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int ResetColor(ILuaState state)
+        {
+            Console.ResetColor();
+            return 0;
+        }
+
+        /// <summary>
+        /// Writes a string with a new line.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int WriteLn(ILuaState state)
+        {
+            var value = string.Empty;
+
+            if (!state.IsNoneOrNil(1))
+                value = state.L_ToString(1);
+
+            Console.WriteLine(value);
+
+            return 1;
+        }
+
+        /// <summary>
+        /// Writes a string without a new line.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int Write(ILuaState state)
+        {
+            var value = string.Empty;
+
+            if (!state.IsNoneOrNil(1))
+                value = state.L_ToString(1);
+
+            Console.Write(value);
+
+            return 1;
         }
 
         /// <summary>
@@ -89,8 +158,7 @@ namespace Katro.Lua.Libraries
                     break;
 
                 default:
-                    state.L_Error("invalid log level: {0}", level);
-                    break;
+                    return state.L_Error("invalid log level: {0}", level);
             }
 
             return 0;

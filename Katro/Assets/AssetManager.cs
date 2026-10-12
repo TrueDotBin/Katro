@@ -21,6 +21,16 @@ namespace Katro.Assets
         /// </summary>
         public static byte[] KatroShell { get; private set; } = [];
 
+        /// <summary>
+        /// The raw bytes of the commands.lua library file.
+        /// </summary>
+        public static byte[] LibCommands { get; private set; } = [];
+
+        /// <summary>
+        /// The raw bytes of the tokenizer.lua library file.
+        /// </summary>
+        public static byte[] LibTokenizer { get; private set; } = [];
+
         private static readonly Assembly s_assembly = typeof(Kernel).Assembly;
 
         private static byte[] LoadResourceFromAssembly(string path)
@@ -42,6 +52,8 @@ namespace Katro.Assets
             ConsoleFont = PCScreenFont.LoadFont(consoleFontBytes);
 
             KatroShell = LoadResourceFromAssembly("Katro.Resources.Scripts.ktsh.lua");
+            LibCommands = LoadResourceFromAssembly("Katro.Resources.Scripts.Libraries.commands.lua");
+            LibTokenizer = LoadResourceFromAssembly("Katro.Resources.Scripts.Libraries.tokenizer.lua");
         }
     }
 }

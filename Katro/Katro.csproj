@@ -8,11 +8,15 @@
   <ItemGroup>
     <None Remove="Resources\Fonts\PSF\Spleen.psfu" />
     <None Remove="Resources\Scripts\ktsh.lua" />
+    <None Remove="Resources\Scripts\Libraries\commands.lua" />
+    <None Remove="Resources\Scripts\Libraries\tokenizer.lua" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Fonts\PSF\Spleen.psfu" />
     <EmbeddedResource Include="Resources\Scripts\ktsh.lua" />
+    <EmbeddedResource Include="Resources\Scripts\Libraries\commands.lua" />
+    <EmbeddedResource Include="Resources\Scripts\Libraries\tokenizer.lua" />
   </ItemGroup>
 
   <!-- Core kernel packages -->

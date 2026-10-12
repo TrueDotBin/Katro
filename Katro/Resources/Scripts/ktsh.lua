@@ -1,53 +1,29 @@
-﻿local commands = {}
+﻿local commands = require("shell.commands")
+local tokenizer = require("tokenizer")
 
-function commands.echo(args)
-	local text = table.concat(args, " ", 2)
-	print(text)
-end
+local function print_prompt()
+	katro_set_color("cyan")
+	katro_write("Katro ")
 
-function commands.pwd()
-	local cwd = katro_getcwd()
-	print(cwd)
-end
+	katro_reset_color()
+	katro_write("[ ")
 
-local function tokenize(input)
-    local args = {}
-    local current = {}
-    local in_quote = false
-    local escaped = false
+	local cwd = katro_get_cwd()
 
-    for i = 1, #input do
-        local c = input:sub(i, i)
+	katro_set_color("yellow")
+	katro_write(cwd)
 
-        if escaped then
-            current[#current + 1] = c
-            escaped = false
-        elseif c == "\\" then
-            escaped = true
-        elseif c == '"' then
-            in_quote = not in_quote
-        elseif (c == " " or c == "\t") and not in_quote then
-            if #current > 0 then
-                args[#args + 1] = table.concat(current)
-                current = {}
-            end
-        else
-            current[#current + 1] = c
-        end
-    end
+	katro_reset_color()
+	katro_write(" ] ")
 
-    if #current > 0 then
-        args[#args + 1] = table.concat(current)
-    end
-
-    return args
+	katro_write(":> ")
 end
 
 while true do
-	local cwd = katro_getcwd()
-	local input = katro_readstr("ktsh@" .. cwd .. ":> ")
+	print_prompt()
+	local input = katro_read_string()
 
-	local tokenized = tokenize(input)
+	local tokenized = tokenizer.tokenize(input)
 	local name = tokenized[1]
 	
 	if #tokenized > 0 then
@@ -55,7 +31,7 @@ while true do
 			local command = commands[name]
 			command(tokenized)
 		else
-			print("katro: command \"" .. name .. "\" not found")
+			katro_writeln("katro: command \"" .. name .. "\" not found")
 		end
 	end
 end

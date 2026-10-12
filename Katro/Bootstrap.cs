@@ -25,13 +25,21 @@ namespace Katro
         private static void CreateSystemFiles()
         {
             Logger.Info("Creating system files");
+
             File.WriteAllBytes("/katro/bin/ktsh.lua", AssetManager.KatroShell);
+
+            File.WriteAllBytes("/katro/lib/tokenizer.lua", AssetManager.LibTokenizer);
+            File.WriteAllBytes("/katro/lib/shell/commands.lua", AssetManager.LibCommands);
         }
 
         private static void CreateSystemDirectories()
         {
             Logger.Info("Creating system directories");
+
             Directory.CreateDirectory("/katro/bin");
+
+            Directory.CreateDirectory("/katro/lib");
+            Directory.CreateDirectory("/katro/lib/shell");
         }
 
         /// <summary>
