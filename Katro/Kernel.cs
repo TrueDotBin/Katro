@@ -1,3 +1,5 @@
+using Cosmos.Kernel.System.Graphics;
+using Katro.Assets;
 using Sys = Cosmos.Kernel.System;
 
 namespace Katro
@@ -9,6 +11,9 @@ namespace Katro
     {
         protected override void BeforeRun()
         {
+            AssetManager.Load();
+            KernelConsole.Default?.Font = AssetManager.ConsoleFont;
+
             Console.WriteLine("Katro booted successfully.");
         }
 

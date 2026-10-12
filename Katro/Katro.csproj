@@ -5,6 +5,14 @@
     <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Fonts\PSF\Spleen.psfu" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\PSF\Spleen.psfu" />
+  </ItemGroup>
+
   <!-- Core kernel packages -->
   <ItemGroup>
     <PackageReference Include="Cosmos.Kernel" Version="3.0.94" />
