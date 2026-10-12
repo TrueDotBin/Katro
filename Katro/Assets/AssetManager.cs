@@ -17,7 +17,7 @@ namespace Katro.Assets
         public static PCScreenFont ConsoleFont { get; private set; } = PCScreenFont.DefaultFont;
 
         /// <summary>
-        /// THe raw bytes of the ktsh.lua file.
+        /// The raw bytes of the ktsh.lua file.
         /// </summary>
         public static byte[] KatroShell { get; private set; } = [];
 
