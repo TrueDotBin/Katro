@@ -2,7 +2,6 @@
 using Cosmos.Kernel.System.FileSystem;
 using Cosmos.Kernel.System.FileSystem.Fat;
 using Cosmos.Kernel.System.Storage;
-using Katro.Prompts;
 using System;
 using System.Collections.Generic;
 using System.Text;
