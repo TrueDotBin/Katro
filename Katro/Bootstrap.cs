@@ -48,6 +48,8 @@ namespace Katro
 
             Logger.Info("Initializing file system");
             FileSystemManager.Init();
+
+            Directory.SetCurrentDirectory(FileSystemManager.RootPartitionMountPoint);
         }
     }
 }
