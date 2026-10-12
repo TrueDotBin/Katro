@@ -13,11 +13,7 @@ namespace Katro
     {
         protected override void BeforeRun()
         {
-            AssetManager.Load();
-            KernelConsole.Default?.Font = AssetManager.ConsoleFont;
-
-            FileSystemManager.Init();
-
+            Bootstrap.Init();
             Logger.Ok("Katro booted successfully.");
         }
 
