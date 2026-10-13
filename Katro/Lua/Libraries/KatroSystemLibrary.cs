@@ -47,10 +47,10 @@ namespace Katro.Lua.Libraries
                 background = state.L_CheckString(2);
 
             if (!Enum.TryParse<ConsoleColor>(foreground, true, out var consoleFg))
-                return state.L_Error("invalid foreground color: ", foreground);
+                return state.L_Error("invalid foreground color: '{0}'", foreground);
 
             if (!Enum.TryParse<ConsoleColor>(background, true, out var consoleBg))
-                return state.L_Error("invalid background color: ", background);
+                return state.L_Error("invalid background color: '{0}'", background);
 
             Console.ForegroundColor = consoleFg;
             Console.BackgroundColor = consoleBg;
@@ -73,12 +73,23 @@ namespace Katro.Lua.Libraries
         /// <param name="state">The Lua state.</param>
         public static int WriteLn(ILuaState state)
         {
-            var value = string.Empty;
+            var text = state.IsNoneOrNil(1) ? "" : state.L_CheckString(1);
 
-            if (!state.IsNoneOrNil(1))
-                value = state.L_ToString(1);
+            var foreground = state.IsNoneOrNil(2) ? "white" : state.L_CheckString(2);
+            var background = state.IsNoneOrNil(3) ? "black" : state.L_CheckString(3);
 
-            Console.WriteLine(value);
+            if (!Enum.TryParse<ConsoleColor>(foreground, true, out var fg))
+                return state.L_Error("invalid foreground color: '{0}'", foreground);
+
+            if (!Enum.TryParse<ConsoleColor>(background, true, out var bg))
+                return state.L_Error("invalid background color: '{0}'", background);
+
+            Console.ForegroundColor = fg;
+            Console.BackgroundColor = bg;
+
+            Console.WriteLine(text);
+
+            Console.ResetColor();
 
             return 0;
         }
@@ -89,12 +100,23 @@ namespace Katro.Lua.Libraries
         /// <param name="state">The Lua state.</param>
         public static int Write(ILuaState state)
         {
-            var value = string.Empty;
+            var text = state.IsNoneOrNil(1) ? "" : state.L_CheckString(1);
 
-            if (!state.IsNoneOrNil(1))
-                value = state.L_ToString(1);
+            var foreground = state.IsNoneOrNil(2) ? "white" : state.L_CheckString(2);
+            var background = state.IsNoneOrNil(3) ? "black" : state.L_CheckString(3);
 
-            Console.Write(value);
+            if (!Enum.TryParse<ConsoleColor>(foreground, true, out var fg))
+                return state.L_Error("invalid foreground color: '{0}'", foreground);
+
+            if (!Enum.TryParse<ConsoleColor>(background, true, out var bg))
+                return state.L_Error("invalid background color: '{0}'", background);
+
+            Console.ForegroundColor = fg;
+            Console.BackgroundColor = bg;
+
+            Console.Write(text);
+
+            Console.ResetColor();
 
             return 0;
         }
@@ -158,7 +180,7 @@ namespace Katro.Lua.Libraries
                     break;
 
                 default:
-                    return state.L_Error("invalid log level: {0}", level);
+                    return state.L_Error("invalid log level: '{0}'", level);
             }
 
             return 0;

@@ -2,21 +2,13 @@
 local tokenizer = require("tokenizer")
 
 local function print_prompt()
-	katro_set_color("cyan")
-	katro_write("Katro ")
-
-	katro_reset_color()
+	katro_write("Katro ", "cyan")
 	katro_write("[ ")
 
 	local cwd = katro_get_cwd()
+	katro_write(cwd, "yellow")
 
-	katro_set_color("yellow")
-	katro_write(cwd)
-
-	katro_reset_color()
-	katro_write(" ] ")
-
-	katro_write(":> ")
+	katro_write(" ] :> ")
 end
 
 while true do
@@ -31,7 +23,7 @@ while true do
 			local command = commands[name]
 			command(tokenized)
 		else
-			katro_writeln("katro: command \"" .. name .. "\" not found")
+			katro_writeln("katro: command \"" .. name .. "\" not found", "red")
 		end
 	end
 end
