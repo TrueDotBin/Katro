@@ -10,4 +10,19 @@ function M.pwd()
 	katro_writeln(cwd)
 end
 
+function M.cd(args)
+	local path = args[2]
+
+	if not path then
+		katro_writeln("cd: no arguments", "red")
+		return
+	end
+
+	local success = katro_chdir(path)
+
+	if not success then
+		katro_writeln("cd: no such directory: " .. path, "red")
+	end
+end
+
 return M

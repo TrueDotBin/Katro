@@ -25,13 +25,40 @@ namespace Katro.Lua.Libraries
         {
             var state = lua.State;
 
-            RegisterCSharpFunction(state, Log, "katro_log");
+            // filesystem functions
+            RegisterCSharpFunction(state, Chdir, "katro_chdir");
             RegisterCSharpFunction(state, GetCwd, "katro_get_cwd");
-            RegisterCSharpFunction(state, ReadString, "katro_read_string");
+
+            // stdout functions
+            RegisterCSharpFunction(state, Log, "katro_log");
             RegisterCSharpFunction(state, SetColor, "katro_set_color");
             RegisterCSharpFunction(state, ResetColor, "katro_reset_color");
             RegisterCSharpFunction(state, Write, "katro_write");
             RegisterCSharpFunction(state, WriteLn, "katro_writeln");
+
+            // stdin functions
+            RegisterCSharpFunction(state, ReadString, "katro_read_string");
+        }
+
+        /// <summary>
+        /// Changes the current directory.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int Chdir(ILuaState state)
+        {
+            var dir = state.L_CheckString(1);
+
+            if (!Directory.Exists(dir))
+            {
+                state.PushBoolean(false);
+            }
+            else
+            {
+                Directory.SetCurrentDirectory(dir);
+                state.PushBoolean(true);
+            }
+
+            return 1;
         }
 
         /// <summary>
@@ -113,7 +140,7 @@ namespace Katro.Lua.Libraries
 
             Console.ForegroundColor = fg;
             Console.BackgroundColor = bg;
-
+            
             Console.Write(text);
 
             Console.ResetColor();
