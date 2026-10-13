@@ -80,7 +80,7 @@ namespace Katro.Lua.Libraries
 
             Console.WriteLine(value);
 
-            return 1;
+            return 0;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Katro.Lua.Libraries
 
             Console.Write(value);
 
-            return 1;
+            return 0;
         }
 
         /// <summary>
