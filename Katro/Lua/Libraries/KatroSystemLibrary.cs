@@ -38,6 +38,19 @@ namespace Katro.Lua.Libraries
 
             // stdin functions
             RegisterCSharpFunction(state, ReadString, "katro_read_string");
+
+            // other functions
+            RegisterCSharpFunction(state, GetVersion, "katro_get_version");
+        }
+
+        /// <summary>
+        /// Gets the version of Katro.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int GetVersion(ILuaState state)
+        {
+            state.PushString(SystemInfo.Version);
+            return 1;
         }
 
         /// <summary>
