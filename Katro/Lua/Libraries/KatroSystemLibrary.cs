@@ -1,4 +1,5 @@
 ﻿using Cosmos.Executable.Lua;
+using Katro.Extensions;
 using Katro.Logging;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,12 @@ namespace Katro.Lua.Libraries
             // filesystem functions
             RegisterCSharpFunction(state, Chdir, "katro_chdir");
             RegisterCSharpFunction(state, GetCwd, "katro_get_cwd");
+            RegisterCSharpFunction(state, GetDirs, "katro_get_dirs");
+            RegisterCSharpFunction(state, GetFiles, "katro_get_files");
+            RegisterCSharpFunction(state, FileExists, "katro_file_exists");
+            RegisterCSharpFunction(state, DirExists, "katro_dir_exists");
+            RegisterCSharpFunction(state, GetFileName, "katro_get_file_name");
+            RegisterCSharpFunction(state, GetFileNameWithoutExt, "katro_get_file_name_without_ext");
 
             // stdout functions
             RegisterCSharpFunction(state, Log, "katro_log");
@@ -41,6 +48,98 @@ namespace Katro.Lua.Libraries
 
             // other functions
             RegisterCSharpFunction(state, GetVersion, "katro_get_version");
+        }
+
+        /// <summary>
+        /// Gets the file name of a path without the extension.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int GetFileNameWithoutExt(ILuaState state)
+        {
+            var path = state.L_CheckString(1);
+
+            var name = Path.GetFileNameWithoutExtension(path);
+            state.PushString(name);
+
+            return 1;
+        }
+
+        /// <summary>
+        /// Gets the file name of a path.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int GetFileName(ILuaState state)
+        {
+            var path = state.L_CheckString(1);
+
+            var name = Path.GetFileName(path);
+            state.PushString(name);
+
+            return 1;
+        }
+
+        /// <summary>
+        /// Determines whether a directory exists.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int DirExists(ILuaState state)
+        {
+            var path = state.L_CheckString(1);
+
+            var exists = Directory.Exists(path);
+            state.PushBoolean(exists);
+
+            return 1;
+        }
+
+        /// <summary>
+        /// Determines whether a file exists.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int FileExists(ILuaState state)
+        {
+            var path = state.L_CheckString(1);
+
+            var exists = File.Exists(path);
+            state.PushBoolean(exists);
+
+            return 1;
+        }
+
+        /// <summary>
+        /// Gets a list of all files.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int GetFiles(ILuaState state)
+        {
+            var path = Directory.GetCurrentDirectory();
+
+            if (!state.IsNoneOrNil(1))
+                path = state.L_CheckString(1);
+
+            var files = Directory.GetFiles(path);
+
+            state.PushStringTable(files);
+
+            return 1;
+        }
+
+        /// <summary>
+        /// Gets a list of all directories.
+        /// </summary>
+        /// <param name="state">The Lua state.</param>
+        public static int GetDirs(ILuaState state)
+        {
+            var path = Directory.GetCurrentDirectory();
+
+            if (!state.IsNoneOrNil(1))
+                path = state.L_CheckString(1);
+
+            var dirs = Directory.GetDirectories(path);
+
+            state.PushStringTable(dirs);
+
+            return 1;
         }
 
         /// <summary>
