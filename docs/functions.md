@@ -1,6 +1,6 @@
-# Katro System Library
+# KTLua Functions
 
-Global Lua functions provided by Katro for working with the filesystem, console input/output and general information. All paths are unix-like (e.g. `/home/me/notes.txt`).
+Global Lua functions provided by Katro for working with the filesystem, console input/output and general information.
 
 ## Contents
 
