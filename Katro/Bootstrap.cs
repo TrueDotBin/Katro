@@ -26,10 +26,10 @@ namespace Katro
         {
             Logger.Info("Creating system files");
 
-            File.WriteAllBytes("/katro/bin/ktsh.lua", AssetManager.KatroShell);
+            FileWriter.WriteBytes("/katro/bin/ktsh.lua", AssetManager.KatroShell);
 
-            File.WriteAllBytes("/katro/lib/tokenizer.lua", AssetManager.LibTokenizer);
-            File.WriteAllBytes("/katro/lib/shell/commands.lua", AssetManager.LibCommands);
+            FileWriter.WriteBytes("/katro/lib/tokenizer.lua", AssetManager.LibTokenizer);
+            FileWriter.WriteBytes("/katro/lib/shell/commands.lua", AssetManager.LibCommands);
         }
 
         private static void CreateSystemDirectories()
