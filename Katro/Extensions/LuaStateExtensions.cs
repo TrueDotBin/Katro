@@ -15,7 +15,7 @@ namespace Katro.Extensions
         /// </summary>
         /// <param name="state">The Lua state.</param>
         /// <param name="list">The list to push.</param>
-        public static void PushStringTable(this ILuaState state, IEnumerable<string> list )
+        public static void PushStringTable(this ILuaState state, IEnumerable<string> list)
         {
             var len = list.Count();
             state.CreateTable(len, 0);

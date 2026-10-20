@@ -252,7 +252,7 @@ namespace Katro.Lua.Libraries
 
             Console.ForegroundColor = fg;
             Console.BackgroundColor = bg;
-            
+
             Console.Write(text);
 
             Console.ResetColor();
