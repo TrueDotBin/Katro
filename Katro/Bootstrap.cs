@@ -67,12 +67,16 @@ namespace Katro
             PrintBootLogo();
 
             Logger.Info("Initializing file system");
-            FileSystemManager.Init();
+
+            if (!FileSystemManager.Initialized)
+                FileSystemManager.Init();
 
             CreateSystemDirectories();
             CreateSystemFiles();
 
-            Directory.SetCurrentDirectory(FileSystemManager.RootPartitionMountPoint);
+
+            if (FileSystemManager.Initialized)
+                Directory.SetCurrentDirectory(FileSystemManager.RootPartitionMountPoint);
         }
     }
 }

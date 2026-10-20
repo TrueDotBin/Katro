@@ -15,6 +15,11 @@ namespace Katro.FileSystem
     public static class FileSystemManager
     {
         /// <summary>
+        /// Whether the file system has been initialized.
+        /// </summary>
+        public static bool Initialized { get; private set; }
+
+        /// <summary>
         /// The mount point of the root partition.
         /// </summary>
         public const string RootPartitionMountPoint = "/katro";
@@ -75,6 +80,7 @@ namespace Katro.FileSystem
             if (!Gpt.IsGpt(primary) && !Mbr.IsMbr(primary))
             {
                 Logger.Info("No partition table found.");
+
                 Gpt.Create(primary);
             }
 
@@ -90,7 +96,10 @@ namespace Katro.FileSystem
             }
 
             if (VfsManager.TryMount(FatDriverName, StorageManager.Partitions[0], MountFlags.None, RootPartitionMountPoint, out var mnt))
+            {
+                Initialized = true;
                 Logger.Ok($"Mounted partition {mnt.Source} -> {mnt.MountPoint}");
+            }
             else
                 Logger.Error($"Failed to mount partition");
         }

@@ -12,12 +12,6 @@ namespace Katro.FileSystem
     /// </summary>
     public static class PartitionUtility
     {
-        private const ulong OneMiB = 1024UL * 1024UL;
-        private const ulong GptTail = 34;
-
-        private static ulong AlignUp(ulong value, ulong alignment)
-            => (value + alignment - 1) / alignment * alignment;
-
         /// <summary>
         /// Creates a partition that fills the whole disk up.
         /// </summary>
@@ -30,11 +24,11 @@ namespace Katro.FileSystem
             if (!Gpt.IsGpt(device) && !Mbr.IsMbr(device))
                 return false;
 
-            if (device.BlockCount <= GptTail)
+            if (device.BlockCount <= FileSystemMath.GptTail)
                 return false;
 
-            var startSector = OneMiB / device.BlockSize;
-            var lastUsable = device.BlockCount - GptTail;
+            var startSector = SectorCalculator.DetermineStartSector(device);
+            var lastUsable = device.BlockCount - FileSystemMath.GptTail;
 
             if (startSector >= lastUsable)
                 return false;
@@ -56,9 +50,9 @@ namespace Katro.FileSystem
             if (!Gpt.IsGpt(device) && !Mbr.IsMbr(device))
                 return false;
 
-            var startSector = OneMiB / device.BlockSize;
-            var lastUsable = device.BlockCount - GptTail;
-            var sectorCount = AlignUp(bytes, device.BlockSize) / device.BlockSize;
+            var startSector = SectorCalculator.DetermineStartSector(device);
+            var lastUsable = device.BlockCount - FileSystemMath.GptTail;
+            var sectorCount = FileSystemMath.AlignUp(bytes, device.BlockSize) / device.BlockSize;
 
             if (startSector >= lastUsable || sectorCount > lastUsable - startSector)
                 return false;
@@ -82,6 +76,7 @@ namespace Katro.FileSystem
                 return false;
 
             StorageManager.RescanPartitions(device);
+
             return true;
         }
     }
