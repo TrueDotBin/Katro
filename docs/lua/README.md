@@ -16,6 +16,8 @@ Under the hood, Katro uses the [Cosmos.Executable.Lua][cosmos-lua] library to ru
 katro_log("info", "Hello, Lua!")
 ```
 
+If you want a list of all functions that Katro registers, see [this file](functions.md)
+
 ## Unsupported functions
 
 As stated by [Cosmos.Executable.Lua][cosmos-lua]'s README:
