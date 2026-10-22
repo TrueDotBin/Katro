@@ -22,7 +22,9 @@ namespace Katro
             {
                 Logger.Info("Running tests");
 
+                Console.WriteLine();
                 TestRunner.FileSystemTests();
+                Console.WriteLine();
             }
 
             Logger.Ok("Katro booted successfully.");

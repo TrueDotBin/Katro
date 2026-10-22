@@ -37,50 +37,23 @@ namespace Katro.Tests
         /// </summary>
         public static void FileSystemTests()
         {
-            const string TestFileContent = "Test file :D";
-            const string TestFilePath = "/katro/Test.txt";
-            const string TestDirPath = "/katro/Test";
-            const string TestFileInDirPath = "/katro/Test/Test2.txt";
+            var ctx = new TestContext("File System Tests");
 
-            var ctx = new TestContext();
-
-            TestLogger.Header("File System Tests");
-
-            var writeTest = () => File.WriteAllText(TestFilePath, TestFileContent);
-
-            var readTest = () =>
+            var tests = new List<Test>()
             {
-                var content = File.ReadAllText(TestFilePath);
-                TestContext.AssertEqual(content, TestFileContent, "Content mismatch");
+                new("Write to File", () => File.WriteAllText(TestConstants.TestFilePath, TestConstants.TestFileContents)),
+                new("Read from File", () =>
+                {
+                    var actualContents = File.ReadAllText(TestConstants.TestFilePath);
+                    TestContext.AssertEqual(actualContents, TestConstants.TestFileContents, "Content mismatch");
+                }),
+                new("Delete File", () => File.Delete(TestConstants.TestFilePath)),
+                new("Create Directory", () => Directory.CreateDirectory(TestConstants.TestDirPath)),
+                new("Delete Directory", () => Directory.Delete(TestConstants.TestDirPath))
             };
 
-            var deleteTest = () => File.Delete(TestFilePath);
-
-            // so it doesnt make it a Func<DirectoryInfo>
-            var createDirTest = () =>
-            {
-                Directory.CreateDirectory(TestDirPath);
-            };
-
-            var createFileInDirTest = () => File.WriteAllText(TestFileInDirPath, TestFileContent);
-
-            var readFileInDirTest = () =>
-            {
-                var content = File.ReadAllText(TestFileInDirPath);
-                TestContext.AssertEqual(content, TestFileContent, "Content mismatch");
-            };
-
-            var deleteFileInDirTest = () => File.Delete(TestFileInDirPath);
-            var deleteDirTest = () => Directory.Delete(TestDirPath);
-
-            ctx.Run("Write to file", writeTest);
-            ctx.Run("Read from file", readTest);
-            ctx.Run("Delete file", deleteTest);
-            ctx.Run("Create directory", createDirTest);
-            ctx.Run("Write to file in directory", createFileInDirTest);
-            ctx.Run("Read from file in directory", readFileInDirTest);
-            ctx.Run("Delete file in directory", deleteFileInDirTest);
-            ctx.Run("Delete directory", deleteDirTest);
+            foreach (var test in tests)
+                test.Run(ctx);
 
             ctx.PrintOverview();
         }

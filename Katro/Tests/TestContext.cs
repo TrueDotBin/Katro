@@ -10,6 +10,11 @@ namespace Katro.Tests
     public class TestContext
     {
         /// <summary>
+        /// The category of the tests that will be run.
+        /// </summary>
+        public string Category { get; private set; }
+
+        /// <summary>
         /// The amount of tests that have failed.
         /// </summary>
         public int Failed { get; private set; }
@@ -18,6 +23,16 @@ namespace Katro.Tests
         /// The amount of tests that have passed.
         /// </summary>
         public int Passed { get; private set; }
+
+        /// <summary>
+        /// Initializes a new test context.
+        /// </summary>
+        /// <param name="category">The category of the tests that will be run.</param>
+        public TestContext(string category)
+        {
+            Category = category;
+            TestLogger.Header(category);
+        }
 
         /// <summary>
         /// Runs a test.
