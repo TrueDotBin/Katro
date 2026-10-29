@@ -1,6 +1,7 @@
 ﻿using Cosmos.Kernel.HAL.Devices.Storage;
 using Cosmos.Kernel.System.FileSystem;
 using Cosmos.Kernel.System.FileSystem.Fat;
+using Cosmos.Kernel.System.FileSystem.Iso9660;
 using Cosmos.Kernel.System.Storage;
 using Katro.Logging;
 using System;
@@ -20,6 +21,16 @@ namespace Katro.FileSystem
         public static bool Initialized { get; private set; }
 
         /// <summary>
+        /// The mount point of the CD.
+        /// </summary>
+        public const string CdMountPoint = "/cd";
+
+        /// <summary>
+        /// The name of the ISO 9660 driver.
+        /// </summary>
+        public const string Iso9660DriverName = "iso";
+
+        /// <summary>
         /// The mount point of the root partition.
         /// </summary>
         public const string RootPartitionMountPoint = "/katro";
@@ -30,6 +41,22 @@ namespace Katro.FileSystem
         public const string FatDriverName = "fat";
 
         /// <summary>
+        /// Finds the first usable CD.
+        /// </summary>
+        public static IBlockDevice? FindFirstCd()
+        {
+            foreach (IBlockDevice device in StorageManager.Devices)
+            {
+                if (device is IRemovableMedia { IsReadOnly: true })
+                {
+                    return device;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Registers the FAT driver.
         /// </summary>
         /// <returns>Whether the driver was registered successfully.</returns>
@@ -37,6 +64,16 @@ namespace Katro.FileSystem
         {
             var fat = new FatFileSystemType();
             return VfsManager.RegisterFileSystem(FatDriverName, fat);
+        }
+
+        /// <summary>
+        /// Registers the ISO 9660 driver.
+        /// </summary>
+        /// <returns>Whether the driver was registered successfully.</returns>
+        public static bool RegisterIso9660Driver(IBlockDevice device)
+        {
+            var iso = new Iso9660FileSystemType(device);
+            return VfsManager.RegisterFileSystem(Iso9660DriverName, iso);
         }
 
         /// <summary>
@@ -69,6 +106,17 @@ namespace Katro.FileSystem
                 Logger.Error("Failed to register FAT driver");
                 return;
             }
+
+            var cd = FindFirstCd();
+
+            if (cd is null)
+            {
+                Logger.Warn("CD not found");
+                return;
+            }
+
+            if (!RegisterIso9660Driver(cd))
+                Logger.Warn("Failed to register ISO 9660 driver");
 
             var primary = StorageManager.PrimaryDevice;
 
@@ -108,6 +156,9 @@ namespace Katro.FileSystem
             }
 
             Logger.Info("Mounting root partition");
+
+            if (VfsManager.TryMount(Iso9660DriverName, "", MountFlags.ReadOnly, CdMountPoint, out var cdMount))
+                Logger.Ok($"Mounted CD to {cdMount.MountPoint}");
 
             if (VfsManager.TryMount(FatDriverName, rootPartition, MountFlags.None, RootPartitionMountPoint, out var mnt))
             {
