@@ -10,7 +10,7 @@ namespace Katro
     public static class SystemInfo
     {
         /// <summary>
-        /// The version of Katro
+        /// The version of Katro.
         /// </summary>
         public const string Version = "1.0.0";
 
