@@ -43,8 +43,9 @@ namespace Katro.FileSystem
         /// Tries to create and format the root partition.
         /// </summary>
         /// <param name="device">The block device to create the partition on.</param>
+        /// <param name="partition">The partition that was created.</param>
         /// <returns>Whether the partition was created and formatted successfully.</returns>
-        public static bool CreateAndFormatRootPartition(IBlockDevice device)
+        public static bool CreateAndFormatRootPartition(IBlockDevice device, out Partition? partition)
         {
             var formatOpts = new FatFormatOptions()
             {
@@ -52,7 +53,7 @@ namespace Katro.FileSystem
                 Type = FatType.Fat32
             };
 
-            var createSuccess = PartitionUtility.CreateFull(device, MbrSystemId.Fat32Lba, Gpt.BasicDataPartitionType);
+            var createSuccess = PartitionUtility.CreateFull(device, MbrSystemId.Fat32Lba, Gpt.BasicDataPartitionType, out partition);
             var formatSuccess = VfsManager.TryFormat(FatDriverName, StorageManager.Partitions[0], formatOpts);
 
             return createSuccess && formatSuccess;
@@ -79,23 +80,36 @@ namespace Katro.FileSystem
 
             if (!Gpt.IsGpt(primary) && !Mbr.IsMbr(primary))
             {
-                Logger.Info("No partition table found.");
-
+                Logger.Info("No partition table found");
                 Gpt.Create(primary);
             }
+
+            Partition? rootPartition;
 
             if (StorageManager.Partitions.Count == 0)
             {
                 Logger.Warn("No partitions found, creating root partition");
 
-                if (!CreateAndFormatRootPartition(primary))
+                if (!CreateAndFormatRootPartition(primary, out rootPartition))
                 {
                     Logger.Error("Failed to create and format root partition");
                     return;
                 }
             }
+            else
+            {
+                rootPartition = StorageManager.Partitions[0];
+            }
 
-            if (VfsManager.TryMount(FatDriverName, StorageManager.Partitions[0], MountFlags.None, RootPartitionMountPoint, out var mnt))
+            if (rootPartition == null)
+            {
+                Logger.Error("Root partition not found");
+                return;
+            }
+
+            Logger.Info("Mounting root partition");
+
+            if (VfsManager.TryMount(FatDriverName, rootPartition, MountFlags.None, RootPartitionMountPoint, out var mnt))
             {
                 Initialized = true;
                 Logger.Ok($"Mounted partition {mnt.Source} -> {mnt.MountPoint}");
