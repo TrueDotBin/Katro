@@ -22,7 +22,13 @@ namespace Katro.Shell
         /// </summary>
         public void Run()
         {
+            Console.Write("> ");
+            var input = Console.ReadLine();
 
+            if (string.IsNullOrWhiteSpace(input))
+                return;
+
+            Console.WriteLine($"Input: {input}");
         }
     }
 }
