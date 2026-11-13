@@ -38,8 +38,6 @@ namespace Katro.FileSystem
                 Type = FatType.Fat32
             };
 
-            Logger.Info($"Volume label: {formatOpts.VolumeLabel}");
-
             var createSuccess = PartitionUtility.CreateFull(device, MbrSystemId.Fat32Lba,
                 Gpt.BasicDataPartitionType, out partition);
 
@@ -65,26 +63,26 @@ namespace Katro.FileSystem
         /// </summary>
         public static void Initialize()
         {
-            Logger.Info($"Registering FAT driver as \"{FileSystemDriverNames.FatDriverName}\"");
+            Logger.Log(LogLevel.Info, $"Registering FAT driver as \"{FileSystemDriverNames.FatDriverName}\"");
 
             if (!RegisterFatDriver())
             {
-                Logger.Error("Failed to register FAT driver");
+                Logger.Log(LogLevel.Error, "Failed to register FAT driver");
                 return;
             }
 
-            Logger.Info("Finding primary disk");
+            Logger.Log(LogLevel.Info, "Finding primary disk");
 
             var primary = StorageManager.PrimaryDevice;
             if (primary is null)
             {
-                Logger.Error("No primary disk found");
+                Logger.Log(LogLevel.Error, "No primary disk found");
                 return;
             }
 
             if (!Gpt.IsGpt(primary) && !Mbr.IsMbr(primary))
             {
-                Logger.Warn("No partition table found, creating a GPT partition table");
+                Logger.Log(LogLevel.Warning, "No partition table found, creating a GPT partition table");
                 Gpt.Create(primary);
             }
 
@@ -92,37 +90,32 @@ namespace Katro.FileSystem
 
             if (StorageManager.Partitions.Count == 0)
             {
-                Logger.Info("Creating and formatting root partition");
+                Logger.Log(LogLevel.Info, "Creating and formatting root partition");
 
                 if (!CreateRootPartition(primary, out rootPartition))
                 {
-                    Logger.Error("Failed to create root partition");
+                    Logger.Log(LogLevel.Error, "Failed to create root partition");
                     return;
                 }
             }
             else
             {
-                Logger.Info("Finding root partition");
+                Logger.Log(LogLevel.Info, "Finding root partition");
                 rootPartition = StorageManager.Partitions[0];
             }
 
             if (rootPartition is null)
             {
-                Logger.Error("Root partition not found");
+                Logger.Log(LogLevel.Error, "Root partition not found");
                 return;
             }
 
-            Logger.Info($"Mounting root partition to {MountPoints.RootPartition}");
+            Logger.Log(LogLevel.Info, $"Mounting root partition to {MountPoints.RootPartition}");
 
             if (!VfsManager.TryMount(FileSystemDriverNames.FatDriverName, rootPartition, MountFlags.None, MountPoints.RootPartition, out var mount))
-            {
                 Initialized = true;
-                Logger.Success($"Successfully initialized file system");
-            }
             else
-            {
-                Logger.Error("Failed to mount root partition");
-            }
+                Logger.Log(LogLevel.Error, "Failed to mount root partition");
         }
     }
 }
