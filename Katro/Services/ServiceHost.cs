@@ -37,9 +37,9 @@ namespace Katro.Services
                 }
             }
 
-            service.Start();
+            var success = service.Start();
 
-            if (service.StartedSuccessfully)
+            if (success)
                 _services.Add(service);
             else
                 _logger.Log(LogLevel.Error, $"Service \"{service.Name}\" failed to start!");

@@ -15,10 +15,10 @@ namespace Katro.Services.Core
         public override string Id { get; } = "fs";
 
         /// <inheritdoc>/>
-        public override void Start()
+        public override bool Start()
         {
             FileSystemManager.Initialize();
-            StartedSuccessfully = FileSystemManager.Initialized;
+            return FileSystemManager.Initialized;
         }
     }
 }
