@@ -15,13 +15,13 @@ namespace Katro
             FileSystemManager.Initialize();
             if (!FileSystemManager.Initialized)
             {
-                Logger.Global.Error("File system failed to initialize");
+                Logger.Global.Log(LogLevel.Error, "File system failed to initialize");
 
                 Stop();
                 return;
             }
 
-            Logger.Global.Success("Katro started successfully.");
+            Logger.Global.Log(LogLevel.Info, "Katro started successfully.");
         }
 
         protected override void Run()
