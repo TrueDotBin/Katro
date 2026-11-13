@@ -14,6 +14,7 @@ namespace Katro
         {
             ServiceHost.StartAll
             (
+                new ConsoleFontService(),
                 new FileSystemService()
             );
         }
