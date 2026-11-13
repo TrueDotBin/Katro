@@ -18,7 +18,7 @@ namespace Katro.Services
         /// <param name="service">The service that should be started.</param>
         public static void Start(KernelService service)
         {
-            if (_services.Contains(service))
+            if (_services.Any(s => s.Id == service.Id))
             {
                 _logger.Log(LogLevel.Warning, $"\"{service.Name}\" is already running!");
                 return;
