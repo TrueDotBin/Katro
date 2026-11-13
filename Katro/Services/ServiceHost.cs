@@ -59,5 +59,16 @@ namespace Katro.Services
             service.Stop();
             _services.Remove(service);
         }
+
+        /// <summary>
+        /// Stops all services.
+        /// </summary>
+        public static void StopAll()
+        {
+            foreach (var service in _services)
+            {
+                Stop(service.Id);
+            }
+        }
     }
 }
