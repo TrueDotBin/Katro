@@ -7,31 +7,31 @@ namespace Katro.Services.Abstractions
     /// <summary>
     /// A service that belongs to the kernel, started with <see cref="ServiceHost"/>.
     /// </summary>
-    public interface IKernelService
+    public abstract class KernelService
     {
         /// <summary>
         /// The user-friendly name of this service.
         /// </summary>
-        public string Name { get; }
+        public abstract string Name { get; }
 
         /// <summary>
         /// The identifier of this service.
         /// </summary>
-        public string Id { get; }
+        public abstract string Id { get; }
 
         /// <summary>
         /// The list of other service IDs that need to be started before this one can start.
         /// </summary>
-        public string[] DependsOn { get; }
+        public virtual string[] DependsOn { get; } = [];
 
         /// <summary>
         /// Starts this service.
         /// </summary>
-        void Start();
+        public abstract void Start();
 
         /// <summary>
         /// Cleans up certain stuff.
         /// </summary>
-        void Stop();
+        public virtual void Stop() { }
     }
 }
