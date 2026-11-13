@@ -10,6 +10,11 @@ namespace Katro.Services.Abstractions
     public abstract class KernelService
     {
         /// <summary>
+        /// Whether this service has started successfully.
+        /// </summary>
+        public bool StartedSuccessfully { get; set; }
+
+        /// <summary>
         /// The user-friendly name of this service.
         /// </summary>
         public abstract string Name { get; }

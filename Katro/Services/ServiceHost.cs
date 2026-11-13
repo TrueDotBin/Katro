@@ -9,14 +9,14 @@ namespace Katro.Services
     /// </summary>
     public static class ServiceHost
     {
-        private static readonly List<IKernelService> _services = [];
+        private static readonly List<KernelService> _services = [];
         private static readonly Logger _logger = new("Service Host");
 
         /// <summary>
         /// Starts a service, checking if its dependencies have been resolved first.
         /// </summary>
         /// <param name="service">The service that should be started.</param>
-        public static void Start(IKernelService service)
+        public static void Start(KernelService service)
         {
             if (_services.Contains(service))
             {
@@ -37,7 +37,10 @@ namespace Katro.Services
                 }
             }
 
-            _services.Add(service);
+            service.Start();
+
+            if (service.StartedSuccessfully)
+                _services.Add(service);
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace Katro.Services
         /// Starts all theservices.
         /// </summary>
         /// <param name="services">The list of services that should be started.</param>
-        public static void StartAll(params IEnumerable<IKernelService> services)
+        public static void StartAll(params IEnumerable<KernelService> services)
         {
             _logger.Log(LogLevel.Info, $"Starting {services.Count()} service(s)");
 
