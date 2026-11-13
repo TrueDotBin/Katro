@@ -12,16 +12,7 @@ namespace Katro
     {
         protected override void BeforeRun()
         {
-            FileSystemManager.Initialize();
-            if (!FileSystemManager.Initialized)
-            {
-                Logger.Global.Log(LogLevel.Error, "File system failed to initialize");
-
-                Stop();
-                return;
-            }
-
-            Logger.Global.Log(LogLevel.Info, "Katro started successfully.");
+            
         }
 
         protected override void Run()
