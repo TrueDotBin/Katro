@@ -17,6 +17,12 @@ namespace Katro.Services
         /// <param name="service">The service that should be started.</param>
         public static void Start(IKernelService service)
         {
+            if (_services.Contains(service))
+            {
+                _logger.Log(LogLevel.Warning, $"\"{service.Name}\" is already running!");
+                return;
+            }
+
             var started = _services.Select(s => s.Id);
 
             _logger.Log(LogLevel.Info, $"Starting service \"{service.Name}\"");
