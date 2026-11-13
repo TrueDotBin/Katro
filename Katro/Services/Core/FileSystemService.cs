@@ -8,13 +8,13 @@ namespace Katro.Services.Core
     /// </summary>
     public class FileSystemService : KernelService
     {
-        /// <inheritdoc>/>
+        /// <inheritdoc/>
         public override string Name { get; } = "File System";
 
-        /// <inheritdoc>/>
+        /// <inheritdoc/>
         public override string Id { get; } = "fs";
 
-        /// <inheritdoc>/>
+        /// <inheritdoc/>
         public override bool Start()
         {
             FileSystemManager.Initialize();

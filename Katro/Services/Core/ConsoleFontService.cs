@@ -11,13 +11,13 @@ namespace Katro.Services.Core
     /// </summary>
     public class ConsoleFontService : KernelService
     {
-        /// <inheritdoc>/>
+        /// <inheritdoc/>
         public override string Name { get; } = "Console Font";
 
-        /// <inheritdoc>/>
+        /// <inheritdoc/>
         public override string Id { get; } = "fnt";
 
-        /// <inheritdoc>/>
+        /// <inheritdoc/>
         public override bool Start()
         {
             try
