@@ -63,6 +63,12 @@ namespace Katro.Services
                 return;
             }
 
+            if (_services.Any(s => s.DependsOn.Contains(id)))
+            {
+                _logger.Log(LogLevel.Error, $"Cannot stop service \"{id}\" because other services depend on it!");
+                return;
+            }
+
             service.Stop();
             _services.Remove(service);
         }
@@ -72,7 +78,7 @@ namespace Katro.Services
         /// </summary>
         public static void StopAll()
         {
-            foreach (var service in _services)
+            foreach (var service in _services.ToArray())
             {
                 Stop(service.Id);
             }
