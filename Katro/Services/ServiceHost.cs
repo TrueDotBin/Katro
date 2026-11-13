@@ -1,4 +1,5 @@
 ﻿using Katro.Services.Abstractions;
+using System.Runtime.Intrinsics.Arm;
 using TrueDotBin.CosmosUtils.Logging;
 
 namespace Katro.Services
@@ -37,6 +38,26 @@ namespace Katro.Services
             }
 
             _services.Add(service);
+        }
+
+        /// <summary>
+        /// Stops a service by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the service to stop.</param>
+        public static void Stop(string id)
+        {
+            var service = _services.FirstOrDefault(s => s.Id == id);
+
+            _logger.Log(LogLevel.Info, $"Stopping service \"{id}\"");
+
+            if (service == null)
+            {
+                _logger.Log(LogLevel.Error, $"Cannot stop service \"{id}\" because it isn't running!");
+                return;
+            }
+
+            service.Stop();
+            _services.Remove(service);
         }
     }
 }
