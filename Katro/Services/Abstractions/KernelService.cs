@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TrueDotBin.CosmosUtils.Logging;
 
 namespace Katro.Services.Abstractions
 {
@@ -9,6 +10,11 @@ namespace Katro.Services.Abstractions
     /// </summary>
     public abstract class KernelService
     {
+        /// <summary>
+        /// The logger for this service.
+        /// </summary>
+        public Logger Logger { get; internal set; }
+
         /// <summary>
         /// The user-friendly name of this service.
         /// </summary>

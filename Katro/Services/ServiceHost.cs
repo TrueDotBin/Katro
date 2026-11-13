@@ -37,6 +37,8 @@ namespace Katro.Services
                 }
             }
 
+            service.Logger = new(service.Name);
+
             var success = service.Start();
 
             if (success)
