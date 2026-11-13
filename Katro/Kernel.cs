@@ -1,6 +1,6 @@
 using Katro.FileSystem;
-using TrueDotBin.CosmosUtils;
-using TrueDotBin.CosmosUtils.Logging;
+using Katro.Services;
+using Katro.Services.Core;
 using Sys = Cosmos.Kernel.System;
 
 namespace Katro
@@ -12,7 +12,10 @@ namespace Katro
     {
         protected override void BeforeRun()
         {
-            
+            ServiceHost.StartAll
+            (
+                new FileSystemService()
+            );
         }
 
         protected override void Run()
