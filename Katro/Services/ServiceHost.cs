@@ -70,5 +70,19 @@ namespace Katro.Services
                 Stop(service.Id);
             }
         }
+
+        /// <summary>
+        /// Starts all theservices.
+        /// </summary>
+        /// <param name="services">The list of services that should be started.</param>
+        public static void StartAll(params IEnumerable<IKernelService> services)
+        {
+            _logger.Log(LogLevel.Info, $"Starting {services.Count()} service(s)");
+
+            foreach (var service in services)
+            {
+                Start(service);
+            }
+        }
     }
 }
