@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Katro.Shell.Commands
+namespace Katro.Shell.Commands.System
 {
     /// <summary>
     /// Powers off the device, and powers it back on.

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Katro.Shell.Commands
+namespace Katro.Shell.Commands.Core
 {
     /// <summary>
     /// Displays a user-specified message.
