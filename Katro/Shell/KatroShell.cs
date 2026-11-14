@@ -18,6 +18,23 @@ namespace Katro.Shell
         /// </summary>
         public List<Command> Commands { get; private set; } = [];
 
+        private void WritePrompt()
+        {
+            var startColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("katro");
+            Console.ForegroundColor = startColor;
+
+            Console.Write("@");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(Directory.GetCurrentDirectory());
+            Console.ForegroundColor = startColor;
+
+            Console.Write("> ");
+        }
+
         /// <summary>
         /// Initializes the shell by registering commands.
         /// </summary>
@@ -31,7 +48,7 @@ namespace Katro.Shell
         /// </summary>
         public void Run()
         {
-            Console.Write("> ");
+            WritePrompt();
             var input = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(input))
