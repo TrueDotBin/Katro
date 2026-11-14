@@ -28,7 +28,8 @@ namespace Katro.Shell
             if (string.IsNullOrWhiteSpace(input))
                 return;
 
-            Console.WriteLine($"Input: {input}");
+            var (name, context) = ShellParser.Parse(input);
+            Console.WriteLine(name);
         }
     }
 }
