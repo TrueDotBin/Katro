@@ -13,7 +13,11 @@ namespace Katro.Shell
     /// </summary>
     public sealed class KatroShell
     {
-        private const string DefaultHostname = "katro";
+        /// <summary>
+        /// The default hostname.
+        /// </summary>
+        public const string DefaultHostname = "katro";
+
         private static Logger s_logger = new("Katro Shell");
 
         /// <summary>
@@ -51,6 +55,7 @@ namespace Katro.Shell
         {
             Commands.Add(new Help());
             Commands.Add(new Echo());
+            Commands.Add(new Hostname());
         }
 
         /// <summary>
