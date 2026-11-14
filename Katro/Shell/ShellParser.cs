@@ -70,7 +70,7 @@ namespace Katro.Shell
             var context = new CommandContext(input);
             var name = parts.First();
 
-            for (int i = 0; i < parts.Count; i++)
+            for (int i = 1; i < parts.Count; i++)
             {
                 var part = parts[i];
 
