@@ -23,7 +23,7 @@ namespace Katro.Shell
         /// </summary>
         public void Initialize()
         {
-            // TODO: Implement this
+            Commands.Add(new Help());
         }
 
         /// <summary>
