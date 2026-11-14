@@ -27,8 +27,8 @@ namespace Katro.Shell.Commands
         /// <summary>
         /// Executes the command.
         /// </summary>
-        /// <param name="args">The arguments to pass to the command.</param>
+        /// <param name="ctx">The context that was generated for this command.</param>
         /// <returns>The command's return code.</returns>
-        public abstract int Execute(string[] args);
+        public abstract int Execute(CommandContext ctx);
     }
 }
