@@ -41,6 +41,7 @@ namespace Katro.Shell
         public void Initialize()
         {
             Commands.Add(new Help());
+            Commands.Add(new Echo());
         }
 
         /// <summary>
