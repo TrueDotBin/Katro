@@ -10,6 +10,11 @@ namespace Katro.Shell
     public class CommandContext(string input)
     {
         /// <summary>
+        /// The shell that ran this command.
+        /// </summary>
+        public KatroShell? Shell { get; set; }
+
+        /// <summary>
         /// The user's input.
         /// </summary>
         public string Input { get; init; } = input;

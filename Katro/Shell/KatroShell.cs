@@ -29,7 +29,7 @@ namespace Katro.Shell
                 return;
 
             var (name, context) = ShellParser.Parse(input);
-            Console.WriteLine(name);
+            context?.Shell = this;
         }
     }
 }
