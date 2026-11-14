@@ -10,7 +10,7 @@ namespace Katro.Shell
     public sealed class KatroShell
     {
         /// <summary>
-        /// Registers the commands, etc.
+        /// Initializes the shell by registering commands and the shell prompt.
         /// </summary>
         public void Initialize()
         {
