@@ -5,7 +5,7 @@ using System.Text;
 namespace Katro.Shell.Commands
 {
     /// <summary>
-    /// Lists all available commands.
+    /// Lists all available commands, or information about a command.
     /// </summary>
     public sealed class Help : Command
     {
@@ -13,24 +13,43 @@ namespace Katro.Shell.Commands
         public override string Name { get; } = "help";
 
         /// <inheritdoc/>
-        public override string Description { get; } = "Lists all available commands.";
+        public override string Description { get; } = "Lists all available commands, or information about a command.";
 
         /// <inheritdoc/>
-        public override string Usage { get; } = "help";
+        public override string Usage { get; } = "help [command]";
 
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
         {
-            var startColor = Console.ForegroundColor;
+            var commandName = ctx.GetArgument(0);
 
-            foreach (var cmd in ctx.Shell.Commands)
+            if (string.IsNullOrEmpty(commandName))
             {
-                Console.Write($"{cmd.Name} - ");
+                var startColor = Console.ForegroundColor;
 
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine(cmd.Description);
-                Console.ForegroundColor = startColor;
+                foreach (var cmd in ctx.Shell.Commands)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(cmd.Name);
+                    Console.ForegroundColor = startColor;
+
+                    Console.Write(" - ");
+
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine(cmd.Description);
+                    Console.ForegroundColor = startColor;
+                }
+
+                return 0;
             }
+
+            var command = ctx.Shell.Commands.FirstOrDefault(c => c.Name == commandName);
+
+            if (command is null)
+                return -1;
+
+            Console.WriteLine($"{command.Name} - {command.Description}");
+            Console.WriteLine($"Usage: {command.Usage}");
 
             return 0;
         }
