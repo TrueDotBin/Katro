@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Katro.Constants.Shell;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -40,18 +41,18 @@ namespace Katro.Shell.Commands
                     Console.ForegroundColor = startColor;
                 }
 
-                return 0;
+                return CommandReturnCode.Success;
             }
 
             var command = ctx.Shell.Commands.FirstOrDefault(c => c.Name == commandName);
 
             if (command is null)
-                return -1;
+                return CommandReturnCode.CommandNotFound;
 
             Console.WriteLine($"{command.Name} - {command.Description}");
             Console.WriteLine($"Usage: {command.Usage}");
 
-            return 0;
+            return CommandReturnCode.Success;
         }
     }
 }

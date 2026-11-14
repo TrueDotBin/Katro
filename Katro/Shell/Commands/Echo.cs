@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Katro.Constants.Shell;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace Katro.Shell.Commands
             var argument = ctx.GetArgument(0);
             Console.WriteLine(argument);
 
-            return 0;
+            return CommandReturnCode.Success;
         }
     }
 }
