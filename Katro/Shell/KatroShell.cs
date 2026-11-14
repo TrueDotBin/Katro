@@ -1,4 +1,5 @@
-﻿using Katro.Shell.Commands;
+﻿using Katro.Constants.FileSystem;
+using Katro.Shell.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,11 @@ namespace Katro.Shell
     public sealed class KatroShell
     {
         private static Logger s_logger = new("Katro Shell");
+
+        /// <summary>
+        /// The current working directory.
+        /// </summary>
+        public string CurrentDirectory { get; set; } = MountPoints.RootPartition;
             
         /// <summary>
         /// The list of registered commands.
@@ -29,7 +35,7 @@ namespace Katro.Shell
             Console.Write("@");
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(Directory.GetCurrentDirectory());
+            Console.Write(CurrentDirectory);
             Console.ForegroundColor = startColor;
 
             Console.Write("> ");
