@@ -78,8 +78,9 @@ namespace Katro.Services
         /// </summary>
         public static void StopAll()
         {
-            foreach (var service in _services.ToArray())
+            for (int i = _services.Count - 1; i >= 0; i--)
             {
+                var service = _services[i];
                 Stop(service.Id);
             }
         }
