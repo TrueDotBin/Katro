@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Katro.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -23,6 +24,11 @@ namespace Katro.Shell.Commands
         /// How this command should be used.
         /// </summary>
         public abstract string Usage { get; }
+
+        /// <summary>
+        /// The group that this command belongs in.
+        /// </summary>
+        public abstract CommandCategory Category { get; }
 
         /// <summary>
         /// Executes the command.

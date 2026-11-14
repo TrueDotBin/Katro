@@ -1,4 +1,5 @@
 ﻿using Katro.Constants.Shell;
+using Katro.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,6 +21,9 @@ namespace Katro.Shell.Commands
         public override string Usage { get; } = "help [command]";
 
         /// <inheritdoc/>
+        public override CommandCategory Category { get; } = CommandCategory.Core;
+
+        /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
         {
             var commandName = ctx.GetArgument(0);
@@ -28,17 +32,23 @@ namespace Katro.Shell.Commands
             {
                 var startColor = Console.ForegroundColor;
 
-                foreach (var cmd in ctx.Shell.Commands)
+                var groups = ctx.Shell.Commands
+                    .GroupBy(c => c.Category)
+                    .OrderBy(g => g.Key);
+
+                foreach (var group in groups)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(cmd.Name);
-                    Console.ForegroundColor = startColor;
+                    Console.WriteLine($"===== {group.Key} =====");
 
-                    Console.Write(" - ");
+                    foreach (var cmd in group.OrderBy(c => c.Name))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write($"{cmd.Name,-12}");
 
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.WriteLine(cmd.Description);
-                    Console.ForegroundColor = startColor;
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.WriteLine(cmd.Description);
+                        Console.ForegroundColor = startColor;
+                    }
                 }
 
                 return CommandReturnCode.Success;
@@ -51,6 +61,7 @@ namespace Katro.Shell.Commands
 
             Console.WriteLine($"{command.Name} - {command.Description}");
             Console.WriteLine($"Usage: {command.Usage}");
+            Console.WriteLine($"Category: {command.Category}");
 
             return CommandReturnCode.Success;
         }

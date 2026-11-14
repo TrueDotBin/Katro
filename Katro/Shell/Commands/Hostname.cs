@@ -1,5 +1,6 @@
 ﻿using Katro.Configuration;
 using Katro.Constants.Shell;
+using Katro.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,9 @@ namespace Katro.Shell.Commands
 
         /// <inheritdoc/>
         public override string Usage { get; } = "hostname [value]";
+
+        /// <inheritdoc/>
+        public override CommandCategory Category { get; } = CommandCategory.System;
 
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)

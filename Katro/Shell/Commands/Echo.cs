@@ -1,4 +1,5 @@
 ﻿using Katro.Constants.Shell;
+using Katro.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +19,9 @@ namespace Katro.Shell.Commands
 
         /// <inheritdoc/>
         public override string Usage { get; } = "echo [message]";
+
+        /// <inheritdoc/>
+        public override CommandCategory Category { get; } = CommandCategory.Core;
 
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
