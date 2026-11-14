@@ -3,6 +3,7 @@ using Katro.Constants.FileSystem;
 using Katro.Shell.Commands;
 using Katro.Shell.Commands.Core;
 using Katro.Shell.Commands.System;
+using Katro.Shell.Commands.FileSystem;
 using TrueDotBin.CosmosUtils.Logging;
 
 namespace Katro.Shell
@@ -57,6 +58,7 @@ namespace Katro.Shell
             Commands.Add(new Hostname());
             Commands.Add(new Shutdown());
             Commands.Add(new Reboot());
+            Commands.Add(new FsStat());
         }
 
         /// <summary>
