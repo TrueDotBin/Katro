@@ -18,7 +18,8 @@ namespace Katro
             ServiceHost.StartAll
             (
                 new ConsoleFontService(),
-                new FileSystemService()
+                new FileSystemService(),
+                new ConfigService()
             );
 
             _shell = new KatroShell();
@@ -28,6 +29,11 @@ namespace Katro
         protected override void Run()
         {
             _shell.Run();
+        }
+
+        protected override void AfterRun()
+        {
+            ServiceHost.StopAll();
         }
     }
 }
