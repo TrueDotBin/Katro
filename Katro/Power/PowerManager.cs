@@ -14,8 +14,6 @@ namespace Katro.Power
         private static void Cleanup()
         {
             Console.WriteLine("See you next time!");
-
-            SystemConfig.Save();
             ServiceHost.StopAll();
         }
 
