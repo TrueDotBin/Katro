@@ -56,6 +56,8 @@ namespace Katro.Shell
             Commands.Add(new Help());
             Commands.Add(new Echo());
             Commands.Add(new Hostname());
+            Commands.Add(new Shutdown());
+            Commands.Add(new Reboot());
         }
 
         /// <summary>
