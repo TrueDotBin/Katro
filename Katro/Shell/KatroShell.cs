@@ -1,4 +1,5 @@
-﻿using Katro.Constants.FileSystem;
+﻿using Katro.Configuration;
+using Katro.Constants.FileSystem;
 using Katro.Shell.Commands;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Katro.Shell
     /// </summary>
     public sealed class KatroShell
     {
+        private const string DefaultHostname = "katro";
         private static Logger s_logger = new("Katro Shell");
 
         /// <summary>
@@ -27,9 +29,10 @@ namespace Katro.Shell
         private void WritePrompt()
         {
             var startColor = Console.ForegroundColor;
+            var hostname = SystemConfig.Get("hostname", DefaultHostname);
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("katro");
+            Console.Write(hostname);
             Console.ForegroundColor = startColor;
 
             Console.Write("@");
