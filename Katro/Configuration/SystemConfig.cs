@@ -58,5 +58,22 @@ namespace Katro.Configuration
 
             File.WriteAllText(ConfigFilePath, sb.ToString());
         }
+
+        /// <summary>
+        /// Gets a value from the configuration.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
+        /// <param name="defaultValue">The default value if the setting was not found.</param>
+        public static string Get(string key, string defaultValue = "")
+            => _values.TryGetValue(key, out var value) ? value : defaultValue;
+
+
+        /// <summary>
+        /// Sets a value to the configuration.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
+        /// <param name="value">The new value of the setting..</param>
+        public static void Set(string key, string value)
+            => _values[key] = value;
     }
 }
