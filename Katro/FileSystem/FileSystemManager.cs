@@ -112,7 +112,7 @@ namespace Katro.FileSystem
 
             Logger.Log(LogLevel.Info, $"Mounting root partition to {MountPoints.RootPartition}");
 
-            if (!VfsManager.TryMount(FileSystemDriverNames.FatDriverName, rootPartition, MountFlags.None, MountPoints.RootPartition, out var mount))
+            if (VfsManager.TryMount(FileSystemDriverNames.FatDriverName, rootPartition, MountFlags.None, MountPoints.RootPartition, out var mount))
                 Initialized = true;
             else
                 Logger.Log(LogLevel.Error, "Failed to mount root partition");
