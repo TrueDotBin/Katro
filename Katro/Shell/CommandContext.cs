@@ -57,10 +57,17 @@ namespace Katro.Shell
         /// <param name="position">The index of the argument.</param>
         public string GetArgument(int position)
         {
-            if (position < 0 || position > Args.Count)
-                return string.Empty;
+            try
+            {
+                if (position < 0 || position > Args.Count)
+                    return string.Empty;
 
-            return Args[position];
+                return Args[position];
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
     }
 }
