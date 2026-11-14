@@ -12,7 +12,7 @@ namespace Katro.Shell
         /// <summary>
         /// The shell that ran this command.
         /// </summary>
-        public KatroShell? Shell { get; set; }
+        public KatroShell Shell { get; set; }
 
         /// <summary>
         /// The user's input.
