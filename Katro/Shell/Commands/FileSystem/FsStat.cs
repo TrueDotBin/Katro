@@ -27,18 +27,6 @@ namespace Katro.Shell.Commands.FileSystem
         /// <inheritdoc/>
         public override CommandCategory Category { get; } = CommandCategory.FileSystem;
 
-        private static void PrintInfoLine(string label, object value)
-        {
-            var startColor = Console.ForegroundColor;
-
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write($"{label,-20}");
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine(value);
-            Console.ForegroundColor = startColor;
-        }
-
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
         {
@@ -49,23 +37,23 @@ namespace Katro.Shell.Commands.FileSystem
 
             if (nerdMode)
             {
-                Console.WriteLine("===== File System Info =====");
+                Terminal.Heading("File System Info");
 
-                PrintInfoLine("Available Blocks", stat.AvailableBlocks);
-                PrintInfoLine("Free Blocks", stat.FreeBlocks);
-                PrintInfoLine("Block Size", stat.BlockSize);
-                PrintInfoLine("Blocks", stat.Blocks);
+                Terminal.InfoLine("Available Blocks", stat.AvailableBlocks);
+                Terminal.InfoLine("Free Blocks", stat.FreeBlocks);
+                Terminal.InfoLine("Block Size", stat.BlockSize);
+                Terminal.InfoLine("Blocks", stat.Blocks);
 
-                PrintInfoLine("Fragment Size", stat.FragmentSize);
+                Terminal.InfoLine("Fragment Size", stat.FragmentSize);
 
-                PrintInfoLine("Free Inodes", stat.FreeInodes);
-                PrintInfoLine("Inodes", stat.Inodes);
+                Terminal.InfoLine("Free Inodes", stat.FreeInodes);
+                Terminal.InfoLine("Inodes", stat.Inodes);
 
-                PrintInfoLine("Max Name Length", stat.MaxNameLength);
+                Terminal.InfoLine("Max Name Length", stat.MaxNameLength);
             }
             else
             {
-                Console.WriteLine("===== File System Info =====");
+                Terminal.Heading("File System Info");
 
                 var totalSize = stat.Blocks * stat.BlockSize;
                 var freeSpace = stat.FreeBlocks * stat.BlockSize;
@@ -75,10 +63,10 @@ namespace Katro.Shell.Commands.FileSystem
 
                 var usedSpace = usedBlocks * stat.BlockSize;
 
-                PrintInfoLine("Total Size", FileSizeFormatter.FormatSize(totalSize));
-                PrintInfoLine("Free Space", FileSizeFormatter.FormatSize(freeSpace));
-                PrintInfoLine("Used Space", FileSizeFormatter.FormatSize(usedSpace));
-                PrintInfoLine("Usage", $"{usedPercent:F1}%");
+                Terminal.InfoLine("Total Size", FileSizeFormatter.FormatSize(totalSize));
+                Terminal.InfoLine("Free Space", FileSizeFormatter.FormatSize(freeSpace));
+                Terminal.InfoLine("Used Space", FileSizeFormatter.FormatSize(usedSpace));
+                Terminal.InfoLine("Usage", $"{usedPercent:F1}%");
             }
 
             return CommandReturnCode.Success;

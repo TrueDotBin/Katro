@@ -38,16 +38,11 @@ namespace Katro.Shell.Commands.Core
 
                 foreach (var group in groups)
                 {
-                    Console.WriteLine($"===== {group.Key} =====");
+                    Terminal.Heading(group.Key);
 
                     foreach (var cmd in group.OrderBy(c => c.Name))
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write($"{cmd.Name,-12}");
-
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine(cmd.Description);
-                        Console.ForegroundColor = startColor;
+                        Terminal.InfoLine(cmd.Name, cmd.Description);
                     }
                 }
 
