@@ -73,10 +73,17 @@ namespace Katro.FileSystem
 
             Logger.Log(LogLevel.Info, "Finding primary disk");
 
-            var primary = StorageManager.PrimaryDevice;
+            var primary = StorageManager.Devices.FirstOrDefault(d =>
+            {
+                if (d is IRemovableMedia removable)
+                    return !removable.IsReadOnly;
+
+                return true;
+            });
+
             if (primary is null)
             {
-                Logger.Log(LogLevel.Error, "No primary disk found");
+                Logger.Log(LogLevel.Error, "No writable disk found");
                 return;
             }
 
