@@ -23,5 +23,10 @@ namespace Katro.Constants.Shell
         /// Indicates a general failure.
         /// </summary>
         public const int GeneralFailure = 1;
+
+        /// <summary>
+        /// Indicates that a file or directory was not found.
+        /// </summary>
+        public const int NoEntry = 2;
     }
 }
