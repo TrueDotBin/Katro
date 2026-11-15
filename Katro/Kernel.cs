@@ -2,6 +2,7 @@ using Katro.FileSystem;
 using Katro.Services;
 using Katro.Services.Core;
 using Katro.Shell;
+using TrueDotBin.CosmosUtils;
 using Sys = Cosmos.Kernel.System;
 
 namespace Katro
@@ -15,6 +16,11 @@ namespace Katro
 
         protected override void BeforeRun()
         {
+            Defaults.DefaultOutputFormat = new()
+            {
+                ShowSource = true
+            };
+
             ServiceHost.StartAll
             (
                 new ConsoleFontService(),
