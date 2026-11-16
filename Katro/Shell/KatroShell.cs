@@ -64,6 +64,7 @@ namespace Katro.Shell
             Commands.Add(new Cd());
             Commands.Add(new Mkdir());
             Commands.Add(new Rm());
+            Commands.Add(new Touch());
         }
 
         /// <summary>
