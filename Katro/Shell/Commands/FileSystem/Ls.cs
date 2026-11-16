@@ -20,7 +20,7 @@ namespace Katro.Shell.Commands.FileSystem
         public override string Description { get; } = "Lists all files and directories.";
 
         /// <inheritdoc/>
-        public override string Usage { get; } = "ls [path]";
+        public override string Usage { get; } = "ls [--long] [path]";
 
         /// <inheritdoc/>
         public override CommandCategory Category { get; } = CommandCategory.FileSystem;
@@ -37,6 +37,8 @@ namespace Katro.Shell.Commands.FileSystem
             if (!Directory.Exists(path))
                 return CommandReturnCode.NoEntry;
 
+            var longOutput = ctx.HasFlag("long");
+
             var dirInfo = new DirectoryInfo(path);
 
             var entries = dirInfo.EnumerateFileSystemInfos();
@@ -48,11 +50,19 @@ namespace Katro.Shell.Commands.FileSystem
 
             foreach (var entry in entries)
             {
-                var typeColor = entry is DirectoryInfo ? ConsoleColor.Yellow : ConsoleColor.White;
-                var size = entry is FileInfo f ? FileSizeFormatter.FormatSize((ulong)f.Length) : "-";
                 var name = entry.Name + (entry is DirectoryInfo ? "/" : "");
 
-                Terminal.WriteLineColored($"{size,8} {name}", typeColor);
+                if (longOutput)
+                {
+                    var typeColor = entry is DirectoryInfo ? ConsoleColor.Yellow : ConsoleColor.White;
+                    var size = entry is FileInfo f ? FileSizeFormatter.FormatSize((ulong)f.Length) : "-";
+
+                    Terminal.WriteLineColored($"{size,8} {name}", typeColor);
+                }
+                else
+                {
+                    Console.WriteLine(name);
+                }
             }
 
             return CommandReturnCode.Success;
