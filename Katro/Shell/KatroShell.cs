@@ -68,6 +68,7 @@ namespace Katro.Shell
             Commands.Add(new Cat());
             Commands.Add(new Pwd());
             Commands.Add(new Copy());
+            Commands.Add(new Mv());
         }
 
         /// <summary>
