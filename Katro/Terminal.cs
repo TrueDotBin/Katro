@@ -73,5 +73,22 @@ namespace Katro
             Console.ForegroundColor = oldFg;
             Console.BackgroundColor = oldBg;
         }
+
+        /// <summary>
+        /// Displays a formatted C# exception.
+        /// </summary>
+        /// <param name="ex">The exception that should be displayed.</param>
+        public static void CSharpException(Exception ex)
+        {
+            WriteLineColored(ex.Message, ConsoleColor.Red);
+
+            if (!string.IsNullOrEmpty(ex.StackTrace))
+            {
+                Console.WriteLine();
+
+                Heading("Stack Trace");
+                WriteLineColored(ex.StackTrace, ConsoleColor.Red);
+            }
+        }
     }
 }

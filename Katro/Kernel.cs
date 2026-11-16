@@ -34,7 +34,14 @@ namespace Katro
 
         protected override void Run()
         {
-            _shell.Run();
+            try
+            {
+                _shell.Run();
+            }
+            catch (Exception ex)
+            {
+                Terminal.CSharpException(ex);
+            }
         }
 
         protected override void AfterRun()
