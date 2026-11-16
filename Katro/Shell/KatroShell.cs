@@ -63,6 +63,7 @@ namespace Katro.Shell
             Commands.Add(new Clear());
             Commands.Add(new Cd());
             Commands.Add(new Mkdir());
+            Commands.Add(new Rm());
         }
 
         /// <summary>
