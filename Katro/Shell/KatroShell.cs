@@ -60,6 +60,7 @@ namespace Katro.Shell
             Commands.Add(new Reboot());
             Commands.Add(new FsStat());
             Commands.Add(new Ls());
+            Commands.Add(new Clear());
         }
 
         /// <summary>
