@@ -98,5 +98,11 @@ namespace Katro.Services
                 Start(service);
             }
         }
+
+        /// <summary>
+        /// Gets all the currently running services.
+        /// </summary>
+        public static IReadOnlyList<KernelService> GetServices()
+            => _services;
     }
 }
