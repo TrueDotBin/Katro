@@ -67,6 +67,7 @@ namespace Katro.Shell
             Commands.Add(new Touch());
             Commands.Add(new Cat());
             Commands.Add(new Pwd());
+            Commands.Add(new Copy());
         }
 
         /// <summary>
