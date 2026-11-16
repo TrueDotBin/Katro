@@ -61,6 +61,7 @@ namespace Katro.Shell
             Commands.Add(new FsStat());
             Commands.Add(new Ls());
             Commands.Add(new Clear());
+            Commands.Add(new Cd());
         }
 
         /// <summary>

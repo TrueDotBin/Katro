@@ -28,5 +28,10 @@ namespace Katro.Constants.Shell
         /// Indicates that a file or directory was not found.
         /// </summary>
         public const int NoEntry = 2;
+
+        /// <summary>
+        /// Indicates that a required argument was not provided.
+        /// </summary>
+        public const int MissingArgument = 3;
     }
 }
