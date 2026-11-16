@@ -29,6 +29,7 @@ namespace Katro.Shell.Commands.FileSystem
         public override int Execute(CommandContext ctx)
         {
             var path = ctx.GetArgument(0);
+            path = Path.GetFullPath(path);
 
             if (string.IsNullOrEmpty(path))
                 return CommandReturnCode.MissingArgument;
@@ -36,7 +37,6 @@ namespace Katro.Shell.Commands.FileSystem
             if (!Directory.Exists(path))
                 return CommandReturnCode.NoEntry;
 
-            path = Path.GetFullPath(path);
             ctx.Shell.CurrentDirectory = path;
 
             return CommandReturnCode.Success;

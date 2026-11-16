@@ -33,6 +33,8 @@ namespace Katro.Shell.Commands.FileSystem
             if (string.IsNullOrEmpty(path))
                 path = ctx.Shell.CurrentDirectory;
 
+            path = Path.GetFullPath(path);
+
             if (!Directory.Exists(path))
                 return CommandReturnCode.NoEntry;
 
