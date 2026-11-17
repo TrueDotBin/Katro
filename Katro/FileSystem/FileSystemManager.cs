@@ -40,10 +40,22 @@ namespace Katro.FileSystem
             var createSuccess = PartitionUtility.CreateFull(device, MbrSystemId.Fat32Lba,
                 Gpt.BasicDataPartitionType, out partition);
 
+            if (!createSuccess)
+            {
+                Logger.Log(LogLevel.Error, "Failed to create partition");
+                return false;
+            }
+
             if (partition == null)
                 return false;
 
             var formatSuccess = VfsManager.TryFormat(FileSystemDriverNames.FatDriverName, partition, formatOpts);
+
+            if (!formatSuccess)
+            {
+                Logger.Log(LogLevel.Error, "Failed to format partition");
+                return false;
+            }
 
             return createSuccess && formatSuccess;
         }
@@ -100,6 +112,7 @@ namespace Katro.FileSystem
             if (!Gpt.IsGpt(device) && !Mbr.IsMbr(device))
             {
                 Logger.Log(LogLevel.Warning, "No partition table found, creating a GPT partition table");
+
                 Gpt.Create(device);
             }
 
