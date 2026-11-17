@@ -30,43 +30,47 @@ namespace Katro.Shell.Commands.FileSystem
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
         {
-            if (!VfsManager.TryStatFs(MountPoints.RootPartition, out var stat))
-                return CommandReturnCode.GeneralFailure;
-
             var nerdMode = ctx.HasFlag("nerds");
 
-            if (nerdMode)
+            foreach (var mount in VfsManager.Mounts)
             {
-                Terminal.Heading("File System Info");
+                if (!VfsManager.TryStatFs(mount.MountPoint, out var stat))
+                {
+                    Console.WriteLine($"Failed to stat {mount.MountPoint}");
+                    continue;
+                }
 
-                Terminal.InfoLine("Available Blocks", stat.AvailableBlocks);
-                Terminal.InfoLine("Free Blocks", stat.FreeBlocks);
-                Terminal.InfoLine("Block Size", stat.BlockSize);
-                Terminal.InfoLine("Blocks", stat.Blocks);
+                Terminal.Heading($"File System Info for {mount.MountPoint}");
 
-                Terminal.InfoLine("Fragment Size", stat.FragmentSize);
+                if (nerdMode)
+                {
+                    Terminal.InfoLine("Available Blocks", stat.AvailableBlocks);
+                    Terminal.InfoLine("Free Blocks", stat.FreeBlocks);
+                    Terminal.InfoLine("Block Size", stat.BlockSize);
+                    Terminal.InfoLine("Blocks", stat.Blocks);
 
-                Terminal.InfoLine("Free Inodes", stat.FreeInodes);
-                Terminal.InfoLine("Inodes", stat.Inodes);
+                    Terminal.InfoLine("Fragment Size", stat.FragmentSize);
 
-                Terminal.InfoLine("Max Name Length", stat.MaxNameLength);
-            }
-            else
-            {
-                Terminal.Heading("File System Info");
+                    Terminal.InfoLine("Free Inodes", stat.FreeInodes);
+                    Terminal.InfoLine("Inodes", stat.Inodes);
 
-                var totalSize = stat.Blocks * stat.BlockSize;
-                var freeSpace = stat.FreeBlocks * stat.BlockSize;
+                    Terminal.InfoLine("Max Name Length", stat.MaxNameLength);
+                }
+                else
+                {
+                    var totalSize = stat.Blocks * stat.BlockSize;
+                    var freeSpace = stat.FreeBlocks * stat.BlockSize;
 
-                var usedBlocks = stat.Blocks - stat.FreeBlocks;
-                var usedPercent = (double)usedBlocks / stat.Blocks * 100;
+                    var usedBlocks = stat.Blocks - stat.FreeBlocks;
+                    var usedPercent = (double)usedBlocks / stat.Blocks * 100;
 
-                var usedSpace = usedBlocks * stat.BlockSize;
+                    var usedSpace = usedBlocks * stat.BlockSize;
 
-                Terminal.InfoLine("Total Size", FileSizeFormatter.FormatSize(totalSize));
-                Terminal.InfoLine("Free Space", FileSizeFormatter.FormatSize(freeSpace));
-                Terminal.InfoLine("Used Space", FileSizeFormatter.FormatSize(usedSpace));
-                Terminal.InfoLine("Usage", $"{usedPercent:F1}%");
+                    Terminal.InfoLine("Total Size", FileSizeFormatter.FormatSize(totalSize));
+                    Terminal.InfoLine("Free Space", FileSizeFormatter.FormatSize(freeSpace));
+                    Terminal.InfoLine("Used Space", FileSizeFormatter.FormatSize(usedSpace));
+                    Terminal.InfoLine("Usage", $"{usedPercent:F1}%");
+                }
             }
 
             return CommandReturnCode.Success;
