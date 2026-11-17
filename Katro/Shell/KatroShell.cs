@@ -71,6 +71,7 @@ namespace Katro.Shell
             Commands.Add(new Mv());
             Commands.Add(new Commands.System.Services());
             Commands.Add(new Gc());
+            Commands.Add(new SysInfo());
         }
 
         /// <summary>
