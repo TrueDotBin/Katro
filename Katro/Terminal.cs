@@ -38,7 +38,7 @@ namespace Katro
         /// <param name="value">The value to display.</param>
         public static void InfoLine(string label, object value)
         {
-            WriteColored($"{label,-20}", ConsoleColor.Yellow);
+            WriteColored($"{label,-30}", ConsoleColor.Yellow);
             WriteLineColored(value, ConsoleColor.Gray);
         }
 
