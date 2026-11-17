@@ -99,11 +99,14 @@ namespace Katro
         /// <returns>The index of the selected option.</returns>
         public static int Select(string prompt, params IEnumerable<string> options)
         {
-            Console.WriteLine(prompt);
-
             var optionList = options.ToList();
             if (optionList.Count == 0)
                 return -1;
+
+            if (optionList.Count == 1)
+                return 0; // first element, there's no point in asking the user for a choice
+
+            Console.WriteLine(prompt);
 
             var currentChoice = 0;
             var startTop = Console.CursorTop;
