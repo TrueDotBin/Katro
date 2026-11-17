@@ -1,5 +1,6 @@
 ﻿using Cosmos.Kernel.HAL.Devices.Storage;
 using Cosmos.Kernel.System.FileSystem;
+using Cosmos.Kernel.System.FileSystem.Ext2;
 using Cosmos.Kernel.System.FileSystem.Fat;
 using Cosmos.Kernel.System.Storage;
 using Katro.Constants.FileSystem;
@@ -61,12 +62,23 @@ namespace Katro.FileSystem
         }
 
         /// <summary>
-        /// Registers the FAT driver to the file system.
+        /// Registers the file system drivers.
         /// </summary>
-        public static bool RegisterFatDriver()
+        public static bool RegisterDrivers()
         {
             var fat = new FatFileSystemType();
-            return VfsManager.RegisterFileSystem(FileSystemDriverNames.FatDriverName, fat);
+            var fatSuccess = VfsManager.RegisterFileSystem(FileSystemDriverNames.FatDriverName, fat);
+
+            var ext = new Ext2FileSystemType();
+            var extSuccess = VfsManager.RegisterFileSystem(FileSystemDriverNames.ExtDriverName, ext);
+
+            if (!fatSuccess)
+                Logger.Log(LogLevel.Error, "Failed to register FAT driver");
+
+            if (!extSuccess)
+                Logger.Log(LogLevel.Error, "Failed to register ext2 driver");
+
+            return fatSuccess || extSuccess; 
         }
 
         /// <summary>
@@ -97,11 +109,11 @@ namespace Katro.FileSystem
                 return partitions.ElementAt(index);
             }
 
-            Logger.Log(LogLevel.Info, $"Registering FAT driver as \"{FileSystemDriverNames.FatDriverName}\"");
+            Logger.Log(LogLevel.Info, $"Registering file system drivers");
 
-            if (!RegisterFatDriver())
+            if (!RegisterDrivers())
             {
-                Logger.Log(LogLevel.Error, "Failed to register FAT driver");
+                Logger.Log(LogLevel.Error, "Failed to register drivers");
                 return;
             }
 

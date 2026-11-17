@@ -13,5 +13,10 @@ namespace Katro.Constants.FileSystem
         /// The name of the FAT32 driver.
         /// </summary>
         public const string FatDriverName = "fat";
+
+        /// <summary>
+        /// The name of the ext2 driver.
+        /// </summary>
+        public const string ExtDriverName = "ext";
     }
 }
