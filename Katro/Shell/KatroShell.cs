@@ -70,6 +70,7 @@ namespace Katro.Shell
             Commands.Add(new Copy());
             Commands.Add(new Mv());
             Commands.Add(new Commands.System.Services());
+            Commands.Add(new Gc());
         }
 
         /// <summary>
