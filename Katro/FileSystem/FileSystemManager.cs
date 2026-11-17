@@ -23,7 +23,6 @@ namespace Katro.FileSystem
         /// </summary>
         public static bool Initialized { get; private set; }
 
-
         /// <summary>
         /// Creates and formats the root partition.
         /// </summary>
@@ -63,6 +62,29 @@ namespace Katro.FileSystem
         /// </summary>
         public static void Initialize()
         {
+            IBlockDevice AskForDevice()
+            {
+                var devices = StorageManager.Devices;
+                var writableDevices = devices.Where(d =>
+                {
+                    if (d is IRemovableMedia removable && removable.IsReadOnly)
+                        return false;
+
+                    return true;
+                });
+
+                var writableDeviceNames = writableDevices.Select(d => d.Name);
+                var index = Terminal.Select("Select a device:", writableDeviceNames);
+                return devices[index];
+            }
+
+            Partition AskForPartition(string hostName, IEnumerable<Partition> partitions)
+            {
+                var partitionNames = partitions.Select(p => $"{p.Name} (start={p.StartSector}, blockSize={p.BlockSize}, blocks={p.BlockCount})");
+                var index = Terminal.Select($"Select a partition on {hostName}:", partitionNames);
+                return partitions.ElementAt(index);
+            }
+
             Logger.Log(LogLevel.Info, $"Registering FAT driver as \"{FileSystemDriverNames.FatDriverName}\"");
 
             if (!RegisterFatDriver())
@@ -73,33 +95,22 @@ namespace Katro.FileSystem
 
             Logger.Log(LogLevel.Info, "Finding primary disk");
 
-            var primary = StorageManager.Devices.FirstOrDefault(d =>
-            {
-                if (d is IRemovableMedia removable)
-                    return !removable.IsReadOnly;
+            var device = AskForDevice();
 
-                return true;
-            });
-
-            if (primary is null)
-            {
-                Logger.Log(LogLevel.Error, "No writable disk found");
-                return;
-            }
-
-            if (!Gpt.IsGpt(primary) && !Mbr.IsMbr(primary))
+            if (!Gpt.IsGpt(device) && !Mbr.IsMbr(device))
             {
                 Logger.Log(LogLevel.Warning, "No partition table found, creating a GPT partition table");
-                Gpt.Create(primary);
+                Gpt.Create(device);
             }
 
             Partition? rootPartition;
 
-            if (StorageManager.Partitions.Count == 0)
+            var partitions = StorageManager.GetPartitions(device);
+            if (partitions.Count == 0)
             {
                 Logger.Log(LogLevel.Info, "Creating and formatting root partition");
 
-                if (!CreateRootPartition(primary, out rootPartition))
+                if (!CreateRootPartition(device, out rootPartition))
                 {
                     Logger.Log(LogLevel.Error, "Failed to create root partition");
                     return;
@@ -107,8 +118,7 @@ namespace Katro.FileSystem
             }
             else
             {
-                Logger.Log(LogLevel.Info, "Finding root partition");
-                rootPartition = StorageManager.Partitions[0];
+                rootPartition = AskForPartition(device.Name, partitions);
             }
 
             if (rootPartition is null)
@@ -117,12 +127,12 @@ namespace Katro.FileSystem
                 return;
             }
 
-            Logger.Log(LogLevel.Info, $"Mounting root partition to {MountPoints.RootPartition}");
+            Logger.Log(LogLevel.Info, $"Mounting \"{rootPartition.Name}\" to {MountPoints.RootPartition}");
 
             if (VfsManager.TryMount(FileSystemDriverNames.FatDriverName, rootPartition, MountFlags.None, MountPoints.RootPartition, out var mount))
                 Initialized = true;
             else
-                Logger.Log(LogLevel.Error, "Failed to mount root partition");
+                Logger.Log(LogLevel.Error, "Failed to mount partition");
         }
     }
 }
