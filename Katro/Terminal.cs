@@ -90,5 +90,55 @@ namespace Katro
                 WriteLineColored(ex.StackTrace, ConsoleColor.Red);
             }
         }
+
+        /// <summary>
+        /// Displays an interactive selection prompt.
+        /// </summary>
+        /// <param name="prompt">The text to display above the options.</param>
+        /// <param name="options">The list of options to select from.</param>
+        /// <returns>The index of the selected option.</returns>
+        public static int Select(string prompt, params IEnumerable<string> options)
+        {
+            Console.WriteLine(prompt);
+
+            var optionList = options.ToList();
+            if (optionList.Count == 0)
+                return -1;
+
+            var currentChoice = 0;
+            var startTop = Console.CursorTop;
+            var optionsLength = optionList.Count;
+
+            while (true)
+            {
+                Console.CursorTop = startTop;
+
+                for (int i = 0; i < optionsLength; i++)
+                {
+                    var optionLabel = optionList[i];
+
+                    if (i == currentChoice)
+                        WriteLineColored($"> {optionLabel}", ConsoleColor.White);
+                    else
+                        WriteLineColored($"  {optionLabel}", ConsoleColor.DarkGray);
+                }
+
+                var key = Console.ReadKey(true).Key;
+
+                if (key == ConsoleKey.UpArrow && currentChoice > 0)
+                {
+                    currentChoice--;
+                }
+                else if (key == ConsoleKey.DownArrow && currentChoice < optionsLength - 1)
+                {
+                    currentChoice++;
+                }
+                else if (key == ConsoleKey.Enter)
+                {
+                    Console.CursorTop = startTop + optionsLength;
+                    return currentChoice;
+                }
+            }
+        }
     }
 }
