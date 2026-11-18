@@ -32,13 +32,12 @@ namespace Katro.FileSystem
         /// <returns>Whether the partition was created and formatted successfully.</returns>
         public static bool CreateRootPartition(IBlockDevice device, out Partition? partition)
         {
-            var formatOpts = new FatFormatOptions()
+            var formatOpts = new Ext2FormatOptions()
             {
-                VolumeLabel = "KATRO",
-                Type = FatType.Fat32
+                VolumeLabel = "Katro"
             };
 
-            var createSuccess = PartitionUtility.CreateFull(device, MbrSystemId.Fat32Lba,
+            var createSuccess = PartitionUtility.CreateFull(device, MbrSystemId.Linux,
                 Gpt.BasicDataPartitionType, out partition);
 
             if (!createSuccess)
@@ -50,7 +49,7 @@ namespace Katro.FileSystem
             if (partition == null)
                 return false;
 
-            var formatSuccess = VfsManager.TryFormat(FileSystemDriverNames.FatDriverName, partition, formatOpts);
+            var formatSuccess = VfsManager.TryFormat(FileSystemDriverNames.ExtDriverName, partition, formatOpts);
 
             if (!formatSuccess)
             {
@@ -154,7 +153,7 @@ namespace Katro.FileSystem
 
             Logger.Log(LogLevel.Info, $"Mounting \"{rootPartition.Name}\" to {MountPoints.RootPartition}");
 
-            if (VfsManager.TryMount(FileSystemDriverNames.FatDriverName, rootPartition, MountFlags.None, MountPoints.RootPartition, out var mount))
+            if (VfsManager.TryMount(FileSystemDriverNames.ExtDriverName, rootPartition, MountFlags.None, MountPoints.RootPartition, out var mount))
                 Initialized = true;
             else
                 Logger.Log(LogLevel.Error, "Failed to mount partition");
