@@ -27,6 +27,11 @@ namespace Katro.Shell.Commands.System
         {
             var usableMemoryFormatted = FileSizeFormatter.FormatSize(MemoryDiagnostics.RamSizeBytes);
 
+            Terminal.Heading("System Info");
+            Terminal.InfoLine("Version", Info.Version);
+            Terminal.InfoLine("Developer", Info.Developer);
+            Console.WriteLine();
+
             Terminal.Heading("Memory Info");
             Terminal.InfoLine("Usable Memory", usableMemoryFormatted);
             Terminal.InfoLine("Page Size", $"{MemoryDiagnostics.PageSizeBytes} bytes");
