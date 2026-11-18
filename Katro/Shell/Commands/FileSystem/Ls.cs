@@ -56,8 +56,9 @@ namespace Katro.Shell.Commands.FileSystem
                 {
                     var typeColor = entry is DirectoryInfo ? ConsoleColor.Yellow : ConsoleColor.White;
                     var size = entry is FileInfo f ? FileSizeFormatter.FormatSize((ulong)f.Length) : "-";
+                    var date = entry.LastWriteTime.ToString("dd/MM/yyyy HH:mm:ss");
 
-                    Terminal.WriteLineColored($"{size,8} {name}", typeColor);
+                    Terminal.WriteLineColored($"{date} {size,8} {name}", typeColor);
                 }
                 else
                 {
