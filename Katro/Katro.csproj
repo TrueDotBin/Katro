@@ -18,7 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Cosmos.Kernel" Version="3.0.97" />
     <PackageReference Include="Cosmos.Kernel.System" Version="3.0.97" />
-    <PackageReference Include="TrueDotBin.CosmosUtils" Version="2.1.0" />
+    <PackageReference Include="TrueDotBin.CosmosUtils" Version="2.1.1" />
   </ItemGroup>
 
 </Project>
