@@ -5,6 +5,7 @@ using Katro.Shell.Commands.Core;
 using Katro.Shell.Commands.System;
 using Katro.Shell.Commands.FileSystem;
 using TrueDotBin.CosmosUtils.Logging;
+using Katro.Shell.Commands.Audio;
 
 namespace Katro.Shell
 {
@@ -72,6 +73,7 @@ namespace Katro.Shell
             Commands.Add(new Commands.System.Services());
             Commands.Add(new Gc());
             Commands.Add(new SysInfo());
+            Commands.Add(new Beep());
         }
 
         /// <summary>

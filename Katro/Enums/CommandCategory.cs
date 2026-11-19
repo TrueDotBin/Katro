@@ -22,6 +22,11 @@ namespace Katro.Enums
         /// <summary>
         /// This command inspects or modifies the system's state.
         /// </summary>
-        System
+        System,
+
+        /// <summary>
+        /// This command makes sound.
+        /// </summary>
+        Audio
     }
 }
