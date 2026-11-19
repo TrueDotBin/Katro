@@ -74,6 +74,7 @@ namespace Katro.Shell
             Commands.Add(new Gc());
             Commands.Add(new SysInfo());
             Commands.Add(new Beep());
+            Commands.Add(new Play());
         }
 
         /// <summary>
