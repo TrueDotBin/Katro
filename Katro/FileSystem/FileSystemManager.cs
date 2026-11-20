@@ -4,6 +4,7 @@ using Cosmos.Kernel.System.FileSystem.Ext2;
 using Cosmos.Kernel.System.FileSystem.Fat;
 using Cosmos.Kernel.System.Storage;
 using Katro.Constants.FileSystem;
+using Katro.Output;
 using TrueDotBin.CosmosUtils.FileSystem;
 using TrueDotBin.CosmosUtils.Logging;
 

@@ -2,6 +2,7 @@
 using Katro.Enums;
 using Cosmos.Kernel.System.Diagnostics;
 using Katro.FileSystem;
+using Katro.Output;
 
 namespace Katro.Shell.Commands.System
 {

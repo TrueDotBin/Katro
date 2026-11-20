@@ -1,6 +1,7 @@
 ﻿using Katro.Constants.Shell;
 using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Output;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

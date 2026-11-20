@@ -1,6 +1,7 @@
 ﻿using Katro.Configuration;
 using Katro.Constants.Shell;
 using Katro.Enums;
+using Katro.Output;
 using Katro.Services;
 using System;
 using System.Collections.Generic;

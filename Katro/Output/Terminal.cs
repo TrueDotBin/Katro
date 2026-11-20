@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Katro
+namespace Katro.Output
 {
     /// <summary>
     /// Utilities for printing fancy messages.

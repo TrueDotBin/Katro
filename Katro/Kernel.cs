@@ -1,4 +1,5 @@
 using Katro.FileSystem;
+using Katro.Output;
 using Katro.Services;
 using Katro.Services.Core;
 using Katro.Shell;

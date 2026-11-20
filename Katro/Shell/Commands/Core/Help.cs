@@ -1,5 +1,6 @@
 ﻿using Katro.Constants.Shell;
 using Katro.Enums;
+using Katro.Output;
 using System;
 using System.Collections.Generic;
 using System.Text;
