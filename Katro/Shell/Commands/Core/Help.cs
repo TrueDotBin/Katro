@@ -55,9 +55,10 @@ namespace Katro.Shell.Commands.Core
             if (command is null)
                 return CommandReturnCode.CommandNotFound;
 
-            Terminal.WriteLine($"{command.Name} - {command.Description}");
-            Terminal.WriteLine($"Usage: {command.Usage}");
-            Terminal.WriteLine($"Category: {command.Category}");
+            Terminal.InfoLine(command.Name, command.Description);
+            Terminal.InfoLine("Usage", command.Usage);
+            Terminal.InfoLine("Category", command.Category);
+            Terminal.InfoLine("Requires Superuser?", command.RequiresSuperuser ? "Yes" : "No");
 
             return CommandReturnCode.Success;
         }
