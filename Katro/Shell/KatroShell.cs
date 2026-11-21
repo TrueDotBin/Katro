@@ -75,6 +75,7 @@ namespace Katro.Shell
             Commands.Add(new Whoami());
             Commands.Add(new Su());
             Commands.Add(new Passwd());
+            Commands.Add(new AddUser());
         }
 
         /// <summary>
