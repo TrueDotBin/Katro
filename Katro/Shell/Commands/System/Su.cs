@@ -26,7 +26,12 @@ namespace Katro.Shell.Commands.System
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
         {
+            var oldUserDir = UserManager.CurrentUser.HomeDirectory;
             Terminal.AskForUser();
+
+            if (ctx.Shell.CurrentDirectory == oldUserDir)
+                ctx.Shell.CurrentDirectory = UserManager.CurrentUser.HomeDirectory;
+
             return CommandReturnCode.Success;
         }
     }
