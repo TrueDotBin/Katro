@@ -34,6 +34,7 @@ namespace Katro.Services.Core
                     UserManager.AddUser("root", string.Empty, Enums.UserType.Superuser);
 
                     Logger.Log(LogLevel.Warning, "The root account has no password, CHANGE IT IMMEDIATELY!");
+                    Logger.Log(LogLevel.Warning, "passwd root");
                 }
 
                 return true;
