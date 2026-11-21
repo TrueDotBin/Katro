@@ -3,8 +3,11 @@ using Katro.Output;
 using Katro.Services;
 using Katro.Services.Core;
 using Katro.Shell;
+using Katro.Users;
 using TrueDotBin.CosmosUtils;
 using Sys = Cosmos.Kernel.System;
+
+using Org.BouncyCastle.Crypto.Digests;
 
 namespace Katro
 {
@@ -26,10 +29,17 @@ namespace Katro
             (
                 new ConsoleFontService(),
                 new FileSystemService(),
+                new UserService(),
                 new ConfigService()
             );
 
-            _shell = new KatroShell();
+            Terminal.AskForUser();
+
+            _shell = new KatroShell
+            {
+                CurrentDirectory = UserManager.CurrentUser.HomeDirectory
+            };
+
             _shell.Initialize();
         }
 

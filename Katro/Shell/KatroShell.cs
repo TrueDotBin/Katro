@@ -10,6 +10,7 @@ using Katro.Output;
 using Katro.Output.Sinks;
 using Katro.FileSystem;
 using Katro.Constants.Shell;
+using Katro.Users;
 
 namespace Katro.Shell
 {
@@ -71,19 +72,18 @@ namespace Katro.Shell
             Commands.Add(new SysInfo());
             Commands.Add(new Beep());
             Commands.Add(new Play());
+            Commands.Add(new Whoami());
+            Commands.Add(new Su());
+            Commands.Add(new Passwd());
+            Commands.Add(new AddUser());
+            Commands.Add(new Sudo());
         }
 
         /// <summary>
-        /// Runs the input loop once.
+        /// Runs a command based on the input.
         /// </summary>
-        public void Run()
+        public void ProcessInput(string input)
         {
-            WritePrompt();
-            var input = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(input))
-                return;
-
             var (name, context, file, append) = ShellParser.Parse(input);
 
             if (context is null)
@@ -100,40 +100,75 @@ namespace Katro.Shell
                 return;
             }
 
+            context.Shell = this;
+
+            var isSuperuser = UserManager.IsType(Enums.UserType.Superuser) && UserManager.Elevated;
+            if (cmd.RequiresSuperuser && !isSuperuser)
+            {
+                s_logger.Log(LogLevel.Error, "Permission denied");
+                return;
+            }
+
             if (!string.IsNullOrEmpty(file))
             {
                 var fullPath = PathHelper.Resolve(CurrentDirectory, file);
                 Terminal.CurrentOutput = new FileSink(fullPath, append);
             }
 
-            context.Shell = this;
-            var code = cmd.Execute(context);
-
-            Terminal.CurrentOutput.Dispose(); // if its a console sink, it just wont do anything
-            Terminal.CurrentOutput = new ConsoleSink();
-
-            if (code != CommandReturnCode.Success)
+            try
             {
-                switch (code)
+                var code = cmd.Execute(context);
+
+                if (code != CommandReturnCode.Success)
                 {
-                    // this is used in the help command
-                    case CommandReturnCode.CommandNotFound:
-                        s_logger.Log(LogLevel.Error, $"Command not found");
-                        break;
+                    switch (code)
+                    {
+                        // this is used in the help command
+                        case CommandReturnCode.CommandNotFound:
+                            s_logger.Log(LogLevel.Error, $"Command not found");
+                            break;
 
-                    case CommandReturnCode.GeneralFailure:
-                        s_logger.Log(LogLevel.Error, $"Command \"{name}\" failed");
-                        break;
+                        case CommandReturnCode.GeneralFailure:
+                            s_logger.Log(LogLevel.Error, $"Command \"{name}\" failed");
+                            break;
 
-                    case CommandReturnCode.MissingArgument:
-                        s_logger.Log(LogLevel.Error, $"Missing argument for \"{name}\"");
-                        break;
+                        case CommandReturnCode.MissingArgument:
+                            s_logger.Log(LogLevel.Error, $"Missing argument for \"{name}\"");
+                            break;
 
-                    case CommandReturnCode.NoEntry:
-                        s_logger.Log(LogLevel.Error, "No such file or directory");
-                        break;
+                        case CommandReturnCode.NoEntry:
+                            s_logger.Log(LogLevel.Error, "No such file or directory");
+                            break;
+
+                        case CommandReturnCode.InvalidPermissions:
+                            s_logger.Log(LogLevel.Error, "Permission denied");
+                            break;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Terminal.CSharpException(ex);
+            }
+            finally
+            {
+                Terminal.CurrentOutput.Dispose();
+                Terminal.CurrentOutput = new ConsoleSink();
+            }
+        }
+
+        /// <summary>
+        /// Runs the input loop once.
+        /// </summary>
+        public void Run()
+        {
+            WritePrompt();
+            var input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+                return;
+
+            ProcessInput(input);
         }
     }
 }

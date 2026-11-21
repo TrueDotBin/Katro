@@ -1,4 +1,5 @@
 ﻿using Katro.Output.Sinks;
+using Katro.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -155,5 +156,33 @@ namespace Katro.Output
         /// </summary>
         public static void Clear()
             => CurrentOutput.Clear();
+        
+        /// <summary>
+        /// Prompts to select a user, then asks for its password.
+        /// </summary>
+        public static void AskForUser()
+        {
+            var users = UserManager.GetUsers();
+            var usernames = users.Select(u => u.Username);
+
+            while (true)
+            {
+                var userIndex = Select("Select a user:", usernames);
+                var username = usernames.ElementAt(userIndex);
+
+                Write($"Enter password for {username}: ");
+                var input = Console.ReadLine();
+
+                if (input is null)
+                    break;
+
+                var errorMessage = UserManager.Login(username, input);
+
+                if (string.IsNullOrEmpty(errorMessage))
+                    break;
+                else
+                    WriteLine(errorMessage);
+            }
+        }
     }
 }

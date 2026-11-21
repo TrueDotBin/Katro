@@ -31,6 +31,11 @@ namespace Katro.Shell.Commands
         public abstract CommandCategory Category { get; }
 
         /// <summary>
+        /// Whether this command requires superuser privileges.
+        /// </summary>
+        public virtual bool RequiresSuperuser { get; } = false;
+
+        /// <summary>
         /// Executes the command.
         /// </summary>
         /// <param name="ctx">The context that was generated for this command.</param>

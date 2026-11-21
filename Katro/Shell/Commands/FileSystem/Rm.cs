@@ -1,6 +1,9 @@
 ﻿using Katro.Constants.Shell;
 using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Output;
+using Katro.Security;
+using Katro.Users;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,6 +37,9 @@ namespace Katro.Shell.Commands.FileSystem
                 return CommandReturnCode.MissingArgument;
 
             path = PathHelper.Resolve(ctx.Shell.CurrentDirectory, path);
+
+            if (!PermissionHelper.CanAccessPath(path))
+                return CommandReturnCode.InvalidPermissions;
 
             var recursive = ctx.HasFlag("recursive");
 
