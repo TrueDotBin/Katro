@@ -18,6 +18,13 @@ namespace Katro.Services.Core
         public override bool Start()
         {
             FileSystemManager.Initialize();
+
+            if (FileSystemManager.Initialized)
+            {
+                Directory.CreateDirectory("/katro/etc");
+                Directory.CreateDirectory("/katro/home");
+            }
+
             return FileSystemManager.Initialized;
         }
     }
