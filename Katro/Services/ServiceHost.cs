@@ -103,6 +103,6 @@ namespace Katro.Services
         /// Gets all the currently running services.
         /// </summary>
         public static IReadOnlyList<KernelService> GetServices()
-            => _services;
+            => _services.AsReadOnly();
     }
 }
