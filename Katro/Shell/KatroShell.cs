@@ -102,7 +102,8 @@ namespace Katro.Shell
 
             context.Shell = this;
 
-            if (cmd.RequiresSuperuser && !UserManager.IsType(Enums.UserType.Superuser))
+            var isSuperuser = UserManager.IsType(Enums.UserType.Superuser) && UserManager.Elevated;
+            if (cmd.RequiresSuperuser && !isSuperuser)
             {
                 s_logger.Log(LogLevel.Error, "Permission denied");
                 return;
