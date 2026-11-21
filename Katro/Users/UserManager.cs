@@ -1,6 +1,8 @@
-﻿using Katro.Enums;
+﻿using Katro.Constants.FileSystem;
+using Katro.Enums;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Katro.Users
@@ -12,6 +14,12 @@ namespace Katro.Users
     {
         private const string InvalidUsernameChars = "/\\:*?\"<>|\0";
         private static List<User> _users = [];
+
+        /// <summary>
+        /// The path of the file that holds all users.
+        /// </summary>
+        public static readonly string UserDatabaseFilePath =
+            Path.Combine(MountPoints.RootPartition, "etc", "users");
 
         /// <summary>
         /// The currently logged in user.
@@ -61,8 +69,7 @@ namespace Katro.Users
         /// <summary>
         /// Saves each user to a file.
         /// </summary>
-        /// <param name="path">The path of the database file.</param>
-        public static void Save(string path = "/katro/etc/users")
+        public static void Save()
         {
             var sb = new StringBuilder();
 
@@ -72,19 +79,18 @@ namespace Katro.Users
                 sb.AppendLine(entry);
             }
 
-            File.WriteAllText(path, sb.ToString());
+            File.WriteAllText(UserDatabaseFilePath, sb.ToString());
         }
 
         /// <summary>
         /// Loads each user from a file.
         /// </summary>
-        /// <param name="path">The path of the database file.</param>
-        public static void Load(string path = "/katro/etc/users")
+        public static void Load()
         {
-            if (!File.Exists(path))
+            if (!File.Exists(UserDatabaseFilePath))
                 return;
 
-            var lines = File.ReadAllLines(path);
+            var lines = File.ReadAllLines(UserDatabaseFilePath);
 
             foreach (var line in lines)
             {

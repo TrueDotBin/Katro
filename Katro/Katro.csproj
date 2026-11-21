@@ -16,6 +16,7 @@
 
   <!-- Core kernel packages -->
   <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.7.0" />
     <PackageReference Include="Cosmos.Kernel" Version="3.0.99" />
     <PackageReference Include="Cosmos.Kernel.System" Version="3.0.99" />
     <PackageReference Include="TrueDotBin.CosmosUtils" Version="2.1.1" />
