@@ -3,7 +3,7 @@
 > [!WARNING]
 > Please do ***not*** try this on actual hardware! It may cause **IRREPARABLE DAMAGE** to your data. Use a virtual machine instead!
 
-A monolithic kernel made in [Cosmos gen3][cosmos-gen3]
+A [monolithic kernel][monolithic-kernel] made in [Cosmos gen3][cosmos-gen3]
 
 ## Features
 
@@ -44,3 +44,4 @@ cosmos run --disk katro.img
 
 [cosmos-gen3]: https://gocosmos.org
 [cosmos-install]: https://cosmosos.github.io/articles/user/install.html
+[monolithic-kernel]: https://en.wikipedia.org/wiki/Monolithic_kernel
