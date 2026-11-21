@@ -10,6 +10,7 @@ A [monolithic kernel][monolithic-kernel] made in [Cosmos gen3][cosmos-gen3]
 - A command-line shell
 - Support for FAT and ext2 file systems
 - A service host
+- A user system
 
 ## Roadmap
 
