@@ -10,6 +10,7 @@ using Katro.Output;
 using Katro.Output.Sinks;
 using Katro.FileSystem;
 using Katro.Constants.Shell;
+using Katro.Users;
 
 namespace Katro.Shell
 {
@@ -109,6 +110,13 @@ namespace Katro.Shell
             }
 
             context.Shell = this;
+
+            if (cmd.RequiresSuperuser && !UserManager.IsType(Enums.UserType.Superuser))
+            {
+                s_logger.Log(LogLevel.Error, "Permission denied");
+                return;
+            }
+
             var code = cmd.Execute(context);
 
             Terminal.CurrentOutput.Dispose(); // if its a console sink, it just wont do anything
@@ -133,6 +141,10 @@ namespace Katro.Shell
 
                     case CommandReturnCode.NoEntry:
                         s_logger.Log(LogLevel.Error, "No such file or directory");
+                        break;
+
+                    case CommandReturnCode.InvalidPermissions:
+                        s_logger.Log(LogLevel.Error, "Permission denied");
                         break;
                 }
             }

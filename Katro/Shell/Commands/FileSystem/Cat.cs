@@ -2,6 +2,8 @@
 using Katro.Enums;
 using Katro.FileSystem;
 using Katro.Output;
+using Katro.Security;
+using Katro.Users;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -35,7 +37,13 @@ namespace Katro.Shell.Commands.FileSystem
 
                 if (!File.Exists(path))
                 {
-                    Console.WriteLine($"No such file: {path}");
+                    Terminal.WriteLine($"No such file: {path}");
+                    continue;
+                }
+
+                if (!PermissionHelper.CanAccessPath(path))
+                {
+                    Terminal.WriteLine($"Cannot read sensitive file {path}");
                     continue;
                 }
 

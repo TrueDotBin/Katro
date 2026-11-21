@@ -1,6 +1,7 @@
 ﻿using Katro.Constants.Shell;
 using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Security;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -40,6 +41,9 @@ namespace Katro.Shell.Commands.FileSystem
 
             if (!File.Exists(source))
                 return CommandReturnCode.NoEntry;
+
+            if (!PermissionHelper.CanAccessPath(source))
+                return CommandReturnCode.InvalidPermissions;
 
             File.Copy(source, destination);
             return CommandReturnCode.Success;

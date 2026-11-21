@@ -2,6 +2,8 @@
 using Katro.Enums;
 using Katro.FileSystem;
 using Katro.Output;
+using Katro.Security;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -38,6 +40,9 @@ namespace Katro.Shell.Commands.FileSystem
 
             if (!Directory.Exists(path))
                 return CommandReturnCode.NoEntry;
+
+            if (!PermissionHelper.CanAccessPath(path))
+                return CommandReturnCode.InvalidPermissions;
 
             var longOutput = ctx.HasFlag("long");
 

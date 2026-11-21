@@ -33,5 +33,10 @@ namespace Katro.Constants.Shell
         /// Indicates that a required argument was not provided.
         /// </summary>
         public const int MissingArgument = 3;
+
+        /// <summary>
+        /// Indicates that the user doesn't have the necessary permissions.
+        /// </summary>
+        public const int InvalidPermissions = 4;
     }
 }
