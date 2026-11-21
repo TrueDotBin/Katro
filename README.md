@@ -15,6 +15,7 @@ A [monolithic kernel][monolithic-kernel] made in [Cosmos gen3][cosmos-gen3]
 
 - [x] Add a command-line shell
 - [x] Implement file system
+- [x] Add a user system
 - [ ] Add a way to run programs (Lua scripts, custom shell scripts, etc.)
 - [ ] Add basic networking
 - [ ] Add a desktop interface
