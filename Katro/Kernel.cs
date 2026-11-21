@@ -33,6 +33,8 @@ namespace Katro
                 new ConfigService()
             );
 
+            Terminal.AskForUser();
+
             _shell = new KatroShell();
             _shell.Initialize();
         }

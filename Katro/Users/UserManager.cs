@@ -1,4 +1,5 @@
 ﻿using Katro.Constants.FileSystem;
+using Katro.Crypto;
 using Katro.Enums;
 using System;
 using System.Collections.Generic;
@@ -101,6 +102,26 @@ namespace Katro.Users
 
                 _users.Add(user);
             }
+        }
+
+        /// <summary>
+        /// Attempts to log in as a user.
+        /// </summary>
+        /// <param name="username">The login name of the target user.</param>
+        /// <param name="password">The password of the target user.</param>
+        /// <returns>An error message, or <see cref="string.Empty"/> if successful.</returns>
+        public static string Login(string username, string password)
+        {
+            var user = _users.FirstOrDefault(u => u.Username == username);
+
+            if (user == null)
+                return $"User \"{username}\" not found";
+
+            if (!PasswordHasher.Verify(password, user.Hash, user.Salt))
+                return $"Invalid password";
+
+            CurrentUser = user;
+            return string.Empty;
         }
     }
 }
