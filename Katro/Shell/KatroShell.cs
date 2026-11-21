@@ -71,6 +71,7 @@ namespace Katro.Shell
             Commands.Add(new SysInfo());
             Commands.Add(new Beep());
             Commands.Add(new Play());
+            Commands.Add(new Whoami());
         }
 
         /// <summary>
