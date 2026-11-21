@@ -30,8 +30,10 @@ namespace Katro.Services.Core
 
                 if (UserManager.GetUsers().Count == 0)
                 {
-                    Logger.Log(LogLevel.Warning, "No users found, creating default user");
-                    UserManager.AddUser("user", string.Empty);
+                    Logger.Log(LogLevel.Warning, "No users found, creating default users");
+                    UserManager.AddUser("root", string.Empty, Enums.UserType.Superuser);
+
+                    Logger.Log(LogLevel.Warning, "The password for root is empty, CHANGE IT IMMEDIATELY!");
                 }
 
                 return true;
