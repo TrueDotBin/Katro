@@ -9,6 +9,7 @@ using Katro.Shell.Commands.Audio;
 using Katro.Output;
 using Katro.Output.Sinks;
 using Katro.FileSystem;
+using Katro.Constants.Shell;
 
 namespace Katro.Shell
 {
@@ -95,7 +96,7 @@ namespace Katro.Shell
 
             if (cmd is null)
             {
-                s_logger.Log(LogLevel.Error, $"Command {name} not found");
+                s_logger.Log(LogLevel.Error, $"Command \"{name}\" not found");
                 return;
             }
 
@@ -111,8 +112,28 @@ namespace Katro.Shell
             Terminal.CurrentOutput.Dispose(); // if its a console sink, it just wont do anything
             Terminal.CurrentOutput = new ConsoleSink();
 
-            if (code != 0)
-                s_logger.Log(LogLevel.Error, $"Command {name} exited with non-success exit code: {code}");
+            if (code != CommandReturnCode.Success)
+            {
+                switch (code)
+                {
+                    // this is used in the help command
+                    case CommandReturnCode.CommandNotFound:
+                        s_logger.Log(LogLevel.Error, $"Command \"{name}\" not found");
+                        break;
+
+                    case CommandReturnCode.GeneralFailure:
+                        s_logger.Log(LogLevel.Error, $"Command \"{name}\" failed");
+                        break;
+
+                    case CommandReturnCode.MissingArgument:
+                        s_logger.Log(LogLevel.Error, $"Missing argument for \"{name}\"");
+                        break;
+
+                    case CommandReturnCode.NoEntry:
+                        s_logger.Log(LogLevel.Error, "No such file or directory");
+                        break;
+                }
+            }
         }
     }
 }
