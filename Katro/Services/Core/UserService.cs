@@ -27,6 +27,13 @@ namespace Katro.Services.Core
             try
             {
                 UserManager.Load();
+
+                if (UserManager.GetUsers().Count == 0)
+                {
+                    Logger.Log(LogLevel.Warning, "No users found, creating default user");
+                    UserManager.AddUser("user", string.Empty);
+                }
+
                 return true;
             }
             catch (Exception ex)
