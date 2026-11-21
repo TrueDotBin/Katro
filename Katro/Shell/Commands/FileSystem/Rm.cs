@@ -29,12 +29,13 @@ namespace Katro.Shell.Commands.FileSystem
         public override int Execute(CommandContext ctx)
         {
             var path = ctx.GetArgument(0);
-            path = PathHelper.Resolve(ctx.Shell.CurrentDirectory, path);
-
-            var recursive = ctx.HasFlag("recursive");
 
             if (string.IsNullOrEmpty(path))
                 return CommandReturnCode.MissingArgument;
+
+            path = PathHelper.Resolve(ctx.Shell.CurrentDirectory, path);
+
+            var recursive = ctx.HasFlag("recursive");
 
             if (File.Exists(path))
                 File.Delete(path);

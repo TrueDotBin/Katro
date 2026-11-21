@@ -55,18 +55,18 @@ namespace Katro.Shell
         /// Gets an argument's value.
         /// </summary>
         /// <param name="position">The index of the argument.</param>
-        public string GetArgument(int position)
+        public string? GetArgument(int position)
         {
             try
             {
                 if (position < 0 || position > Args.Count)
-                    return string.Empty;
+                    return null;
 
                 return Args[position];
             }
             catch
             {
-                return string.Empty;
+                return null;
             }
         }
     }

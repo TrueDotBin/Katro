@@ -30,10 +30,11 @@ namespace Katro.Shell.Commands.Audio
         public override int Execute(CommandContext ctx)
         {
             var path = ctx.GetArgument(0);
-            path = PathHelper.Resolve(ctx.Shell.CurrentDirectory, path);
 
             if (string.IsNullOrEmpty(path))
                 return CommandReturnCode.MissingArgument;
+
+            path = PathHelper.Resolve(ctx.Shell.CurrentDirectory, path);
 
             if (!File.Exists(path))
                 return CommandReturnCode.NoEntry;

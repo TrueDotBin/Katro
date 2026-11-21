@@ -118,7 +118,7 @@ namespace Katro.Shell
                 {
                     // this is used in the help command
                     case CommandReturnCode.CommandNotFound:
-                        s_logger.Log(LogLevel.Error, $"Command \"{name}\" not found");
+                        s_logger.Log(LogLevel.Error, $"Command not found");
                         break;
 
                     case CommandReturnCode.GeneralFailure:
