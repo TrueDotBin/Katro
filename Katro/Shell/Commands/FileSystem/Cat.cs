@@ -1,6 +1,7 @@
 ﻿using Katro.Constants.Shell;
 using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Output;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -39,7 +40,7 @@ namespace Katro.Shell.Commands.FileSystem
                 }
 
                 var contents = File.ReadAllText(path);
-                Console.WriteLine(contents);
+                Terminal.WriteLine(contents);
             }
 
             return CommandReturnCode.Success;

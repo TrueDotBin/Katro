@@ -1,6 +1,7 @@
 ﻿using Katro.Constants.Shell;
 using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Output;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -28,7 +29,7 @@ namespace Katro.Shell.Commands.FileSystem
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
         {
-            Console.WriteLine(ctx.Shell.CurrentDirectory);
+            Terminal.WriteLine(ctx.Shell.CurrentDirectory);
             return CommandReturnCode.Success;
         }
     }

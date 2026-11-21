@@ -20,6 +20,16 @@ namespace Katro.Shell
         public static readonly char[] QuoteCharacters = ['\'', '"'];
 
         /// <summary>
+        /// The character that indicates that the output should be redirected to a file.
+        /// </summary>
+        public const string RedirectChar = ">";
+
+        /// <summary>
+        /// The character that indicates that the output should be appended to a file.
+        /// </summary>
+        public const string AppendChar = ">>";
+
+        /// <summary>
         /// Splits the input string by quotes.
         /// </summary>
         /// <param name="value">The string that should be split.</param>
@@ -60,19 +70,31 @@ namespace Katro.Shell
         /// </summary>
         /// <param name="input">The user input that should be parsed into a command context.</param>
         /// <returns>The command's name and context.</returns>
-        public static (string CommandName, CommandContext? Context) Parse(string input)
+        public static (string CommandName, CommandContext? Context, string? RedirectFile, bool Append) Parse(string input)
         {
             var parts = SplitQuotes(input);
 
             if (parts.Count == 0)
-                return (string.Empty, null);
+                return (string.Empty, null, null, false);
 
             var context = new CommandContext(input);
             var name = parts.First();
+            var append = false;
+            string? redirectFile = null;
 
             for (int i = 1; i < parts.Count; i++)
             {
                 var part = parts[i];
+
+                if (part == RedirectChar || part == AppendChar)
+                {
+                    if (i + 1 < parts.Count)
+                    {
+                        redirectFile = parts[i + 1];
+                        append = part == AppendChar;
+                        break;
+                    }
+                }
 
                 if (part.StartsWith(FlagPrefix))
                 {
@@ -96,7 +118,7 @@ namespace Katro.Shell
                 }
             }
 
-            return (name, context);
+            return (name, context, redirectFile, append);
         }
     }
 }

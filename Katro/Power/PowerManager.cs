@@ -1,4 +1,5 @@
 ﻿using Katro.Configuration;
+using Katro.Output;
 using Katro.Services;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Katro.Power
     {
         private static void Cleanup()
         {
-            Console.WriteLine("See you next time!");
+            Terminal.WriteLine("See you next time!");
             ServiceHost.StopAll();
         }
 

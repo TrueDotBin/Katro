@@ -1,5 +1,6 @@
 ﻿using Katro.Constants.Shell;
 using Katro.Enums;
+using Katro.Output;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +27,7 @@ namespace Katro.Shell.Commands.Core
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
         {
-            Console.Clear();
+            Terminal.Clear();
             return CommandReturnCode.Success;
         }
     }

@@ -6,6 +6,9 @@ using Katro.Shell.Commands.System;
 using Katro.Shell.Commands.FileSystem;
 using TrueDotBin.CosmosUtils.Logging;
 using Katro.Shell.Commands.Audio;
+using Katro.Output;
+using Katro.Output.Sinks;
+using Katro.FileSystem;
 
 namespace Katro.Shell
 {
@@ -33,20 +36,12 @@ namespace Katro.Shell
 
         private void WritePrompt()
         {
-            var startColor = Console.ForegroundColor;
             var hostname = SystemConfig.Get("hostname", DefaultHostname);
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(hostname);
-            Console.ForegroundColor = startColor;
-
-            Console.Write("@");
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(CurrentDirectory);
-            Console.ForegroundColor = startColor;
-
-            Console.Write("> ");
+            Terminal.Write(hostname, ConsoleColor.Green);
+            Terminal.Write("@");
+            Terminal.Write(CurrentDirectory, ConsoleColor.Yellow);
+            Terminal.Write("> ");
         }
 
         /// <summary>
@@ -88,7 +83,7 @@ namespace Katro.Shell
             if (string.IsNullOrWhiteSpace(input))
                 return;
 
-            var (name, context) = ShellParser.Parse(input);
+            var (name, context, file, append) = ShellParser.Parse(input);
 
             if (context is null)
             {
@@ -104,8 +99,17 @@ namespace Katro.Shell
                 return;
             }
 
+            if (!string.IsNullOrEmpty(file))
+            {
+                var fullPath = PathHelper.Resolve(CurrentDirectory, file);
+                Terminal.CurrentOutput = new FileSink(fullPath, append);
+            }
+
             context.Shell = this;
             var code = cmd.Execute(context);
+
+            Terminal.CurrentOutput.Dispose(); // if its a console sink, it just wont do anything
+            Terminal.CurrentOutput = new ConsoleSink();
 
             if (code != 0)
                 s_logger.Log(LogLevel.Error, $"Command {name} exited with non-success exit code: {code}");

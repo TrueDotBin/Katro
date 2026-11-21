@@ -55,9 +55,9 @@ namespace Katro.Shell.Commands.Core
             if (command is null)
                 return CommandReturnCode.CommandNotFound;
 
-            Console.WriteLine($"{command.Name} - {command.Description}");
-            Console.WriteLine($"Usage: {command.Usage}");
-            Console.WriteLine($"Category: {command.Category}");
+            Terminal.WriteLine($"{command.Name} - {command.Description}");
+            Terminal.WriteLine($"Usage: {command.Usage}");
+            Terminal.WriteLine($"Category: {command.Category}");
 
             return CommandReturnCode.Success;
         }

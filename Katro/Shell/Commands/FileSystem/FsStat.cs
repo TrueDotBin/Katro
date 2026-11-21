@@ -31,7 +31,7 @@ namespace Katro.Shell.Commands.FileSystem
         private static void DisplayFsStatNerds(VfsMount mount, VfsStatFs stat, bool printSeparator = false)
         {
             if (printSeparator)
-                Console.WriteLine();
+                Terminal.WriteLine();
 
             Terminal.Heading("Mount");
             Terminal.InfoLine("Mounted On", mount.MountPoint);
@@ -42,7 +42,7 @@ namespace Katro.Shell.Commands.FileSystem
 
             if (mount.Partition is not null)
             {
-                Console.WriteLine();
+                Terminal.WriteLine();
 
                 Terminal.Heading("Mount Partition");
                 Terminal.InfoLine("Partition Name", mount.Partition.Name);
@@ -54,23 +54,23 @@ namespace Katro.Shell.Commands.FileSystem
                 Terminal.InfoLine("Partition Block Size", mount.Partition.BlockSize);
             }
 
-            Console.WriteLine();
+            Terminal.WriteLine();
 
             Terminal.Heading("Blocks");
             Terminal.InfoLine("Available Blocks", stat.AvailableBlocks);
             Terminal.InfoLine("Free Blocks", stat.FreeBlocks);
             Terminal.InfoLine("Block Size", stat.BlockSize);
             Terminal.InfoLine("Blocks", stat.Blocks);
-            Console.WriteLine();
+            Terminal.WriteLine();
 
             Terminal.Heading("Fragments");
             Terminal.InfoLine("Fragment Size", stat.FragmentSize);
-            Console.WriteLine();
+            Terminal.WriteLine();
 
             Terminal.Heading("Inodes");
             Terminal.InfoLine("Free Inodes", stat.FreeInodes);
             Terminal.InfoLine("Inodes", stat.Inodes);
-            Console.WriteLine();
+            Terminal.WriteLine();
 
             Terminal.Heading("Other");
             Terminal.InfoLine("Max Name Length", stat.MaxNameLength);
@@ -79,7 +79,7 @@ namespace Katro.Shell.Commands.FileSystem
         private static void DisplayFsStatShort(VfsMount mount, VfsStatFs stat, bool printSeparator = false)
         {
             if (printSeparator)
-                Console.WriteLine();
+                Terminal.WriteLine();
 
             var totalSize = stat.Blocks * stat.BlockSize;
             var freeSpace = stat.FreeBlocks * stat.BlockSize;
@@ -92,7 +92,7 @@ namespace Katro.Shell.Commands.FileSystem
             Terminal.Heading("Mount");
             Terminal.InfoLine("Mounted On", mount.MountPoint);
             Terminal.InfoLine("Mount Name", mount.Name);
-            Console.WriteLine();
+            Terminal.WriteLine();
 
             Terminal.Heading("Sizes");
             Terminal.InfoLine("Total Size", FileSizeFormatter.FormatSize(totalSize));
@@ -107,14 +107,14 @@ namespace Katro.Shell.Commands.FileSystem
             var nerdMode = ctx.HasFlag("nerds");
 
             var mounts = VfsManager.Mounts;
-            Console.WriteLine($"{mounts.Count} mount(s)");
-            Console.WriteLine();
+            Terminal.WriteLine($"{mounts.Count} mount(s)");
+            Terminal.WriteLine();
 
             foreach (var mount in mounts)
             {
                 if (!VfsManager.TryStatFs(mount.MountPoint, out var stat))
                 {
-                    Console.WriteLine($"Failed to stat {mount.MountPoint}");
+                    Terminal.WriteLine($"Failed to stat {mount.MountPoint}");
                     continue;
                 }
 

@@ -33,17 +33,17 @@ namespace Katro.Shell.Commands.System
 
             foreach (var svc in services)
             {
-                Terminal.WriteColored($"[ {svc.Id,-8} ] ", ConsoleColor.Cyan);
-                Console.Write($"{svc.Name,-20}");
+                Terminal.Write($"[ {svc.Id,-8} ] ", ConsoleColor.Cyan);
+                Terminal.Write($"{svc.Name,-20}");
 
                 if (svc.DependsOn.Length > 0)
                 {
                     var deps = string.Join(", ", svc.DependsOn);
-                    Terminal.WriteLineColored($"Depends on: {deps}", ConsoleColor.DarkGray);
+                    Terminal.WriteLine($"Depends on: {deps}", ConsoleColor.DarkGray);
                 }
                 else
                 {
-                    Console.WriteLine("No dependencies");
+                    Terminal.WriteLine("No dependencies");
                 }
             }
 

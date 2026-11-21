@@ -2,6 +2,7 @@
 using Katro.Constants.Shell;
 using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Output;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -42,7 +43,7 @@ namespace Katro.Shell.Commands.Audio
 
             if (!AudioManager.Play(audioStream))
             {
-                Console.WriteLine("Failed to play audio file");
+                Terminal.WriteLine("Failed to play audio file");
                 return CommandReturnCode.GeneralFailure;
             }
 

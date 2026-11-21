@@ -1,6 +1,7 @@
-﻿using Katro.Constants.Shell;
+﻿using Cosmos.Kernel.System.Diagnostics;
+using Katro.Constants.Shell;
 using Katro.Enums;
-using Cosmos.Kernel.System.Diagnostics;
+using Katro.Output;
 
 namespace Katro.Shell.Commands.System
 {
@@ -25,7 +26,7 @@ namespace Katro.Shell.Commands.System
         public override int Execute(CommandContext ctx)
         {
             var freed = MemoryDiagnostics.Collect();
-            Console.WriteLine($"{freed} object(s) freed");
+            Terminal.WriteLine($"{freed} object(s) freed");
 
             return CommandReturnCode.Success;
         }

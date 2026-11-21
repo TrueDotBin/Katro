@@ -45,7 +45,7 @@ namespace Katro.Shell.Commands.FileSystem
             var entries = dirInfo.EnumerateFileSystemInfos();
             if (!entries.Any())
             {
-                Terminal.WriteLineColored("(empty)", ConsoleColor.Gray);
+                Terminal.WriteLine("(empty)", ConsoleColor.Gray);
                 return CommandReturnCode.Success;
             }
 
@@ -59,11 +59,11 @@ namespace Katro.Shell.Commands.FileSystem
                     var size = entry is FileInfo f ? FileSizeFormatter.FormatSize((ulong)f.Length) : "-";
                     var date = entry.LastWriteTime.ToString("dd/MM/yyyy HH:mm:ss");
 
-                    Terminal.WriteLineColored($"{date} {size,8} {name}", typeColor);
+                    Terminal.WriteLine($"{date} {size,8} {name}", typeColor);
                 }
                 else
                 {
-                    Console.WriteLine(name);
+                    Terminal.WriteLine(name);
                 }
             }
 

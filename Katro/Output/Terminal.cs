@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Katro.Output.Sinks;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,13 +10,18 @@ namespace Katro.Output
     /// </summary>
     public static class Terminal
     {
+        /// <summary>
+        /// The current output sink that this utility writes to.
+        /// </summary>
+        public static OutputSink CurrentOutput { get; set; } = new ConsoleSink();
+
         private static (ConsoleColor PrevForeground, ConsoleColor PrevBackground) SetColor(ConsoleColor? fg = null, ConsoleColor? bg = null)
         {
-            var oldFg = Console.ForegroundColor;
-            var oldBg = Console.BackgroundColor;
+            var oldFg = CurrentOutput.ForegroundColor;
+            var oldBg = CurrentOutput.BackgroundColor;
 
-            Console.ForegroundColor = fg ?? oldFg;
-            Console.BackgroundColor = bg ?? oldBg;
+            CurrentOutput.ForegroundColor = fg ?? oldFg;
+            CurrentOutput.BackgroundColor = bg ?? oldBg;
 
             return (oldFg, oldBg);
         }
@@ -26,9 +32,9 @@ namespace Katro.Output
         /// <param name="label">What this heading grpups.</param>
         public static void Heading(object label)
         {
-            WriteColored("===== ", ConsoleColor.Gray);
-            WriteColored(label);
-            WriteLineColored(" =====", ConsoleColor.Gray);
+            Write("===== ", ConsoleColor.Gray);
+            Write(label);
+            WriteLine(" =====", ConsoleColor.Gray);
         }
 
         /// <summary>
@@ -38,24 +44,24 @@ namespace Katro.Output
         /// <param name="value">The value to display.</param>
         public static void InfoLine(string label, object value)
         {
-            WriteColored($"{label,-30}", ConsoleColor.Yellow);
-            WriteLineColored(value, ConsoleColor.Gray);
+            Write($"{label,-30}", ConsoleColor.Yellow);
+            WriteLine(value, ConsoleColor.Gray);
         }
 
         /// <summary>
-        /// Primts a value with the specified foreground and background, with a trailing new line.
+        /// Primts a value with the specified foreground and background, with a trailing line break.
         /// </summary>
         /// <param name="value">The value that should be written into the console.</param>
         /// <param name="fg">The color of the text.</param>
         /// <param name="bg">The color of the text's background.</param>
-        public static void WriteLineColored(object value, ConsoleColor? fg = null, ConsoleColor? bg = null)
+        public static void WriteLine(object? value = null, ConsoleColor? fg = null, ConsoleColor? bg = null)
         {
             var (oldFg, oldBg) = SetColor(fg, bg);
 
-            Console.WriteLine(value);
+            CurrentOutput.WriteLine(value);
 
-            Console.ForegroundColor = oldFg;
-            Console.BackgroundColor = oldBg;
+            CurrentOutput.ForegroundColor = oldFg;
+            CurrentOutput.BackgroundColor = oldBg;
         }
 
         /// <summary>
@@ -64,14 +70,14 @@ namespace Katro.Output
         /// <param name="value">The value that should be written into the console.</param>
         /// <param name="fg">The color of the text.</param>
         /// <param name="bg">The color of the text's background.</param>
-        public static void WriteColored(object value, ConsoleColor? fg = null, ConsoleColor? bg = null)
+        public static void Write(object value, ConsoleColor? fg = null, ConsoleColor? bg = null)
         {
             var (oldFg, oldBg) = SetColor(fg, bg);
 
-            Console.Write(value);
+            CurrentOutput.Write(value);
 
-            Console.ForegroundColor = oldFg;
-            Console.BackgroundColor = oldBg;
+            CurrentOutput.ForegroundColor = oldFg;
+            CurrentOutput.BackgroundColor = oldBg;
         }
 
         /// <summary>
@@ -80,14 +86,14 @@ namespace Katro.Output
         /// <param name="ex">The exception that should be displayed.</param>
         public static void CSharpException(Exception ex)
         {
-            WriteLineColored(ex.Message, ConsoleColor.Red);
+            WriteLine(ex.Message, ConsoleColor.Red);
 
             if (!string.IsNullOrEmpty(ex.StackTrace))
             {
-                Console.WriteLine();
+                CurrentOutput.WriteLine();
 
                 Heading("Stack Trace");
-                WriteLineColored(ex.StackTrace, ConsoleColor.Red);
+                WriteLine(ex.StackTrace, ConsoleColor.Red);
             }
         }
 
@@ -106,7 +112,7 @@ namespace Katro.Output
             if (optionList.Count == 1)
                 return 0; // first element, there's no point in asking the user for a choice
 
-            Console.WriteLine(prompt);
+            CurrentOutput.WriteLine(prompt);
 
             var currentChoice = 0;
             var startTop = Console.CursorTop;
@@ -121,9 +127,9 @@ namespace Katro.Output
                     var optionLabel = optionList[i];
 
                     if (i == currentChoice)
-                        WriteLineColored($"> {optionLabel}", ConsoleColor.White);
+                        WriteLine($"> {optionLabel}", ConsoleColor.White);
                     else
-                        WriteLineColored($"  {optionLabel}", ConsoleColor.DarkGray);
+                        WriteLine($"  {optionLabel}", ConsoleColor.DarkGray);
                 }
 
                 var key = Console.ReadKey(true).Key;
@@ -143,5 +149,11 @@ namespace Katro.Output
                 }
             }
         }
+
+        /// <summary>
+        /// Clears the current output.
+        /// </summary>
+        public static void Clear()
+            => CurrentOutput.Clear();
     }
 }

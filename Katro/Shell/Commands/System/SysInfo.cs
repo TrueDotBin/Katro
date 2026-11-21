@@ -31,7 +31,7 @@ namespace Katro.Shell.Commands.System
             Terminal.Heading("System Info");
             Terminal.InfoLine("Version", Info.Version);
             Terminal.InfoLine("Developer", Info.Developer);
-            Console.WriteLine();
+            Terminal.WriteLine();
 
             Terminal.Heading("Memory Info");
             Terminal.InfoLine("Usable Memory", usableMemoryFormatted);
@@ -40,7 +40,7 @@ namespace Katro.Shell.Commands.System
             Terminal.InfoLine("Free Pages", MemoryDiagnostics.FreePages);
             Terminal.InfoLine("Total Collections", MemoryDiagnostics.TotalCollections);
             Terminal.InfoLine("Total Objects Freed", MemoryDiagnostics.TotalObjectsFreed);
-            Console.WriteLine();
+            Terminal.WriteLine();
 
             Terminal.Heading("Driver Info");
             Terminal.InfoLine("Started?", DriverDiagnostics.IsStarted ? "Yes" : "No");
@@ -48,7 +48,7 @@ namespace Katro.Shell.Commands.System
             Terminal.InfoLine("Driver Count", DriverDiagnostics.DriverCount);
             Terminal.InfoLine("Node Count", DriverDiagnostics.NodeCount);
             Terminal.InfoLine("Device Count", DriverDiagnostics.DeviceCount);
-            Console.WriteLine();
+            Terminal.WriteLine();
 
             if (SchedulerDiagnostics.IsInitialized)
             {

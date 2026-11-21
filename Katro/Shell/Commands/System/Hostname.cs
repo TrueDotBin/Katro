@@ -1,6 +1,7 @@
 ﻿using Katro.Configuration;
 using Katro.Constants.Shell;
 using Katro.Enums;
+using Katro.Output;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,12 +33,12 @@ namespace Katro.Shell.Commands.System
             if (string.IsNullOrEmpty(value))
             {
                 var hostname = SystemConfig.Get("hostname", KatroShell.DefaultHostname);
-                Console.WriteLine(hostname);
+                Terminal.WriteLine(hostname);
             }
             else
             {
                 SystemConfig.Set("hostname", value);
-                Console.WriteLine($"hostname = {value}");
+                Terminal.WriteLine($"hostname = {value}");
             }
 
             return CommandReturnCode.Success;
