@@ -35,7 +35,11 @@ namespace Katro
 
             Terminal.AskForUser();
 
-            _shell = new KatroShell();
+            _shell = new KatroShell
+            {
+                CurrentDirectory = UserManager.CurrentUser.HomeDirectory
+            };
+
             _shell.Initialize();
         }
 

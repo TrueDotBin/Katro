@@ -1,4 +1,5 @@
-﻿using Katro.Converters;
+﻿using Katro.Constants.FileSystem;
+using Katro.Converters;
 using Katro.Crypto;
 using Katro.Enums;
 using System;
@@ -34,6 +35,11 @@ namespace Katro.Users
         public UserType Type { get; set; } = UserType.Normal;
 
         /// <summary>
+        /// The path of the directory where the user's files are stored.
+        /// </summary>
+        public string HomeDirectory { get; init; }
+
+        /// <summary>
         /// Creates a new <see cref="User"/> object.
         /// </summary>
         /// <param name="username">The login name for this user.</param>
@@ -45,6 +51,9 @@ namespace Katro.Users
             Salt = GenerateSalt();
             Hash = PasswordHasher.Hash(Salt, password);
             Type = type;
+
+            HomeDirectory = Path.Combine(MountPoints.RootPartition, "home", Username);
+            Directory.CreateDirectory(HomeDirectory);
         }
 
         internal User(string username, byte[] hash, byte[] salt, UserType type = UserType.Normal)
@@ -53,6 +62,9 @@ namespace Katro.Users
             Salt = salt;
             Hash = hash;
             Type = type;
+
+            HomeDirectory = Path.Combine(MountPoints.RootPartition, "home", Username);
+            Directory.CreateDirectory(HomeDirectory);
         }
 
         /// <summary>
