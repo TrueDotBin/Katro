@@ -20,7 +20,7 @@ namespace Katro.Security
             if (user == null)
                 return false;
 
-            if (user.Type == UserType.Superuser)
+            if (user.Type == UserType.Superuser || UserManager.Elevated)
                 return true;
 
             var normalizedPath = Path.GetFullPath(path);

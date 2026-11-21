@@ -1,6 +1,7 @@
 ﻿using Katro.Constants.FileSystem;
 using Katro.Crypto;
 using Katro.Enums;
+using Katro.Output;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -15,6 +16,16 @@ namespace Katro.Users
     {
         private const string InvalidUsernameChars = "/\\:*?\"<>|\0";
         private static List<User> _users = [];
+
+        /// <summary>
+        /// Whether the current session is elevated.
+        /// </summary>
+        public static bool Elevated { get; set; }
+
+        /// <summary>
+        /// Whether the user has seen the sudo lecture.
+        /// </summary>
+        public static bool SeenSudoLecture { get; set; }
 
         /// <summary>
         /// The path of the file that holds all users.
@@ -122,6 +133,26 @@ namespace Katro.Users
 
             CurrentUser = user;
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Shows the sudo lecture to the user.
+        /// </summary>
+        public static void ShowLecture()
+        {
+            if (SeenSudoLecture)
+                return;
+
+            // linux moment :D
+            Terminal.WriteLine("We trust you have received the usual lecture from the local System");
+            Terminal.WriteLine("Administrator. It usually boils down to these three things:");
+            Terminal.WriteLine();
+            Terminal.WriteLine("    #1) Respect the privacy of others.");
+            Terminal.WriteLine("    #2) Think before you type.");
+            Terminal.WriteLine("    #3) With great power comes great responsibility.");
+            Terminal.WriteLine();
+
+            SeenSudoLecture = true;
         }
     }
 }
