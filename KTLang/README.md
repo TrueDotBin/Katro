@@ -8,9 +8,9 @@ KTLang is an interpreted language, meaning it does not compile to a native execu
 
 KTLang uses the `.ktl` extension.
 
-## Planned Syntax
+## Syntax
 
-Here is an example using KTLang:
+Here is an example of KTLang:
 
 ```ktlang
 > This is a comment, it is ignored by the interpreter.
@@ -27,11 +27,3 @@ else
     println("Math is NOT working correctly :(");
 }
 ```
-
-## Roadmap
-
-- [x] Lexer/Tokenizer
-- [x] Parser/AST Generator
-- [ ] Interpreter
-- [ ] Variables
-- [ ] Control Flow (if, else)
