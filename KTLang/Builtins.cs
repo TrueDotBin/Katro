@@ -23,7 +23,8 @@ namespace KTLang
             { "println", PrintLn },
             { "print", Print },
             { "len", Len },
-            { "toString", ToStr }
+            { "toString", ToStr },
+            { "toNumber", ToNum }
         };
 
         /// <summary>
@@ -64,10 +65,20 @@ namespace KTLang
         /// <summary>
         /// Implementation for toString(args): Converts a value to a string.
         /// </summary>
-        public static object? ToStr(List<object?> args, IKatroHost host)
+        public static object? ToStr(List<object?> args, IKatroHost _)
         {
             var firstArgument = args.First();
             return firstArgument?.ToString();
+        }
+
+        /// <summary>
+        /// Implementation for toNumber(args): Converts a value to a number.
+        /// </summary>
+        public static object? ToNum(List<object?> args, IKatroHost _)
+        {
+            var firstArgument = args.First();
+            var stringified = firstArgument?.ToString();
+            return double.Parse(stringified ?? "0");
         }
     }
 }

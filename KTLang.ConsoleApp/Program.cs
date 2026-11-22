@@ -90,6 +90,10 @@ namespace KTLang.ConsoleApp
                 var stringifiedA = toString(a);
                 var concatTest = stringifiedA + "Hello";
                 println(concatTest);
+
+                var numberified = toNumber(stringifiedA);
+                var result = numberified + 500;
+                println(result);
                 """;
 
                 Console.WriteLine("[Lexer] Tokenizing input");
