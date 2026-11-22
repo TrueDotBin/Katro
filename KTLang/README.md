@@ -31,7 +31,7 @@ else
 ## Roadmap
 
 - [x] Lexer/Tokenizer
-- [ ] Parser/AST Generator
+- [x] Parser/AST Generator
 - [ ] Interpreter
 - [ ] Variables
 - [ ] Control Flow (if, else)
