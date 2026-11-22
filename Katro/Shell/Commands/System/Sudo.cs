@@ -34,16 +34,19 @@ namespace Katro.Shell.Commands.System
 
             var currentUser = UserManager.CurrentUser;
 
-            Terminal.Write($"Password for {currentUser.Username}: ");
-            var input = Console.ReadLine();
-
-            if (input is null)
-                return CommandReturnCode.GeneralFailure;
-
-            if (!PasswordHasher.Verify(input, currentUser.Hash, currentUser.Salt))
+            if (UserManager.IsType(UserType.Superuser))
             {
-                Terminal.WriteLine("Sorry, try again.");
-                return CommandReturnCode.GeneralFailure;
+                Terminal.Write($"Password for {currentUser.Username}: ");
+                var input = Console.ReadLine();
+
+                if (input is null)
+                    return CommandReturnCode.GeneralFailure;
+
+                if (!PasswordHasher.Verify(input, currentUser.Hash, currentUser.Salt))
+                {
+                    Terminal.WriteLine("Sorry, try again.");
+                    return CommandReturnCode.GeneralFailure;
+                }
             }
 
             var cmdLine = string.Join(" ", ctx.Args);
