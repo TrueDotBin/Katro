@@ -130,7 +130,19 @@ namespace KTLang.Parsing
         }
 
         private Expression Expression()
-            => Equality();
+        {
+            if (Check(TokenType.Identifier) && PeekNext().Type == TokenType.Assign)
+            {
+                var name = Advance();
+                Advance();
+
+                var value = Expression();
+
+                return new AssignmentExpression(name, value);
+            }
+
+            return Equality();
+        }
 
         private Expression Equality()
         {
@@ -259,6 +271,14 @@ namespace KTLang.Parsing
 
         private Token Peek()
             => _tokens[_position];
+
+        private Token PeekNext()
+        {
+            if (_position + 1 >= _tokens.Count)
+                return Peek();
+
+            return _tokens[_position + 1];
+        }
 
         private Token Previous()
             => _tokens[_position - 1];

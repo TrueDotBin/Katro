@@ -8,7 +8,7 @@ namespace KTLang.Nodes.Expressions
     /// <summary>
     /// A reference to a variable by its name.
     /// </summary>
-    public class VariableExpression(Token name) : Expression
+    public class VariableExpression(Token? name) : Expression
     {
         /// <summary>
         /// The token containing the variable's name and source location.

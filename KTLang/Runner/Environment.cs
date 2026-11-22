@@ -22,5 +22,19 @@ namespace KTLang.Runner
         /// </summary>
         public object? Set(string name, object? value)
             => _vars[name] = value;
+
+        /// <summary>
+        /// Sets a variable's value by its name, but does not create a new one.
+        /// </summary>
+        public void Assign(string name, object? value)
+        {
+            if (_vars.ContainsKey(name))
+            {
+                _vars[name] = value;
+                return;
+            }
+
+            throw new Exception($"Undefined variable '{name}'.");
+        }
     }
 }

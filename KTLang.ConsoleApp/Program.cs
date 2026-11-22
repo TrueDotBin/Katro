@@ -52,9 +52,13 @@ namespace KTLang.ConsoleApp
         public static void PrintAst(Expression expr, string indent = "")
         {
             if (expr is LiteralExpression lit)
+            {
                 Console.WriteLine($"{indent}Literal: {lit.Value}");
+            }
             else if (expr is VariableExpression var)
+            {
                 Console.WriteLine($"{indent}Var: {var.Name?.RawString}");
+            }                
             else if (expr is BinaryExpression bin)
             {
                 Console.WriteLine($"{indent}Binary: {bin.Operator.RawString}");
@@ -66,6 +70,11 @@ namespace KTLang.ConsoleApp
                 Console.WriteLine($"{indent}Call:");
                 PrintAst(call.Callee, indent + "  ");
                 foreach (var arg in call.Args) PrintAst(arg, indent + "    ");
+            }
+            else if (expr is AssignmentExpression assign)
+            {
+                Console.WriteLine($"{indent}Assign: {assign.Name?.RawString}");
+                PrintAst(assign.Value, indent + "    ");
             }
         }
 
@@ -103,9 +112,11 @@ namespace KTLang.ConsoleApp
                 var result = numberified + 500;
                 println(result);
 
-                while true
+                var i = 0;
+                while i < 10
                 {
-                    println("this runs forever");
+                    println(i);
+                    i = i + 1;
                 }
                 """;
 

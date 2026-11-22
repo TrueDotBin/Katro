@@ -26,8 +26,12 @@ namespace KTLang.Runner
 
             if (expr is BinaryExpression bin)
                 return EvalBinExpr(bin);
+
             if (expr is CallExpression call)
                 return EvalCallExpr(call);
+
+            if (expr is AssignmentExpression assign)
+                return EvalAssignExpr(assign);
 
             throw new Exception($"Unknown expression type: {expr.GetType().Name}");
         }
@@ -130,6 +134,38 @@ namespace KTLang.Runner
                 case TokenType.NotEqual:
                     return !left?.Equals(right);
 
+                case TokenType.Greater:
+                    {
+                        if (left is double leftDouble && right is double rightDouble)
+                            return leftDouble > rightDouble;
+
+                        throw new Exception("Operands must be numbers.");
+                    }
+
+                case TokenType.GreaterEqual:
+                    {
+                        if (left is double leftDouble && right is double rightDouble)
+                            return leftDouble >= rightDouble;
+
+                        throw new Exception("Operands must be numbers.");
+                    }
+
+                case TokenType.Less:
+                    {
+                        if (left is double leftDouble && right is double rightDouble)
+                            return leftDouble < rightDouble;
+
+                        throw new Exception("Operands must be numbers.");
+                    }
+
+                case TokenType.LessEqual:
+                    {
+                        if (left is double leftDouble && right is double rightDouble)
+                            return leftDouble <= rightDouble;
+
+                        throw new Exception("Operands must be numbers.");
+                    }
+
                 default:
                     throw new Exception("Invalid operator");
             }
@@ -170,6 +206,19 @@ namespace KTLang.Runner
             }
 
             throw new Exception("Undefinied function");
+        }
+
+        private object? EvalAssignExpr(AssignmentExpression assign)
+        {
+            var name = assign.Name?.RawString;
+
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            var value = Evaluate(assign.Value);
+            _env.Assign(name, value);
+
+            return value;
         }
 
         private void ExecVarStatement(VariableStatement var)
