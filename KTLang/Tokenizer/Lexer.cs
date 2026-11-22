@@ -21,7 +21,6 @@ namespace KTLang.Tokenizer
             { "else", TokenType.Else },
             { "return", TokenType.Return },
             { "fn", TokenType.Fn },
-            { "println", TokenType.Println },
             { "true", TokenType.True },
             { "false", TokenType.False },
         };

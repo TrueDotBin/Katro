@@ -7,7 +7,7 @@ namespace KTLang.Nodes.Expressions
     /// <summary>
     /// A literal value directly in the source code.
     /// </summary>
-    public class LiteralExpression(object value) : Expression
+    public class LiteralExpression(object? value) : Expression
     {
         /// <summary>
         /// The actual runtime value.
