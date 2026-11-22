@@ -1,6 +1,7 @@
 ﻿using Katro.Constants.Shell;
 using Katro.Enums;
 using Katro.FileSystem;
+using Katro.Security;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,6 +35,9 @@ namespace Katro.Shell.Commands.FileSystem
                 return CommandReturnCode.MissingArgument;
 
             path = PathHelper.Resolve(ctx.Shell.CurrentDirectory, path);
+
+            if (!PermissionHelper.CanAccessPath(path))
+                return CommandReturnCode.InvalidPermissions;
 
             File.Create(path).Close();
 
