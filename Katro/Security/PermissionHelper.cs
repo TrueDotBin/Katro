@@ -24,7 +24,7 @@ namespace Katro.Security
                 return true;
 
             var normalizedPath = Path.GetFullPath(path);
-            return PathHelper.IsInsideUserPath(normalizedPath);
+            return !PathHelper.IsSensitive(normalizedPath) || PathHelper.IsInsideUserPath(normalizedPath);
         }
     }
 }
