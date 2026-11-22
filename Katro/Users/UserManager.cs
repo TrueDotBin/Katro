@@ -68,6 +68,25 @@ namespace Katro.Users
         }
 
         /// <summary>
+        /// Removes a user.
+        /// </summary>
+        public static void RemoveUser(string username)
+        {
+            var user = _users.FirstOrDefault(u => u.Username == username);
+
+            if (user == null)
+                return;
+
+            if (user.Username == CurrentUser.Username)
+                throw new InvalidOperationException("Cannot remove currently logged in user");
+
+            if (user.Username == "root")
+                throw new InvalidOperationException("Cannot remove root user");
+
+            _users.Remove(user);
+        }
+
+        /// <summary>
         /// Determines whether the provided user has the provided type.
         /// </summary>
         public static bool IsType(User user, UserType type)

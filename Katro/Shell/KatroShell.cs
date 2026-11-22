@@ -77,6 +77,7 @@ namespace Katro.Shell
             Commands.Add(new Passwd());
             Commands.Add(new AddUser());
             Commands.Add(new Sudo());
+            Commands.Add(new RmUser());
         }
 
         /// <summary>
