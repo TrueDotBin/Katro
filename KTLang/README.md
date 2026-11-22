@@ -15,25 +15,16 @@ Here is an example using KTLang:
 ```ktlang
 > This is a comment, it is ignored by the interpreter.
 
-fn greet(name) {
-    println("Hello,", name)
-}
-
 var a = 5;
-var b = 10;
-var c = a + b;
-
-println("a =", a);
-println("b =", b);
-println("a + b =", c);
+println(a);
 
 if 2 + 2 == 4
 {
-    println("Math is working correctly!")
+    println("Math is working correctly!");
 }
 else
 {
-    println("Math is NOT working correctly :(")
+    println("Math is NOT working correctly :(");
 }
 ```
 
