@@ -22,7 +22,8 @@ namespace KTLang
         {
             { "println", PrintLn },
             { "print", Print },
-            { "len", Len }
+            { "len", Len },
+            { "toString", ToStr }
         };
 
         /// <summary>
@@ -58,6 +59,15 @@ namespace KTLang
                 return (double)str.Length;
 
             throw new Exception("Invalid type for len(), must be string");
+        }
+
+        /// <summary>
+        /// Implementation for toString(args): Converts a value to a string.
+        /// </summary>
+        public static object? ToStr(List<object?> args, IKatroHost host)
+        {
+            var firstArgument = args.First();
+            return firstArgument?.ToString();
         }
     }
 }

@@ -81,11 +81,15 @@ namespace KTLang.ConsoleApp
                     println("Math is NOT working correctly :(");
                 }
 
-                var exampleString = "hello";
+                var exampleString = "hello world";
                 var strLength = len(exampleString);
 
                 println("Sample string is", exampleString);
                 println("String length is", strLength);
+
+                var stringifiedA = toString(a);
+                var concatTest = stringifiedA + "Hello";
+                println(concatTest);
                 """;
 
                 Console.WriteLine("[Lexer] Tokenizing input");
