@@ -34,10 +34,10 @@ namespace Katro.Shell.Commands.FileSystem
             if (string.IsNullOrEmpty(path))
                 return CommandReturnCode.MissingArgument;
 
+            path = PathHelper.Resolve(ctx.Shell.CurrentDirectory, path);
+
             if (!PermissionHelper.CanAccessPath(path))
                 return CommandReturnCode.InvalidPermissions;
-
-            path = PathHelper.Resolve(ctx.Shell.CurrentDirectory, path);
 
             Directory.CreateDirectory(path);
             return CommandReturnCode.Success;
