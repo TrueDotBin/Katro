@@ -23,12 +23,26 @@ namespace Katro.Scripting
         /// </summary>
         public static bool Initialized { get; private set; }
 
+        /// <summary>
+        /// Initializes the KTLang runner.
+        /// </summary>
         /// <param name="host">The Katro host that implements functions.</param>
         public static void Initialize(IKatroHost host)
         {
+            if (Initialized)
+                return;
+
             _host = host;
             _interpreter = new Interpreter(_host);
             Initialized = true;
+        }
+
+        /// <summary>
+        /// Resets the interpreter's environment.
+        /// </summary>
+        public static void Reinitialize()
+        {
+            _interpreter = new Interpreter(_host);
         }
 
         /// <summary>
