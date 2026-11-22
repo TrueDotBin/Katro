@@ -20,16 +20,28 @@ namespace KTLang
         /// </summary>
         public static readonly Dictionary<string, NativeFunction> Registry = new()
         {
-            { "println", PrintLn }
+            { "println", PrintLn },
+            { "print", Print }
         };
 
         /// <summary>
-        /// Implementation for println(args): Displays a message.
+        /// Implementation for println(args): Displays a message with a trailing new line.
         /// </summary>
         public static object? PrintLn(List<object?> args, IKatroHost host)
         {
             var output = string.Join(" ", args);
             host.PrintLn(output);
+
+            return null;
+        }
+
+        /// <summary>
+        /// Implementation for print(args): Displays a message.
+        /// </summary>
+        public static object? Print(List<object?> args, IKatroHost host)
+        {
+            var output = string.Join(" ", args);
+            host.Print(output);
 
             return null;
         }

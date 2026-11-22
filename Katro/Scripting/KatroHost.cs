@@ -16,5 +16,11 @@ namespace Katro.Scripting
         {
             Terminal.WriteLine(text);
         }
+
+        /// <inheritdoc/>
+        public void Print(string text)
+        {
+            Terminal.Write(text);
+        }
     }
 }

@@ -13,5 +13,10 @@ namespace KTLang
         /// Writes the specified text to the output, with a trailing new line.
         /// </summary>
         void PrintLn(string text);
+
+        /// <summary>
+        /// Writes the specified text to the output.
+        /// </summary>
+        void Print(string text);
     }
 }
