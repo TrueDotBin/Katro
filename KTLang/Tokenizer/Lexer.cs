@@ -23,6 +23,7 @@ namespace KTLang.Tokenizer
             { "fn", TokenType.Fn },
             { "true", TokenType.True },
             { "false", TokenType.False },
+            { "while", TokenType.While }
         };
 
         private Token? ScanToken()

@@ -94,6 +94,11 @@ namespace KTLang.ConsoleApp
                 var numberified = toNumber(stringifiedA);
                 var result = numberified + 500;
                 println(result);
+
+                while true
+                {
+                    println("this runs forever");
+                }
                 """;
 
                 Console.WriteLine("[Lexer] Tokenizing input");

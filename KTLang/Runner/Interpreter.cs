@@ -1,6 +1,7 @@
 ﻿using KTLang.Nodes.Expressions;
 using KTLang.Nodes.Statements;
 using KTLang.Tokenizer;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KTLang.Runner
 {
@@ -12,7 +13,70 @@ namespace KTLang.Runner
         private IKatroHost _host = host;
         private Environment _env = new();
 
-        private object? DoBinaryExpression(BinaryExpression bin)
+        /// <summary>
+        /// Returns the actual value of an expression.
+        /// </summary>
+        public object? Evaluate(Expression expr)
+        {
+            if (expr is LiteralExpression literal)
+                return literal.Value;
+
+            if (expr is VariableExpression var)
+                return EvalVarExpr(var);
+
+            if (expr is BinaryExpression bin)
+                return EvalBinExpr(bin);
+            if (expr is CallExpression call)
+                return EvalCallExpr(call);
+
+            throw new Exception($"Unknown expression type: {expr.GetType().Name}");
+        }
+
+        /// <summary>
+        /// Executes the provided statement.
+        /// </summary>
+        public void Execute(Statement statement)
+        {
+            if (statement is VariableStatement var)
+            {
+                ExecVarStatement(var);
+                return;
+            }
+
+            if (statement is ExpressionStatement expr)
+            {
+                Evaluate(expr.Expression);
+                return;
+            }
+
+            if (statement is IfStatement ifStatement)
+            {
+                ExecIfStatement(ifStatement);
+                return;
+            }
+
+            if (statement is BlockStatement block)
+            {
+                ExecBlockStatement(block);
+                return;
+            }
+
+            throw new Exception($"Unknown statement type: {statement.GetType().Name}");
+        }
+
+        /// <summary>
+        /// Executes a list of statements.
+        /// </summary>
+        /// <param name="statements">The statements to execute.</param>
+        public void Interpret(List<Statement> statements)
+        {
+            foreach (var statement in statements)
+            {
+                Execute(statement);
+            }
+        }
+
+        private object? EvalBinExpr(BinaryExpression bin)
         {
             var left = Evaluate(bin.Left);
             var right = Evaluate(bin.Right);
@@ -65,112 +129,86 @@ namespace KTLang.Runner
             }
         }
 
-        /// <summary>
-        /// Returns the actual value of an expression.
-        /// </summary>
-        public object? Evaluate(Expression expr)
+        private object? EvalVarExpr(VariableExpression var)
         {
-            if (expr is LiteralExpression literal)
+            var name = var.Name?.RawString;
+
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            var value = _env.Get(name);
+
+            return value is null ? throw new Exception($"Variable {name} was used before being assigned") : value;
+        }
+
+        private object? EvalCallExpr(CallExpression call)
+        {
+            if (call.Callee is VariableExpression varExpr)
             {
-                return literal.Value;
-            }
-            else if (expr is VariableExpression var)
-            {
-                var name = var.Name?.RawString;
+                var name = varExpr.Name?.RawString;
 
                 if (string.IsNullOrEmpty(name))
-                    return null;
+                    throw new NullReferenceException("Function name was null or empty");
 
-                var value = _env.Get(name);
-
-                return value is null ? throw new Exception($"Variable {name} was used before being assigned") : value;
-            }
-            else if (expr is BinaryExpression bin)
-            {
-                return DoBinaryExpression(bin);
-            }
-            else if (expr is CallExpression call)
-            {
-                if (call.Callee is VariableExpression varExpr)
+                if (Builtins.Registry.TryGetValue(name, out var builtin))
                 {
-                    var name = varExpr.Name?.RawString;
-
-                    if (string.IsNullOrEmpty(name))
-                        throw new NullReferenceException("Function name was null or empty");
-
-                    if (Builtins.Registry.TryGetValue(name, out var builtin))
+                    var args = new List<object?>();
+                    foreach (var arg in call.Args)
                     {
-                        var args = new List<object?>();
-                        foreach (var arg in call.Args)
-                        {
-                            var value = Evaluate(arg);
-                            args.Add(value);
-                        }
-
-                        return builtin(args, _host);
+                        var value = Evaluate(arg);
+                        args.Add(value);
                     }
-                }
 
-                throw new Exception("Undefinied function");
+                    return builtin(args, _host);
+                }
             }
 
-            throw new Exception($"Unknown expression type: {expr.GetType().Name}");
+            throw new Exception("Undefinied function");
         }
 
-        /// <summary>
-        /// Executes the provided statement.
-        /// </summary>
-        public void Execute(Statement statement)
+        private void ExecVarStatement(VariableStatement var)
         {
-            if (statement is VariableStatement var)
-            {
-                var name = var.Name?.RawString;
+            var name = var.Name?.RawString;
 
-                if (string.IsNullOrEmpty(name))
-                    throw new NullReferenceException("Variable name was null or empty");
+            if (string.IsNullOrEmpty(name))
+                throw new NullReferenceException("Variable name was null or empty");
 
-                object? value = null;
+            object? value = null;
 
-                if (var.Initializer is not null)
-                    value = Evaluate(var.Initializer);
+            if (var.Initializer is not null)
+                value = Evaluate(var.Initializer);
 
-                _env.Set(name, value);
-            }
-            else if (statement is ExpressionStatement expr)
-            {
-                Evaluate(expr.Expression);
-            }
-            else if (statement is IfStatement ifStatement)
-            {
-                var condition = Evaluate(ifStatement.Condition);
-
-                if (condition is bool boolean)
-                {
-                    if (boolean)
-                        Execute(ifStatement.ThenBranch);
-                    else if (!boolean && ifStatement.ElseBranch is not null)
-                        Execute(ifStatement.ElseBranch);
-                }
-            }
-            else if (statement is BlockStatement block)
-            {
-                foreach (var blockElement in block.Statements)
-                {
-                    Execute(blockElement);
-                }
-            }
+            _env.Set(name, value);
         }
 
-        /// <summary>
-        /// Executes a list of statements.
-        /// </summary>
-        /// <param name="statements">The statements to execute.</param>
-        public void Interpret(List<Statement> statements)
+        private void ExecBlockStatement(BlockStatement block)
         {
-            foreach (var statement in statements)
+            foreach (var statement in block.Statements)
             {
                 Execute(statement);
             }
+        }
+
+        private void ExecIfStatement(IfStatement ifStatement)
+        {
+            var condition = Evaluate(ifStatement.Condition);
+            var truthy = IsTruthy(condition);
+
+            if (truthy)
+                Execute(ifStatement.ThenBranch);
+            else if (ifStatement.ElseBranch is not null)
+                Execute(ifStatement.ElseBranch);
+        }
+
+        private bool IsTruthy(object? value)
+        {
+            if (value is null)
+                return false;
+
+            if (value is bool boolean)
+                return boolean;
+
+            throw new Exception($"Value must evaluate to a boolean");
         }
     }
 }

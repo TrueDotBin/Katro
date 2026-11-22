@@ -55,7 +55,11 @@ namespace KTLang.Parsing
         {
             if (Match(TokenType.If))
                 return IfStatement();
-            else if (Match(TokenType.LBrace))
+
+            if (Match(TokenType.While))
+                return WhileStatement();
+
+            if (Match(TokenType.LBrace))
                 return Block();
 
             return ExpressionStatement();
@@ -65,6 +69,7 @@ namespace KTLang.Parsing
         {
             var expr = Expression();
             Consume(TokenType.Semicolon, "Expected semicolon after expression");
+
             return new ExpressionStatement(expr);
         }
 
@@ -78,6 +83,14 @@ namespace KTLang.Parsing
                 elseBranch = Statement();
 
             return new IfStatement(condition, thenBranch, elseBranch);
+        }
+
+        private Statement WhileStatement()
+        {
+            var condition = Expression();
+            var body = Statement();
+
+            return new WhileStatement(condition, body);
         }
 
         private Statement Block()
