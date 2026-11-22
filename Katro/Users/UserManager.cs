@@ -40,10 +40,16 @@ namespace Katro.Users
             => _users.AsReadOnly();
 
         /// <summary>
+        /// Determines whether the provided username is taken.
+        /// </summary>
+        public static bool IsTaken(string username)
+            => _users.Any(u => u.Username == username);
+
+        /// <summary>
         /// Determines whether the provided username is valid.
         /// </summary>
         public static bool IsValidUsername(string username)
-            => !username.Contains(InvalidUsernameChars);
+            => !username.Contains(InvalidUsernameChars) || !IsTaken(username);
 
         /// <summary>
         /// Adds a new user to the list.
@@ -55,7 +61,7 @@ namespace Katro.Users
         public static void AddUser(string username, string password, UserType type = UserType.Normal)
         {
             if (!IsValidUsername(username))
-                throw new ArgumentException($"Provided username ({username}) is invalid");
+                throw new ArgumentException($"Provided username ({username}) is invalid or taken");
 
             var user = new User(username, password, type);
             _users.Add(user);
