@@ -12,7 +12,7 @@ namespace Katro.Scripting
     /// <summary>
     /// Executes KTLang scripts.
     /// </summary>
-    public static class KTLang
+    public static class KTLangRunner
     {
         private static IKatroHost _host;
         private static Interpreter _interpreter;
