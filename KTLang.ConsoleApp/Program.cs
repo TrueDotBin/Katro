@@ -2,6 +2,7 @@
 using KTLang.Nodes.Expressions;
 using KTLang.Nodes.Statements;
 using KTLang.Parsing;
+using KTLang.Runner;
 using KTLang.Tokenizer;
 
 namespace KTLang.ConsoleApp
@@ -103,6 +104,11 @@ namespace KTLang.ConsoleApp
                 {
                     PrintAst(statement);
                 }
+
+                Console.WriteLine("[Interpreter] Executing statements");
+
+                var interpreter = new Interpreter();
+                interpreter.Interpret(statements);
             }
             catch (Exception ex)
             {
