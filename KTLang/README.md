@@ -27,3 +27,11 @@ else
     println("Math is NOT working correctly :(");
 }
 ```
+
+## Features
+
+- Turing complete (supports conditions, looping and variables)
+- Math (support for +, -, *, /)
+- Comparisons (support for >, >=, <, <=, ==, !=)
+- Control flow (if statements)
+- Dynamic typing
