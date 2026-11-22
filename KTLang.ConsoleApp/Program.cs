@@ -80,6 +80,12 @@ namespace KTLang.ConsoleApp
                 {
                     println("Math is NOT working correctly :(");
                 }
+
+                var exampleString = "hello";
+                var strLength = len(exampleString);
+
+                println("Sample string is", exampleString);
+                println("String length is", strLength);
                 """;
 
                 Console.WriteLine("[Lexer] Tokenizing input");
@@ -105,7 +111,9 @@ namespace KTLang.ConsoleApp
                     PrintAst(statement);
                 }
 
-                Console.WriteLine("[Interpreter] Executing statements");
+                Console.Write("Execute script?");
+                Console.ReadKey(true);
+                Console.Clear();
 
                 var host = new SampleHost();
                 var interpreter = new Interpreter(host);

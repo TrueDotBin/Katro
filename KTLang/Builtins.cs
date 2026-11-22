@@ -21,7 +21,8 @@ namespace KTLang
         public static readonly Dictionary<string, NativeFunction> Registry = new()
         {
             { "println", PrintLn },
-            { "print", Print }
+            { "print", Print },
+            { "len", Len }
         };
 
         /// <summary>
@@ -44,6 +45,19 @@ namespace KTLang
             host.Print(output);
 
             return null;
+        }
+
+        /// <summary>
+        /// Implementation for len(args): Determines the length of a string.
+        /// </summary>
+        public static object? Len(List<object?> args, IKatroHost host)
+        {
+            var firstArgument = args.First();
+
+            if (firstArgument is string str)
+                return (double)str.Length;
+
+            throw new Exception("Invalid type for len(), must be string");
         }
     }
 }
