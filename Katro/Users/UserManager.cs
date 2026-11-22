@@ -49,7 +49,7 @@ namespace Katro.Users
         /// Determines whether the provided username is valid.
         /// </summary>
         public static bool IsValidUsername(string username)
-            => !username.Contains(InvalidUsernameChars) || !IsTaken(username);
+            => !username.Contains(InvalidUsernameChars) && !IsTaken(username);
 
         /// <summary>
         /// Adds a new user to the list.
