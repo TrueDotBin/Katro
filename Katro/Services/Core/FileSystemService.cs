@@ -21,8 +21,8 @@ namespace Katro.Services.Core
 
             if (FileSystemManager.Initialized)
             {
-                Directory.CreateDirectory("/katro/etc");
-                Directory.CreateDirectory("/katro/home");
+                Directory.CreateDirectory(Paths.EtcDirPath);
+                Directory.CreateDirectory(Paths.HomeDirPath);
             }
 
             return FileSystemManager.Initialized;

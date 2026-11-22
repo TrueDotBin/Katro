@@ -1,6 +1,7 @@
 ﻿using Katro.Constants.FileSystem;
 using Katro.Crypto;
 using Katro.Enums;
+using Katro.FileSystem;
 using Katro.Output;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,6 @@ namespace Katro.Users
         /// Whether the user has seen the sudo lecture.
         /// </summary>
         public static bool SeenSudoLecture { get; set; }
-
-        /// <summary>
-        /// The path of the file that holds all users.
-        /// </summary>
-        public static readonly string UserDatabaseFilePath =
-            Path.Combine(MountPoints.RootPartition, "etc", "users");
 
         /// <summary>
         /// The currently logged in user.
@@ -91,7 +86,7 @@ namespace Katro.Users
                 sb.AppendLine(entry);
             }
 
-            File.WriteAllText(UserDatabaseFilePath, sb.ToString());
+            File.WriteAllText(Paths.UserDatabaseFilePath, sb.ToString());
         }
 
         /// <summary>
@@ -99,10 +94,10 @@ namespace Katro.Users
         /// </summary>
         public static void Load()
         {
-            if (!File.Exists(UserDatabaseFilePath))
+            if (!File.Exists(Paths.UserDatabaseFilePath))
                 return;
 
-            var lines = File.ReadAllLines(UserDatabaseFilePath);
+            var lines = File.ReadAllLines(Paths.UserDatabaseFilePath);
 
             foreach (var line in lines)
             {

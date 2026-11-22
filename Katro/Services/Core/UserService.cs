@@ -1,7 +1,8 @@
-﻿using TrueDotBin.CosmosUtils.Logging;
+﻿using Katro.Configuration;
+using Katro.FileSystem;
 using Katro.Services.Abstractions;
-using Katro.Configuration;
 using Katro.Users;
+using TrueDotBin.CosmosUtils.Logging;
 
 namespace Katro.Services.Core
 {
@@ -22,7 +23,7 @@ namespace Katro.Services.Core
         /// <inheritdoc/>
         public override bool Start()
         {
-            Logger.Log(LogLevel.Info, $"Loading users from {UserManager.UserDatabaseFilePath}");
+            Logger.Log(LogLevel.Info, $"Loading users from {Paths.UserDatabaseFilePath}");
 
             try
             {
@@ -49,7 +50,7 @@ namespace Katro.Services.Core
         /// <inheritdoc/>
         public override void Stop()
         {
-            Logger.Log(LogLevel.Info, $"Saving users to {UserManager.UserDatabaseFilePath}");
+            Logger.Log(LogLevel.Info, $"Saving users to {Paths.UserDatabaseFilePath}");
 
             try
             {

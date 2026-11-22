@@ -1,4 +1,5 @@
 ﻿using Katro.Constants.FileSystem;
+using Katro.FileSystem;
 using System.Text;
 
 namespace Katro.Configuration
@@ -8,12 +9,6 @@ namespace Katro.Configuration
     /// </summary>
     public static class SystemConfig
     {
-        /// <summary>
-        /// The path of the config file.
-        /// </summary>
-        public static readonly string ConfigFilePath
-            = Path.Combine(MountPoints.RootPartition, "config.cfg");
-
         private static Dictionary<string, string> _values = [];
 
         /// <summary>
@@ -21,10 +16,10 @@ namespace Katro.Configuration
         /// </summary>
         public static void Load()
         {
-            if (!File.Exists(ConfigFilePath))
+            if (!File.Exists(Paths.ConfigFilePath))
                 return;
 
-            var lines = File.ReadAllLines(ConfigFilePath);
+            var lines = File.ReadAllLines(Paths.ConfigFilePath);
 
             foreach (var line in lines)
             {
@@ -56,7 +51,7 @@ namespace Katro.Configuration
                 sb.AppendLine($"{kv.Key} = {kv.Value}");
             }
 
-            File.WriteAllText(ConfigFilePath, sb.ToString());
+            File.WriteAllText(Paths.ConfigFilePath, sb.ToString());
         }
 
         /// <summary>

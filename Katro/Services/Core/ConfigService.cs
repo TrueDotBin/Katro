@@ -1,6 +1,7 @@
 ﻿using TrueDotBin.CosmosUtils.Logging;
 using Katro.Services.Abstractions;
 using Katro.Configuration;
+using Katro.FileSystem;
 
 namespace Katro.Services.Core
 {
@@ -21,7 +22,7 @@ namespace Katro.Services.Core
         /// <inheritdoc/>
         public override bool Start()
         {
-            Logger.Log(LogLevel.Info, $"Loading configuration from {SystemConfig.ConfigFilePath}");
+            Logger.Log(LogLevel.Info, $"Loading configuration from {Paths.ConfigFilePath}");
 
             try
             {
@@ -38,7 +39,7 @@ namespace Katro.Services.Core
         /// <inheritdoc/>
         public override void Stop()
         {
-            Logger.Log(LogLevel.Info, $"Saving configuration to {SystemConfig.ConfigFilePath}");
+            Logger.Log(LogLevel.Info, $"Saving configuration to {Paths.ConfigFilePath}");
 
             try
             {

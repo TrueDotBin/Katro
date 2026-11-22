@@ -13,8 +13,10 @@ namespace Katro.FileSystem
     {
         private static readonly string[] _sensitivePaths =
         [
-            UserManager.UserDatabaseFilePath,
-            SystemConfig.ConfigFilePath
+            Paths.UserDatabaseFilePath,
+            Paths.ConfigFilePath,
+            Paths.EtcDirPath,
+            Paths.HomeDirPath
         ];
 
         /// <summary>
