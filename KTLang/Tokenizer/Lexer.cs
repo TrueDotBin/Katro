@@ -32,6 +32,10 @@ namespace KTLang.Tokenizer
 
             switch (c)
             {
+                case '#':
+                    while (Peek() != '\n' && !IsAtEnd()) Advance();
+                    break;
+
                 case '(':
                     return CreateToken(TokenType.LParen);
 
@@ -72,12 +76,7 @@ namespace KTLang.Tokenizer
                     return CreateToken(MatchNext('=') ? TokenType.Equal : TokenType.Assign);
 
                 case '>':
-                    if (MatchNext(' '))
-                        while (Peek() != '\n' && !IsAtEnd()) Advance();
-                    else
-                        return CreateToken(MatchNext('=') ? TokenType.GreaterEqual : TokenType.Greater);
-
-                    break;
+                    return CreateToken(MatchNext('=') ? TokenType.GreaterEqual : TokenType.Greater);
 
                 case '<':
                     return CreateToken(MatchNext('=') ? TokenType.LessEqual : TokenType.Less);

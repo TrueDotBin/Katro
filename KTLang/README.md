@@ -13,7 +13,7 @@ KTLang uses the `.ktl` extension.
 Here is an example of KTLang:
 
 ```ktlang
-> This is a comment, it is ignored by the interpreter.
+# This is a comment, it is ignored by the interpreter.
 
 var a = 5;
 println(a);

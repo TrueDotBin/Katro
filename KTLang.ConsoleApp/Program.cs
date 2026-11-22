@@ -74,7 +74,7 @@ namespace KTLang.ConsoleApp
             try
             {
                 var source = """
-                > This is a comment, it is ignored by the interpreter.
+                # This is a comment, it is ignored by the interpreter.
 
                 var a = 5;
 
