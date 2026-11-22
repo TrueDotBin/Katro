@@ -39,7 +39,7 @@ else
 
 ## Roadmap
 
-- [ ] Lexer/Tokenizer
+- [x] Lexer/Tokenizer
 - [ ] Parser/AST Generator
 - [ ] Interpreter
 - [ ] Variables
