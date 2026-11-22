@@ -101,7 +101,7 @@ namespace Katro.Shell
                     if (part.Contains('='))
                     {
                         var lastEquals = part.LastIndexOf('=');
-                        var optName = part.Substring(FlagPrefix.Length, lastEquals);
+                        var optName = part.Substring(FlagPrefix.Length, lastEquals - FlagPrefix.Length);
                         var optValue = part.Substring(lastEquals + 1);
 
                         context.Options[optName] = optValue;
