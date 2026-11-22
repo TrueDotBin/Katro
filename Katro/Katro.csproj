@@ -21,5 +21,9 @@
     <PackageReference Include="Cosmos.Kernel.System" Version="3.0.99" />
     <PackageReference Include="TrueDotBin.CosmosUtils" Version="2.1.1" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\KTLang\KTLang.csproj" />
+  </ItemGroup>
 
 </Project>
