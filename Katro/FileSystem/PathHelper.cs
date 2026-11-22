@@ -39,7 +39,15 @@ namespace Katro.FileSystem
         /// </summary>
         /// <returns>Whether the provided path is inside the current user's home directory.</returns>
         public static bool IsInsideUserPath(string path)
-            => path.StartsWith(UserManager.CurrentUser.HomeDirectory);
+        {
+            var normalized = Path.GetFullPath(path);
+            var home = UserManager.CurrentUser.HomeDirectory;
+
+            if (!home.EndsWith('/'))
+                home += "/";
+
+            return normalized.Equals(home.TrimEnd('/')) || normalized.StartsWith(home);
+        }
 
         /// <summary>
         /// Determines whether the provided path is considered sensitive.

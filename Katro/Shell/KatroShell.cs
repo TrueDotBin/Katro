@@ -78,6 +78,7 @@ namespace Katro.Shell
             Commands.Add(new AddUser());
             Commands.Add(new Sudo());
             Commands.Add(new RmUser());
+            Commands.Add(new Commands.System.KTLang());
         }
 
         /// <summary>

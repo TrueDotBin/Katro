@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="Katro/Katro.csproj" />
+  <Project Path="KTLang.ConsoleApp/KTLang.ConsoleApp.csproj" Id="c82e7fc4-49a9-4d25-9b00-638f904960f4" />
+  <Project Path="KTLang/KTLang.csproj" Id="00b385b5-d57d-4bfd-bf26-fe8fc0dd7e95" />
 </Solution>
