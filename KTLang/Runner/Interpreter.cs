@@ -61,6 +61,12 @@ namespace KTLang.Runner
                 return;
             }
 
+            if (statement is WhileStatement whileStatement)
+            {
+                ExecWhileStatement(whileStatement);
+                return;
+            }
+
             throw new Exception($"Unknown statement type: {statement.GetType().Name}");
         }
 
@@ -198,6 +204,14 @@ namespace KTLang.Runner
                 Execute(ifStatement.ThenBranch);
             else if (ifStatement.ElseBranch is not null)
                 Execute(ifStatement.ElseBranch);
+        }
+
+        private void ExecWhileStatement(WhileStatement whileStatement)
+        {
+            while (IsTruthy(Evaluate(whileStatement.Condition)))
+            {
+                Execute(whileStatement.Body);
+            }
         }
 
         private bool IsTruthy(object? value)

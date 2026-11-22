@@ -88,8 +88,10 @@ namespace KTLang.Tokenizer
                     break;
 
                 case '"':
-                    var value = String();
-                    return CreateToken(TokenType.String, value);
+                    {
+                        var value = String();
+                        return CreateToken(TokenType.String, value);
+                    }
 
                 case '\n':
                     _line++;
@@ -103,7 +105,8 @@ namespace KTLang.Tokenizer
                     }
                     else if (IsAlpha(c))
                     {
-                        return CreateToken(Identifier());
+                        var (type, value) = Identifier();
+                        return CreateToken(type, value);
                     }
 
                     throw new Exception($"Unexpected character '{c}' on line {_line}");
@@ -206,16 +209,27 @@ namespace KTLang.Tokenizer
             return double.Parse(value);
         }
 
-        private TokenType Identifier()
+        private (TokenType Type, object? Value) Identifier()
         {
             while (IsAlphaNumeric(Peek())) Advance();
 
             string text = _input.Substring(_start, _position - _start);
 
             if (_keywords.TryGetValue(text, out TokenType type))
-                return type;
+            {
+                object? value = null;
+
+                if (type == TokenType.True)
+                    value = true;
+                else if (type == TokenType.False)
+                    value = false;
+
+                return (type, value);
+            }
             else
-                return TokenType.Identifier;
+            {
+                return (TokenType.Identifier, null);
+            }
         }
 
         private bool IsDigit(char c)

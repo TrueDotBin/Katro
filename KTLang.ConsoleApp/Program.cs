@@ -39,6 +39,14 @@ namespace KTLang.ConsoleApp
                 Console.WriteLine($"{indent}Block:");
                 foreach (var s in blockStmt.Statements) PrintAst(s, indent + "  ");
             }
+            else if (stmt is WhileStatement whiteStmt)
+            {
+                Console.WriteLine($"{indent}While:");
+                Console.WriteLine($"{indent}  Condition:");
+                PrintAst(whiteStmt.Condition, indent + "    ");
+                Console.WriteLine($"{indent}  Do:");
+                PrintAst(whiteStmt.Body, indent + "    ");
+            }
         }
 
         public static void PrintAst(Expression expr, string indent = "")
