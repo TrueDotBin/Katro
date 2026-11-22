@@ -13,7 +13,7 @@ namespace KTLang
         /// The standard delegate for all built-in functions.
         /// </summary>
         /// <param name="args">The list of arguments that should be provided to the function.</param>
-        public delegate object? NativeFunction(List<object?> args);
+        public delegate object? NativeFunction(List<object?> args, IKatroHost host);
 
         /// <summary>
         /// The list of names that resolve to built-in functions.
@@ -26,10 +26,10 @@ namespace KTLang
         /// <summary>
         /// Implementation for println(args): Displays a message.
         /// </summary>
-        public static object? PrintLn(List<object?> args)
+        public static object? PrintLn(List<object?> args, IKatroHost host)
         {
             var output = string.Join(" ", args);
-            Console.WriteLine(output);
+            host.PrintLn(output);
 
             return null;
         }

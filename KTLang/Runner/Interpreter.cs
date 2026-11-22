@@ -7,8 +7,9 @@ namespace KTLang.Runner
     /// <summary>
     /// Executes or evaluates each statement or expression.
     /// </summary>
-    public class Interpreter
+    public class Interpreter(IKatroHost host)
     {
+        private IKatroHost _host = host;
         private Environment _env = new();
 
         private object? DoBinaryExpression(BinaryExpression bin)
@@ -106,7 +107,7 @@ namespace KTLang.Runner
                             args.Add(value);
                         }
 
-                        return builtin(args);
+                        return builtin(args, _host);
                     }
                 }
 

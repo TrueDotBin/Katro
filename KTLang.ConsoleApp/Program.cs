@@ -107,7 +107,8 @@ namespace KTLang.ConsoleApp
 
                 Console.WriteLine("[Interpreter] Executing statements");
 
-                var interpreter = new Interpreter();
+                var host = new SampleHost();
+                var interpreter = new Interpreter(host);
                 interpreter.Interpret(statements);
             }
             catch (Exception ex)
