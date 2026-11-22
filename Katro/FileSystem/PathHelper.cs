@@ -46,6 +46,16 @@ namespace Katro.FileSystem
         /// </summary>
         /// <returns>Whether the provided path is considered sensitive.</returns>
         public static bool IsSensitive(string path)
-            => _sensitivePaths.Contains(path);
+        {
+            var normalized = Path.GetFullPath(path);
+
+            foreach (var sensitivePath in _sensitivePaths)
+            {
+                if (normalized == sensitivePath || normalized.StartsWith(normalized))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }
