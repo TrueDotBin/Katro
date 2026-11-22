@@ -7,7 +7,7 @@ namespace KTLang.Tokenizer
     /// <summary>
     /// A single lexical token produced by the tokenizer.
     /// </summary>
-    public class Token(TokenType type, string raw, object? literal, int line)
+    public sealed class Token(TokenType type, string raw, object? literal, int line)
     {
         /// <summary>
         /// The category of this token.
