@@ -10,9 +10,6 @@ namespace Katro.Crypto
     /// </summary>
     public static class PasswordHasher
     {
-        private const int HashSize = 32;
-        private const int Iterations = 100000;
-
         private static byte[] Sha256(byte[] data)
         {
             var hash = new Sha256Digest();
