@@ -14,15 +14,32 @@ namespace Katro.Scripting
     /// </summary>
     public static class KTLang
     {
+        private static IKatroHost _host;
+        private static Interpreter _interpreter;
         private static readonly Logger _logger = new("KTLang");
+
+        /// <summary>
+        /// Whether KTLang has been initialized.
+        /// </summary>
+        public static bool Initialized { get; private set; }
+
+        /// <param name="host">The Katro host that implements functions.</param>
+        public static void Initialize(IKatroHost host)
+        {
+            _host = host;
+            _interpreter = new Interpreter(_host);
+            Initialized = true;
+        }
 
         /// <summary>
         /// Runs a script from the specified string.
         /// </summary>
         /// <param name="script">The script that should be interpreted.</param>
-        /// <param name="host">The Katro host that implements functions.</param>
-        public static void RunString(string script, IKatroHost host)
+        public static void RunString(string script)
         {
+            if (!Initialized)
+                return;
+
             try
             {
                 var lexer = new Lexer(script);
@@ -31,8 +48,7 @@ namespace Katro.Scripting
                 var parser = new Parser(tokens);
                 var statements = parser.Parse();
 
-                var interpreter = new Interpreter(host);
-                interpreter.Interpret(statements);
+                _interpreter.Interpret(statements);
             }
             catch (Exception ex)
             {
