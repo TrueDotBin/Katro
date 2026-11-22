@@ -31,7 +31,7 @@ else
 ## Features
 
 - Turing complete (supports conditions, looping and variables)
-- Math (support for +, -, *, /)
+- Math (support for +, -, *, /, %)
 - Comparisons (support for >, >=, <, <=, ==, !=)
 - Control flow (if statements)
 - Dynamic typing

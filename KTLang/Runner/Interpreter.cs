@@ -166,6 +166,14 @@ namespace KTLang.Runner
                         throw new Exception("Operands must be numbers.");
                     }
 
+                case TokenType.Modulo:
+                    {
+                        if (left is double leftDouble && right is double rightDouble)
+                            return leftDouble % rightDouble;
+
+                        throw new Exception("Operands must be numbers.");
+                    }
+
                 default:
                     throw new Exception("Invalid operator");
             }

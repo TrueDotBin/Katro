@@ -190,7 +190,7 @@ namespace KTLang.Parsing
         {
             var left = Unary();
 
-            while (Match(TokenType.Multiply, TokenType.Divide))
+            while (Match(TokenType.Multiply, TokenType.Divide, TokenType.Modulo))
             {
                 var op = Previous();
                 var right = Unary();
@@ -198,7 +198,7 @@ namespace KTLang.Parsing
             }
 
             return left;
-        }
+        }   
 
         private Expression Unary()
         {

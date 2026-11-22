@@ -118,6 +118,11 @@ namespace KTLang.ConsoleApp
                     println(i);
                     i = i + 1;
                 }
+
+                if 2 % 2 == 0
+                {
+                    println("2 is even");
+                }
                 """;
 
                 Console.WriteLine("[Lexer] Tokenizing input");

@@ -69,6 +69,9 @@ namespace KTLang.Tokenizer
                 case '*':
                     return CreateToken(TokenType.Multiply);
 
+                case '%':
+                    return CreateToken(TokenType.Modulo);
+
                 case '!':
                     return CreateToken(MatchNext('=') ? TokenType.NotEqual : TokenType.Exclamation);
 

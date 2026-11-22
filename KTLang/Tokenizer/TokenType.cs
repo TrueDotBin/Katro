@@ -65,6 +65,11 @@ namespace KTLang.Tokenizer
         Divide,
 
         /// <summary>
+        /// %
+        /// </summary>
+        Modulo,
+
+        /// <summary>
         /// !
         /// </summary>
         Exclamation,
