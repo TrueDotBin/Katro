@@ -27,14 +27,15 @@ namespace Katro.Shell.Commands.System
         /// <inheritdoc/>
         public override int Execute(CommandContext ctx)
         {
-            if (ctx.Args.Count == 0)
+            var firstSpace = ctx.Input.IndexOf(' ');
+            if (firstSpace == -1 || firstSpace == ctx.Input.Length - 1)
                 return CommandReturnCode.MissingArgument;
 
             UserManager.ShowLecture();
 
             var currentUser = UserManager.CurrentUser;
 
-            if (UserManager.IsType(UserType.Superuser))
+            if (!UserManager.IsType(UserType.Superuser))
             {
                 Terminal.Write($"Password for {currentUser.Username}: ");
                 var input = Console.ReadLine();
@@ -49,7 +50,7 @@ namespace Katro.Shell.Commands.System
                 }
             }
 
-            var cmdLine = string.Join(" ", ctx.Args);
+            var cmdLine = ctx.Input.Substring(firstSpace + 1).Trim();
 
             UserManager.Elevated = true;
 
