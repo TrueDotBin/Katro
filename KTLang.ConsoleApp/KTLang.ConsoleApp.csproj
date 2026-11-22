@@ -11,4 +11,10 @@
     <ProjectReference Include="..\KTLang\KTLang.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestScript.ktl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -82,49 +82,7 @@ namespace KTLang.ConsoleApp
         {
             try
             {
-                var source = """
-                # This is a comment, it is ignored by the interpreter.
-
-                var a = 5;
-
-                println(a);
-
-                if 2 + 2 == 4
-                {
-                    println("Math is working correctly!");
-                }
-                else
-                {
-                    println("Math is NOT working correctly :(");
-                }
-
-                var exampleString = "hello world";
-                var strLength = len(exampleString);
-
-                println("Sample string is", exampleString);
-                println("String length is", strLength);
-
-                var stringifiedA = toString(a);
-                var concatTest = stringifiedA + "Hello";
-                println(concatTest);
-
-                var numberified = toNumber(stringifiedA);
-                var result = numberified + 500;
-                println(result);
-
-                var i = 0;
-                while i < 10
-                {
-                    println(i);
-                    i = i + 1;
-                }
-
-                if 2 % 2 == 0
-                {
-                    println("2 is even");
-                }
-                """;
-
+                var source = File.ReadAllText("TestScript.ktl");
                 Console.WriteLine("[Lexer] Tokenizing input");
 
                 var lexer = new Lexer(source);
