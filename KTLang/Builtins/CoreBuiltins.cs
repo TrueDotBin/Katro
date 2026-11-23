@@ -57,14 +57,15 @@ namespace KTLang.Builtins
         public static KTLangType? ToStr(List<KTLangType?> args, IHost host)
         {
             if (args.Count == 0)
-                throw new Exception("toNumber() requires at least one argument");
+                throw new Exception("toString() requires at least one argument");
 
             var first = args.First();
+            var stringified = first?.ToString();
 
-            if (first is KTLangNumber num)
-                return new KTLangString(num.ToString());
+            if (string.IsNullOrEmpty(stringified))
+                throw new Exception("Failed to convert provided argument to string");
 
-            throw new Exception("Cannot convert specified type to string, must be number");
+            return new KTLangString(stringified);
         }
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace KTLang.Builtins
         public static KTLangType? ToNum(List<KTLangType?> args, IHost host)
         {
             if (args.Count == 0)
-                throw new Exception("toString() requires at least one argument");
+                throw new Exception("toNumber() requires at least one argument");
 
             var first = args.First();
 
