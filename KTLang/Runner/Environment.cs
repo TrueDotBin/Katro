@@ -7,30 +7,49 @@ namespace KTLang.Runner
     /// <summary>
     /// Manages KTLang's variables.
     /// </summary>
-    public class Environment
+    public class Environment(Environment? enclosing = null)
     {
-        private static Dictionary<string, object?> _vars = [];
+        private readonly Dictionary<string, object?> _vars = [];
+
+        /// <summary>
+        /// The parent scope's environment.
+        /// </summary>
+        public Environment? Enclosing { get; private set; } = enclosing;
 
         /// <summary>
         /// Gets a variable by its name.
         /// </summary>
         public object? Get(string name)
-            => _vars.TryGetValue(name, out var value) ? value : null;
+        {
+            if (_vars.TryGetValue(name, out var value))
+                return value;
+
+            if (Enclosing is not null)
+                return Enclosing.Get(name);
+
+            throw new Exception($"Undefined variable '{name}'.");
+        }
 
         /// <summary>
-        /// Sets a variable by its name.
+        /// Defines a variable.
         /// </summary>
-        public object? Set(string name, object? value)
+        public void Define(string name, object? value)
             => _vars[name] = value;
 
         /// <summary>
-        /// Sets a variable's value by its name, but does not create a new one.
+        /// Sets a variable's value by its name.
         /// </summary>
         public void Assign(string name, object? value)
         {
             if (_vars.ContainsKey(name))
             {
                 _vars[name] = value;
+                return;
+            }
+
+            if (Enclosing is not null)
+            {
+                Enclosing.Assign(name, value);
                 return;
             }
 

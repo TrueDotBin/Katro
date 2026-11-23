@@ -15,11 +15,11 @@ else
 var exampleString = "hello world";
 var strLength = len(exampleString);
 
-println("Sample string is", exampleString);
-println("String length is", strLength);
+println("Sample string =", exampleString);
+println("String length =", strLength);
 
 var stringifiedA = toString(a);
-var concatTest = stringifiedA + "Hello";
+var concatTest = stringifiedA + " Hello";
 
 println(concatTest);
 
@@ -31,11 +31,23 @@ println(result);
 var i = 0;
 while i < 10
 {
-    println(i);
+    print(i);
     i = i + 1;
 }
 
-if 2 % 2 == 0
+println();
+
+if a % 2 == 0
 {
-    println("2 is even");
+    var enclosed = 50;
+    println("a is even");
+    println("enclosed =", enclosed);
 }
+else
+{
+    var enclosed = 100;
+    println("a is odd");
+    println("enclosed =", enclosed);
+}
+
+# println(enclosed); < should error since its not a global variable

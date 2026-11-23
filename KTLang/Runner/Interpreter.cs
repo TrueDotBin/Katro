@@ -241,14 +241,25 @@ namespace KTLang.Runner
             if (var.Initializer is not null)
                 value = Evaluate(var.Initializer);
 
-            _env.Set(name, value);
+            _env.Define(name, value);
         }
 
         private void ExecBlockStatement(BlockStatement block)
         {
-            foreach (var statement in block.Statements)
+            var previous = _env;
+
+            try
             {
-                Execute(statement);
+                _env = new Environment(previous);
+
+                foreach (var statement in block.Statements)
+                {
+                    Execute(statement);
+                }
+            }
+            finally
+            {
+                _env = previous;
             }
         }
 
