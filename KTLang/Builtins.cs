@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KTLang.Runtime.Types;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,7 +14,7 @@ namespace KTLang
         /// The standard delegate for all built-in functions.
         /// </summary>
         /// <param name="args">The list of arguments that should be provided to the function.</param>
-        public delegate object? NativeFunction(List<object?> args, IHost host);
+        public delegate KTLangType? NativeFunction(List<KTLangType?> args, IHost host);
 
         /// <summary>
         /// The list of names that resolve to built-in functions.
@@ -30,7 +31,7 @@ namespace KTLang
         /// <summary>
         /// Implementation for println(args): Displays a message with a trailing new line.
         /// </summary>
-        public static object? PrintLn(List<object?> args, IHost host)
+        public static KTLangType? PrintLn(List<KTLangType?> args, IHost host)
         {
             var output = string.Join(" ", args);
             host.PrintLn(output);
@@ -41,7 +42,7 @@ namespace KTLang
         /// <summary>
         /// Implementation for print(args): Displays a message.
         /// </summary>
-        public static object? Print(List<object?> args, IHost host)
+        public static KTLangType? Print(List<KTLangType?> args, IHost host)
         {
             var output = string.Join(" ", args);
             host.Print(output);
@@ -52,15 +53,15 @@ namespace KTLang
         /// <summary>
         /// Implementation for len(args): Determines the length of a string or an array.
         /// </summary>
-        public static object? Len(List<object?> args, IHost host)
+        public static KTLangType? Len(List<KTLangType?> args, IHost host)
         {
             var firstArgument = args.First();
 
-            if (firstArgument is string str)
-                return (double)str.Length;
+            if (firstArgument is KTLangString str)
+                return str.GetLength();
 
-            if (firstArgument is List<object?> list)
-                return list.Count;
+            if (firstArgument is KTLangArray array)
+                return array.GetLength();
 
             throw new Exception("Invalid type for len(), must be string or array");
         }
@@ -68,20 +69,22 @@ namespace KTLang
         /// <summary>
         /// Implementation for toString(args): Converts a value to a string.
         /// </summary>
-        public static object? ToStr(List<object?> args, IHost _)
+        public static KTLangType? ToStr(List<KTLangType?> args, IHost _)
         {
             var firstArgument = args.First();
-            return firstArgument?.ToString();
+
+            return new KTLangString(firstArgument?.ToString() ?? "");
         }
 
         /// <summary>
         /// Implementation for toNumber(args): Converts a value to a number.
         /// </summary>
-        public static object? ToNum(List<object?> args, IHost _)
+        public static KTLangType? ToNum(List<KTLangType?> args, IHost _)
         {
             var firstArgument = args.First();
             var stringified = firstArgument?.ToString();
-            return double.Parse(stringified ?? "0");
+
+            return new KTLangNumber(double.Parse(stringified ?? "0"));
         }
     }
 }

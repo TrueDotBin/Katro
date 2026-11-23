@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KTLang.Runtime.Types;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace KTLang.Runtime
     /// </summary>
     public class Environment(Environment? enclosing = null)
     {
-        private readonly Dictionary<string, object?> _vars = [];
+        private readonly Dictionary<string, KTLangType?> _vars = [];
 
         /// <summary>
         /// The parent scope's environment.
@@ -19,7 +20,7 @@ namespace KTLang.Runtime
         /// <summary>
         /// Gets a variable by its name.
         /// </summary>
-        public object? Get(string name)
+        public KTLangType? Get(string name)
         {
             if (_vars.TryGetValue(name, out var value))
                 return value;
@@ -33,13 +34,13 @@ namespace KTLang.Runtime
         /// <summary>
         /// Defines a variable.
         /// </summary>
-        public void Define(string name, object? value)
+        public void Define(string name, KTLangType? value)
             => _vars[name] = value;
 
         /// <summary>
         /// Sets a variable's value by its name.
         /// </summary>
-        public void Assign(string name, object? value)
+        public void Assign(string name, KTLangType? value)
         {
             if (_vars.ContainsKey(name))
             {

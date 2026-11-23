@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KTLang.Runtime.Types;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace KTLang.Tokenizer
     /// <summary>
     /// A single lexical token produced by the tokenizer.
     /// </summary>
-    public sealed class Token(TokenType type, string raw, object? literal, int line)
+    public sealed class Token(TokenType type, string raw, KTLangType? literal, int line)
     {
         /// <summary>
         /// The category of this token.
@@ -22,7 +23,7 @@ namespace KTLang.Tokenizer
         /// <summary>
         /// The runtime value of this token, if any.
         /// </summary>
-        public object? Literal { get; init; } = literal;
+        public KTLangType? Literal { get; init; } = literal;
 
         /// <summary>
         /// The line that produced this token.
@@ -31,6 +32,6 @@ namespace KTLang.Tokenizer
 
         /// <inheritdoc/>
         public override string ToString()
-            => $"{Type} -> {RawString} ({Literal ?? "null"}) at line {Line}";
+            => $"{Type} -> {RawString} ({(object?)Literal ?? "null"}) at line {Line}"; // this is very janky
     }
 }

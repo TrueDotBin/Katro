@@ -1,5 +1,6 @@
 ﻿using KTLang.Nodes.Expressions;
 using KTLang.Nodes.Statements;
+using KTLang.Runtime.Types;
 using KTLang.Tokenizer;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -16,7 +17,7 @@ namespace KTLang.Runtime
         /// <summary>
         /// Returns the actual value of an expression.
         /// </summary>
-        public object? Evaluate(Expression expr)
+        public KTLangType? Evaluate(Expression expr)
         {
             if (expr is LiteralExpression literal)
                 return literal.Value;
@@ -89,7 +90,7 @@ namespace KTLang.Runtime
             }
         }
 
-        private object? EvalBinExpr(BinaryExpression bin)
+        private KTLangType? EvalBinExpr(BinaryExpression bin)
         {
             var left = Evaluate(bin.Left);
             var right = Evaluate(bin.Right);
@@ -98,81 +99,81 @@ namespace KTLang.Runtime
             {
                 case TokenType.Add:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble + rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangNumber(lNum.Value + rNum.Value);
 
-                        if (left is string leftStr && right is string rightStr)
-                            return leftStr + rightStr;
+                        if (left is KTLangString lStr && right is KTLangString rStr)
+                            return new KTLangString(lStr.Value + rStr.Value);
 
                         throw new Exception("Operands must be numbers or strings.");
                     }
 
                 case TokenType.Subtract:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble + rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangNumber(lNum.Value - rNum.Value);
 
                         throw new Exception("Operands must be numbers.");
                     }
 
                 case TokenType.Multiply:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble * rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangNumber(lNum.Value * rNum.Value);
 
                         throw new Exception("Operands must be numbers.");
                     }
 
                 case TokenType.Divide:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble / rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangNumber(lNum.Value / rNum.Value);
 
                         throw new Exception("Operands must be numbers.");
                     }
 
                 case TokenType.Equal:
-                    return left?.Equals(right);
+                    return new KTLangBoolean(left?.Equals(right) ?? false);
 
                 case TokenType.NotEqual:
-                    return !left?.Equals(right);
+                    return new KTLangBoolean(!left?.Equals(right) ?? false);
 
                 case TokenType.Greater:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble > rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangBoolean(lNum.Value > rNum.Value);
 
                         throw new Exception("Operands must be numbers.");
                     }
 
                 case TokenType.GreaterEqual:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble >= rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangBoolean(lNum.Value >= rNum.Value);
 
                         throw new Exception("Operands must be numbers.");
                     }
 
                 case TokenType.Less:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble < rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangBoolean(lNum.Value < rNum.Value);
 
                         throw new Exception("Operands must be numbers.");
                     }
 
                 case TokenType.LessEqual:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble <= rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangBoolean(lNum.Value <= rNum.Value);
 
                         throw new Exception("Operands must be numbers.");
                     }
 
                 case TokenType.Modulo:
                     {
-                        if (left is double leftDouble && right is double rightDouble)
-                            return leftDouble % rightDouble;
+                        if (left is KTLangNumber lNum && right is KTLangNumber rNum)
+                            return new KTLangNumber(lNum.Value % rNum.Value);
 
                         throw new Exception("Operands must be numbers.");
                     }
@@ -182,7 +183,7 @@ namespace KTLang.Runtime
             }
         }
 
-        private object? EvalVarExpr(VariableExpression var)
+        private KTLangType? EvalVarExpr(VariableExpression var)
         {
             var name = var.Name?.RawString;
 
@@ -194,7 +195,7 @@ namespace KTLang.Runtime
             return value is null ? throw new Exception($"Variable {name} was used before being assigned") : value;
         }
 
-        private object? EvalCallExpr(CallExpression call)
+        private KTLangType? EvalCallExpr(CallExpression call)
         {
             if (call.Callee is VariableExpression varExpr)
             {
@@ -205,7 +206,7 @@ namespace KTLang.Runtime
 
                 if (Builtins.Registry.TryGetValue(name, out var builtin))
                 {
-                    var args = new List<object?>();
+                    var args = new List<KTLangType?>();
                     foreach (var arg in call.Args)
                     {
                         var value = Evaluate(arg);
@@ -219,7 +220,7 @@ namespace KTLang.Runtime
             throw new Exception("Undefinied function");
         }
 
-        private object? EvalAssignExpr(AssignmentExpression assign)
+        private KTLangType? EvalAssignExpr(AssignmentExpression assign)
         {
             var name = assign.Name?.RawString;
 
@@ -232,12 +233,12 @@ namespace KTLang.Runtime
             return value;
         }
 
-        private object? EvalArrayExpr(ArrayExpression array)
+        private KTLangType? EvalArrayExpr(ArrayExpression array)
         {
-            var list = new List<object?>();
+            var list = new KTLangArray();
 
             foreach (var value in array.Values)
-                list.Add(Evaluate(value));
+                list.Push(Evaluate(value));
 
             return list;
         }
@@ -249,7 +250,7 @@ namespace KTLang.Runtime
             if (string.IsNullOrEmpty(name))
                 throw new NullReferenceException("Variable name was null or empty");
 
-            object? value = null;
+            KTLangType? value = null;
 
             if (var.Initializer is not null)
                 value = Evaluate(var.Initializer);
@@ -295,13 +296,13 @@ namespace KTLang.Runtime
             }
         }
 
-        private bool IsTruthy(object? value)
+        private bool IsTruthy(KTLangType? value)
         {
             if (value is null)
                 return false;
 
-            if (value is bool boolean)
-                return boolean;
+            if (value is KTLangBoolean boolean)
+                return boolean.Value;
 
             throw new Exception($"Value must evaluate to a boolean");
         }

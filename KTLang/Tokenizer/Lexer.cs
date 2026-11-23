@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KTLang.Runtime.Types;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -149,7 +150,7 @@ namespace KTLang.Tokenizer
         private char Advance()
             => _input[_position++];
 
-        private Token CreateToken(TokenType type, object? literal)
+        private Token CreateToken(TokenType type, KTLangType? literal)
         {
             var text = _input.Substring(_start, _position - _start);
             return new Token(type, text, literal, _line);
@@ -184,7 +185,7 @@ namespace KTLang.Tokenizer
             return true;
         }
 
-        private string String()
+        private KTLangString String()
         {
             while (Peek() != '"' && !IsAtEnd())
             {
@@ -200,10 +201,10 @@ namespace KTLang.Tokenizer
             Advance();
 
             string value = _input.Substring(_start + 1, _position - _start - 2);
-            return value;
+            return new(value);
         }
 
-        private double Number()
+        private KTLangNumber Number()
         {
             while (IsDigit(Peek())) Advance();
 
@@ -214,10 +215,10 @@ namespace KTLang.Tokenizer
             }
 
             string value = _input.Substring(_start, _position - _start);
-            return double.Parse(value);
+            return new(double.Parse(value));
         }
 
-        private (TokenType Type, object? Value) Identifier()
+        private (TokenType Type, KTLangType? Value) Identifier()
         {
             while (IsAlphaNumeric(Peek())) Advance();
 
@@ -225,12 +226,12 @@ namespace KTLang.Tokenizer
 
             if (_keywords.TryGetValue(text, out TokenType type))
             {
-                object? value = null;
+                KTLangType? value = null;
 
                 if (type == TokenType.True)
-                    value = true;
+                    value = new KTLangBoolean(true);
                 else if (type == TokenType.False)
-                    value = false;
+                    value = new KTLangBoolean(false);
 
                 return (type, value);
             }
