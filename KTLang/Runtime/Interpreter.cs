@@ -1,4 +1,5 @@
-﻿using KTLang.Nodes.Expressions;
+﻿using KTLang.Builtins;
+using KTLang.Nodes.Expressions;
 using KTLang.Nodes.Statements;
 using KTLang.Runtime.Types;
 using KTLang.Tokenizer;
@@ -204,7 +205,7 @@ namespace KTLang.Runtime
                 if (string.IsNullOrEmpty(name))
                     throw new NullReferenceException("Function name was null or empty");
 
-                if (Builtins.Registry.TryGetValue(name, out var builtin))
+                if (BuiltinsRegistry.Registry.TryGetValue(name, out var builtin))
                 {
                     var args = new List<KTLangType?>();
                     foreach (var arg in call.Args)
