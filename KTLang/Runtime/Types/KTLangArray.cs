@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace KTLang.Runtime.Types
@@ -47,5 +48,13 @@ namespace KTLang.Runtime.Types
 
             return last;
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object? obj)
+            => ReferenceEquals(this, obj);
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+            => RuntimeHelpers.GetHashCode(this);
     }
 }
