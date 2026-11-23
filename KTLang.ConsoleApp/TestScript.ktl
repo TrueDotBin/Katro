@@ -1,83 +1,135 @@
-﻿# This is a comment, it is ignored by the interpreter.
+﻿# This is a comment.
 
-fn hello() {
-    println("Hello, world!");
-}
-
-fn greet(name) {
-    println("Hello,", name + "!");
-}
-
-fn returnParam(param) {
-    return param;
-}
-
-var a = 5;
-println(a);
-
-if 2 + 2 == 4
+fn log(source, message)
 {
-    println("Math is working correctly!");
+	println("[" + source + "]", message);
 }
-else
+
+fn variableTest()
 {
-    println("Math is NOT working correctly :(");
+	var a = 10;
+	println(a);
 }
 
-var exampleString = "hello world";
-var strLength = len(exampleString);
-
-println("Sample string =", exampleString);
-println("String length =", strLength);
-
-var stringifiedA = toString(a);
-var concatTest = stringifiedA + " Hello";
-
-println(concatTest);
-
-var numberified = toNumber(stringifiedA);
-var result = numberified + 500;
-
-println(result);
-
-var i = 0;
-while i < 10
+fn mathTest()
 {
-    print(i);
-    i = i + 1;
+	var a = 10;
+	var b = 20;
+
+	var c = a + b; # addition
+	var d = a - b; # subtraction
+	var e = a * b; # multiplication
+	var f = a / b; # division
+	var g = a % b; # modulo
+
+	println("a =", a);
+	println("b =", b);
+	println("c =", c);
+	println("d =", d);
+	println("e =", e);
+	println("f =", f);
+	println("g =", g);
 }
 
-println();
-
-if a % 2 == 0
+fn ifTest(condition)
 {
-    var enclosed = 50;
-    println("a is even");
-    println("enclosed =", enclosed);
+	if condition
+	{
+		println("Provided condition is true");
+	}
+	else
+	{
+		println("Provided condition is false");
+	}
 }
-else
+
+fn whileTest()
 {
-    var enclosed = 100;
-    println("a is odd");
-    println("enclosed =", enclosed);
+	var i = 0;
+
+	while i < 10
+	{
+		println("i =", i);
+		i = i + 1;
+	}
 }
 
-# println(enclosed); < should error since its not a global variable
+fn arrayTest()
+{
+	var arr = [1, 2, 3, 4, 5, 6];
 
-var arr = [1, 2, 3, 4, 5, 6];
-println("There are", arr.length, "elements in sample array");
+	println("Array length:", arr.length);
+	println(arr);
+	
+	log("Arrays", "Pushing new element");
+	arr.push(7);
 
-arr.push(10);
+	println("Array length after push:", arr.length);
+	println(arr);
 
-println("There are now", arr.length, "elements!");
+	log("Arrays", "Popping last element");
+	var last = arr.pop();
 
-var last = arr.pop();
+	println("Array length after pop:", arr.length);
+	println("Last element:", last);
+}
 
-println("There are now", arr.length, "elements because the script popped one!");
-println("Last element before popping:", last);
+fn stringTest()
+{
+	var str = "Hello, world!";
+	var strLen = str.length;
 
-hello();
-greet("person");
+	println("str =", str);
+	println("strLen =", strLen);
 
-var result = returnParam("Hi");
-println(result);
+	var strConcat = str + " String concatenation!";
+	var newLen = strConcat.length;
+
+	println("strConcat =", strConcat);
+	println("newLen =", newLen);
+}
+
+fn conversionTest()
+{
+	var validNumStr = "100";
+	var invalidNumStr = "Invalid";
+
+	println("validNumStr =", validNumStr);
+	println("invalidNumStr =", invalidNumStr);
+
+	var validNum = toNumber(validNumStr);
+	println("validNum =", validNum);
+
+	# var invalidNum = toNumber(invalidNumStr); # ERROR!
+	# println("invalidNum =", invalidNum);
+
+	println("true (stringified) =", toString(true));
+	println("1 (stringified) =", toString(1));
+	println("[1, 2] (stringified) =", toString([1, 2]));
+}
+
+log("Variables", "Testing variable definition");
+variableTest();
+
+log("Math", "Testing math operations");
+mathTest();
+
+log("If", "Testing if statement (true)");
+ifTest(true);
+
+log("If", "Testing if statement (false)");
+ifTest(false);
+
+log("While", "Testing while statement");
+whileTest();
+
+log("Arrays", "Testing arrays");
+arrayTest();
+
+log("Strings", "Testing strings");
+stringTest();
+
+log("Conversion", "Testing number-to-string and string-to-number conversion");
+conversionTest();
+
+log("Tests", "Finished!");
