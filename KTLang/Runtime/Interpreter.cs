@@ -3,7 +3,7 @@ using KTLang.Nodes.Statements;
 using KTLang.Tokenizer;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace KTLang.Runner
+namespace KTLang.Runtime
 {
     /// <summary>
     /// Executes or evaluates each statement or expression.

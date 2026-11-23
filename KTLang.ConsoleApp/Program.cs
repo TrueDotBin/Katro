@@ -2,7 +2,7 @@
 using KTLang.Nodes.Expressions;
 using KTLang.Nodes.Statements;
 using KTLang.Parsing;
-using KTLang.Runner;
+using KTLang.Runtime;
 using KTLang.Tokenizer;
 
 namespace KTLang.ConsoleApp

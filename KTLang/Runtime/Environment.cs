@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KTLang.Runner
+namespace KTLang.Runtime
 {
     /// <summary>
     /// Manages KTLang's variables.
