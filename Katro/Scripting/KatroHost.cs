@@ -9,7 +9,7 @@ namespace Katro.Scripting
     /// <summary>
     /// The host that implements built-in functions.
     /// </summary>
-    public sealed class KatroHost : IKatroHost
+    public sealed class KatroHost : IHost
     {
         /// <inheritdoc/>
         public void PrintLn(string text)

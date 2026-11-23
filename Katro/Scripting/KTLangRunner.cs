@@ -14,7 +14,7 @@ namespace Katro.Scripting
     /// </summary>
     public static class KTLangRunner
     {
-        private static IKatroHost _host;
+        private static IHost _host;
         private static Interpreter _interpreter;
         private static readonly Logger _logger = new("KTLang");
 
@@ -27,7 +27,7 @@ namespace Katro.Scripting
         /// Initializes the KTLang runner.
         /// </summary>
         /// <param name="host">The Katro host that implements functions.</param>
-        public static void Initialize(IKatroHost host)
+        public static void Initialize(IHost host)
         {
             if (Initialized)
                 return;

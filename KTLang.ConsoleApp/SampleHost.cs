@@ -4,7 +4,7 @@ using System.Text;
 
 namespace KTLang.ConsoleApp
 {
-    public sealed class SampleHost : IKatroHost
+    public sealed class SampleHost : IHost
     {
         public void PrintLn(string text)
         {

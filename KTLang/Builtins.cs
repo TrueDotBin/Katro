@@ -13,7 +13,7 @@ namespace KTLang
         /// The standard delegate for all built-in functions.
         /// </summary>
         /// <param name="args">The list of arguments that should be provided to the function.</param>
-        public delegate object? NativeFunction(List<object?> args, IKatroHost host);
+        public delegate object? NativeFunction(List<object?> args, IHost host);
 
         /// <summary>
         /// The list of names that resolve to built-in functions.
@@ -30,7 +30,7 @@ namespace KTLang
         /// <summary>
         /// Implementation for println(args): Displays a message with a trailing new line.
         /// </summary>
-        public static object? PrintLn(List<object?> args, IKatroHost host)
+        public static object? PrintLn(List<object?> args, IHost host)
         {
             var output = string.Join(" ", args);
             host.PrintLn(output);
@@ -41,7 +41,7 @@ namespace KTLang
         /// <summary>
         /// Implementation for print(args): Displays a message.
         /// </summary>
-        public static object? Print(List<object?> args, IKatroHost host)
+        public static object? Print(List<object?> args, IHost host)
         {
             var output = string.Join(" ", args);
             host.Print(output);
@@ -52,7 +52,7 @@ namespace KTLang
         /// <summary>
         /// Implementation for len(args): Determines the length of a string.
         /// </summary>
-        public static object? Len(List<object?> args, IKatroHost host)
+        public static object? Len(List<object?> args, IHost host)
         {
             var firstArgument = args.First();
 
@@ -65,7 +65,7 @@ namespace KTLang
         /// <summary>
         /// Implementation for toString(args): Converts a value to a string.
         /// </summary>
-        public static object? ToStr(List<object?> args, IKatroHost _)
+        public static object? ToStr(List<object?> args, IHost _)
         {
             var firstArgument = args.First();
             return firstArgument?.ToString();
@@ -74,7 +74,7 @@ namespace KTLang
         /// <summary>
         /// Implementation for toNumber(args): Converts a value to a number.
         /// </summary>
-        public static object? ToNum(List<object?> args, IKatroHost _)
+        public static object? ToNum(List<object?> args, IHost _)
         {
             var firstArgument = args.First();
             var stringified = firstArgument?.ToString();

@@ -8,9 +8,9 @@ namespace KTLang.Runner
     /// <summary>
     /// Executes or evaluates each statement or expression.
     /// </summary>
-    public class Interpreter(IKatroHost host)
+    public class Interpreter(IHost host)
     {
-        private IKatroHost _host = host;
+        private IHost _host = host;
         private Environment _env = new();
 
         /// <summary>
