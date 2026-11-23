@@ -39,7 +39,7 @@ namespace KTLang.Parsing
             return Statement();
         }
 
-        private Statement VariableDecl()
+        private VariableStatement VariableDecl()
         {
             var name = Consume(TokenType.Identifier, "Expected variable name");
 
@@ -65,7 +65,7 @@ namespace KTLang.Parsing
             return ExpressionStatement();
         }
 
-        private Statement ExpressionStatement()
+        private ExpressionStatement ExpressionStatement()
         {
             var expr = Expression();
             Consume(TokenType.Semicolon, "Expected semicolon after expression");
@@ -73,7 +73,7 @@ namespace KTLang.Parsing
             return new ExpressionStatement(expr);
         }
 
-        private Statement If()
+        private IfStatement If()
         {
             var condition = Expression();
             var thenBranch = Statement();
@@ -85,7 +85,7 @@ namespace KTLang.Parsing
             return new IfStatement(condition, thenBranch, elseBranch);
         }
 
-        private Statement While()
+        private WhileStatement While()
         {
             var condition = Expression();
             var body = Statement();
@@ -93,7 +93,7 @@ namespace KTLang.Parsing
             return new WhileStatement(condition, body);
         }
 
-        private Statement Block()
+        private BlockStatement Block()
         {
             var statements = new List<Statement>();
 
@@ -132,7 +132,7 @@ namespace KTLang.Parsing
             throw new Exception($"Expected expression, but got {badToken.Type} ('{badToken.RawString}') at line {badToken.Line}");
         }
 
-        private Expression Array()
+        private ArrayExpression Array()
         {
             var expressions = new List<Expression>();
 
