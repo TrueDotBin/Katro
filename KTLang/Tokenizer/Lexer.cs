@@ -242,11 +242,12 @@ namespace KTLang.Tokenizer
         }
 
         private bool IsDigit(char c)
-            => c >= '0' && c <= '9';
+            => char.IsDigit(c);
 
         private bool IsAlpha(char c)
-            => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+            => char.IsLetter(c);
 
-        private bool IsAlphaNumeric(char c) => IsAlpha(c) || IsDigit(c);
+        private bool IsAlphaNumeric(char c)
+            => char.IsLetterOrDigit(c);
     }
 }
