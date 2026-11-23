@@ -39,5 +39,11 @@ namespace KTLang.Runtime.Types
         /// <inheritdoc/>
         public override string ToString()
             => Value;
+
+        /// <summary>
+        /// Concatenates the left side with the right side.
+        /// </summary>
+        public static KTLangString operator +(KTLangString left, KTLangString right)
+            => new(left.Value + right.Value);
     }
 }

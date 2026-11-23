@@ -100,10 +100,10 @@ namespace KTLang.Runtime
                 case TokenType.Add:
                     {
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
-                            return new KTLangNumber(lNum.Value + rNum.Value);
+                            return lNum + rNum;
 
                         if (left is KTLangString lStr && right is KTLangString rStr)
-                            return new KTLangString(lStr.Value + rStr.Value);
+                            return lStr + rStr;
 
                         throw new Exception("Operands must be numbers or strings.");
                     }
@@ -111,7 +111,7 @@ namespace KTLang.Runtime
                 case TokenType.Subtract:
                     {
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
-                            return new KTLangNumber(lNum.Value - rNum.Value);
+                            return lNum - rNum;
 
                         throw new Exception("Operands must be numbers.");
                     }
@@ -119,7 +119,7 @@ namespace KTLang.Runtime
                 case TokenType.Multiply:
                     {
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
-                            return new KTLangNumber(lNum.Value * rNum.Value);
+                            return lNum * rNum;
 
                         throw new Exception("Operands must be numbers.");
                     }
@@ -127,7 +127,7 @@ namespace KTLang.Runtime
                 case TokenType.Divide:
                     {
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
-                            return new KTLangNumber(lNum.Value / rNum.Value);
+                            return lNum / rNum;
 
                         throw new Exception("Operands must be numbers.");
                     }
@@ -141,7 +141,7 @@ namespace KTLang.Runtime
                 case TokenType.Greater:
                     {
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
-                            return new KTLangBoolean(lNum.Value > rNum.Value);
+                            return new KTLangBoolean(lNum > rNum);
 
                         throw new Exception("Operands must be numbers.");
                     }
@@ -157,7 +157,7 @@ namespace KTLang.Runtime
                 case TokenType.Less:
                     {
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
-                            return new KTLangBoolean(lNum.Value < rNum.Value);
+                            return new KTLangBoolean(lNum < rNum);
 
                         throw new Exception("Operands must be numbers.");
                     }
@@ -165,7 +165,7 @@ namespace KTLang.Runtime
                 case TokenType.LessEqual:
                     {
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
-                            return new KTLangBoolean(lNum.Value <= rNum.Value);
+                            return new KTLangBoolean(lNum <= rNum);
 
                         throw new Exception("Operands must be numbers.");
                     }
@@ -173,7 +173,7 @@ namespace KTLang.Runtime
                 case TokenType.Modulo:
                     {
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
-                            return new KTLangNumber(lNum.Value % rNum.Value);
+                            return lNum % rNum;
 
                         throw new Exception("Operands must be numbers.");
                     }

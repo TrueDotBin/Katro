@@ -33,5 +33,71 @@ namespace KTLang.Runtime.Types
         /// <inheritdoc/>
         public override string ToString()
             => Value.ToString();
+
+        /// <summary>
+        /// Adds the left and right values.
+        /// </summary>
+        public static KTLangNumber operator +(KTLangNumber left, KTLangNumber right)
+            => new(left.Value + right.Value);
+
+        /// <summary>
+        /// Subtracts the left and right values.
+        /// </summary>
+        public static KTLangNumber operator -(KTLangNumber left, KTLangNumber right)
+            => new(left.Value - right.Value);
+
+        /// <summary>
+        /// Multiplies the left and right values.
+        /// </summary>
+        public static KTLangNumber operator *(KTLangNumber left, KTLangNumber right)
+            => new(left.Value * right.Value);
+
+        /// <summary>
+        /// Divides the left and right values.
+        /// </summary>
+        public static KTLangNumber operator /(KTLangNumber left, KTLangNumber right)
+            => new(left.Value / right.Value);
+
+        /// <summary>
+        ///  Calculates the remainder of dividing the left and right values.
+        /// </summary>
+        public static KTLangNumber operator %(KTLangNumber left, KTLangNumber right)
+            => new(left.Value % right.Value);
+
+        /// <summary>
+        /// Checks if the left side is greater than the right side.
+        /// </summary>
+        public static bool operator >(KTLangNumber left, KTLangNumber right)
+            => left.Value > right.Value;
+
+        /// <summary>
+        /// Checks if the right side is greater than the left side.
+        /// </summary>
+        public static bool operator <(KTLangNumber left, KTLangNumber right)
+            => left.Value < right.Value;
+
+        /// <summary>
+        /// Checks if the left side is greater than or equal to the right side.
+        /// </summary>
+        public static bool operator >=(KTLangNumber left, KTLangNumber right)
+            => left.Value >= right.Value;
+
+        /// <summary>
+        /// Checks if the right side is greater than or equal to the left side.
+        /// </summary>
+        public static bool operator <=(KTLangNumber left, KTLangNumber right)
+            => left.Value <= right.Value;
+
+        /// <summary>
+        /// Checks if the right side is equal to the left side.
+        /// </summary>
+        public static bool operator ==(KTLangNumber left, KTLangNumber right)
+            => left.Value == right.Value;
+
+        /// <summary>
+        /// Checks if the right side is not equal to the left side.
+        /// </summary>
+        public static bool operator !=(KTLangNumber left, KTLangNumber right)
+            => left.Value != right.Value;
     }
 }
