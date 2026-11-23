@@ -9,113 +9,13 @@ namespace KTLang.ConsoleApp
 {
     public class Program
     {
-        public static void PrintAst(Statement stmt, string indent = "")
-        {
-            if (stmt is VariableStatement varStmt)
-            {
-                Console.WriteLine($"{indent}Var: {varStmt.Name.RawString}");
-                if (varStmt.Initializer != null) PrintAst(varStmt.Initializer, indent + "  ");
-            }
-            else if (stmt is ExpressionStatement exprStmt)
-            {
-                Console.WriteLine($"{indent}Expr:");
-                PrintAst(exprStmt.Expression, indent + "  ");
-            }
-            else if (stmt is IfStatement ifStmt)
-            {
-                Console.WriteLine($"{indent}If:");
-                Console.WriteLine($"{indent}  Condition:");
-                PrintAst(ifStmt.Condition, indent + "    ");
-                Console.WriteLine($"{indent}  Then:");
-                PrintAst(ifStmt.ThenBranch, indent + "    ");
-                if (ifStmt.ElseBranch != null)
-                {
-                    Console.WriteLine($"{indent}  Else:");
-                    PrintAst(ifStmt.ElseBranch, indent + "    ");
-                }
-            }
-            else if (stmt is BlockStatement blockStmt)
-            {
-                Console.WriteLine($"{indent}Block:");
-                foreach (var s in blockStmt.Statements) PrintAst(s, indent + "  ");
-            }
-            else if (stmt is WhileStatement whiteStmt)
-            {
-                Console.WriteLine($"{indent}While:");
-                Console.WriteLine($"{indent}  Condition:");
-                PrintAst(whiteStmt.Condition, indent + "    ");
-                Console.WriteLine($"{indent}  Do:");
-                PrintAst(whiteStmt.Body, indent + "    ");
-            }
-            else if (stmt is FunctionStatement funcStmt)
-            {
-                Console.WriteLine($"{indent}Function:");
-                Console.WriteLine($"{indent}  Parameters:");
-
-                foreach (var param in funcStmt.Parameters)
-                {
-                    Console.WriteLine($"{indent}    {param.RawString}");
-                }
-
-                Console.WriteLine($"{indent}  Do:");
-                PrintAst(funcStmt.Body, indent + "    ");
-            }
-            else if (stmt is ReturnStatement returnStmt)
-            {
-                if (returnStmt.Value is null)
-                {
-                    Console.WriteLine($"{indent}Return");
-                    return;
-                }
-
-                Console.WriteLine($"{indent}Return:");
-                PrintAst(returnStmt.Value, indent + "    ");
-            }
-        }
-
-        public static void PrintAst(Expression expr, string indent = "")
-        {
-            if (expr is LiteralExpression lit)
-            {
-                Console.WriteLine($"{indent}Literal: {lit.Value}");
-            }
-            else if (expr is VariableExpression var)
-            {
-                Console.WriteLine($"{indent}Var: {var.Name?.RawString}");
-            }                
-            else if (expr is BinaryExpression bin)
-            {
-                Console.WriteLine($"{indent}Binary: {bin.Operator.RawString}");
-                PrintAst(bin.Left, indent + "  ");
-                PrintAst(bin.Right, indent + "  ");
-            }
-            else if (expr is CallExpression call)
-            {
-                Console.WriteLine($"{indent}Call:");
-                PrintAst(call.Callee, indent + "  ");
-                foreach (var arg in call.Args) PrintAst(arg, indent + "    ");
-            }
-            else if (expr is AssignmentExpression assign)
-            {
-                Console.WriteLine($"{indent}Assign: {assign.Name?.RawString}");
-                PrintAst(assign.Value, indent + "    ");
-            }
-            else if (expr is ArrayExpression array)
-            {
-                Console.WriteLine($"{indent}Array:");
-                foreach (var val in array.Values) PrintAst(val, indent + "  ");
-            }
-            else if (expr is MemberExpression member)
-            {
-                Console.WriteLine($"{indent}Member: {member.Name?.RawString}");
-                PrintAst(member.Target, indent + "  ");
-            }
-        }
-
-        public static void Main()
+        public static void Main(string[] args)
         {
             try
             {
+                var debug = args.Contains("--debug");
+
+
                 var source = File.ReadAllText("TestScript.ktl");
                 Console.WriteLine("[Lexer] Tokenizing input");
 
@@ -124,9 +24,12 @@ namespace KTLang.ConsoleApp
 
                 Console.WriteLine($"[Lexer] {tokens.Count} token(s)");
 
-                foreach (var token in tokens)
+                if (debug)
                 {
-                    Console.WriteLine(token);
+                    foreach (var token in tokens)
+                    {
+                        Console.WriteLine(token);
+                    }
                 }
 
                 Console.WriteLine("[Parser] Parsing tokens");
@@ -135,12 +38,16 @@ namespace KTLang.ConsoleApp
                 var statements = parser.Parse();
 
                 Console.WriteLine($"[Parser] {statements.Count} statement(s)");
-                foreach (var statement in statements)
+                
+                if (debug)
                 {
-                    PrintAst(statement);
+                    foreach (var statement in statements)
+                    {
+                        AstPrinter.PrintAst(statement);
+                    }
                 }
 
-                Console.Write("Execute script?");
+                Console.WriteLine("Press any key to execute the script");
                 Console.ReadKey(true);
                 Console.Clear();
 
