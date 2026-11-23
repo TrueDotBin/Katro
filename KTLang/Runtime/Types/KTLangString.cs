@@ -17,8 +17,8 @@ namespace KTLang.Runtime.Types
         /// <summary>
         /// Gets the length of this sequence.
         /// </summary>
-        public int GetLength()
-            => Value.Length;
+        public KTLangNumber GetLength()
+            => new(Value.Length);
 
         /// <inheritdoc/>
         public override bool Equals(object? obj)

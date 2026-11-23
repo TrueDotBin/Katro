@@ -15,8 +15,8 @@ namespace KTLang.Runtime.Types
         /// <summary>
         /// Gets the length of this array.
         /// </summary>
-        public int GetLength()
-            => _values.Count;
+        public KTLangNumber GetLength()
+            => new(_values.Count);
 
         /// <summary>
         /// Gets the nth element of this array.
