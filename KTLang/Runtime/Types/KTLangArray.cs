@@ -21,7 +21,7 @@ namespace KTLang.Runtime.Types
         /// <summary>
         /// Gets the nth element of this array.
         /// </summary>
-        public object? At(int index)
+        public KTLangType? At(int index)
         {
             if (index < 0 || index > _values.Count)
                 throw new IndexOutOfRangeException($"Cannot go below 0 or above {_values.Count}");
@@ -60,5 +60,52 @@ namespace KTLang.Runtime.Types
         /// <inheritdoc/>
         public override string ToString()
             => string.Join(", ", _values);
+
+        /// <inheritdoc/>
+        public override KTLangType? GetMember(string member)
+        {
+            return member switch
+            {
+                "length" => GetLength(),
+                _ => throw new Exception($"Invalid member name '{member}'")
+            };
+        }
+
+        /// <inheritdoc/>
+        public override KTLangType? CallMethod(string method, List<KTLangType?> args)
+        {
+            switch (method)
+            {
+                case "pop":
+                    return Pop();
+
+                case "push":
+                    {
+                        if (args.Count == 0)
+                            throw new Exception($"array.push() requires at least one argument");
+
+                        var first = args.First();
+                        Push(first);
+
+                        return null;
+                    }
+
+                case "at":
+                    {
+                        if (args.Count == 0)
+                            throw new Exception($"array.at() requires at least one argument");
+
+                        var first = args.First();
+
+                        if (first is KTLangNumber num)
+                            return At((int)num.Value);
+
+                        throw new Exception("Cannot index using non-number type");
+                    }
+
+                default:
+                    throw new Exception($"Invalid method name '{method}'");
+            }
+        }
     }
 }

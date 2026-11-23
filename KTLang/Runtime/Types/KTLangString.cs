@@ -45,5 +45,15 @@ namespace KTLang.Runtime.Types
         /// </summary>
         public static KTLangString operator +(KTLangString left, KTLangString right)
             => new(left.Value + right.Value);
+
+        /// <inheritdoc/>
+        public override KTLangType? GetMember(string member)
+        {
+            return member switch
+            {
+                "length" => GetLength(),
+                _ => throw new Exception($"Invalid member name '{member}'")
+            };
+        }
     }
 }

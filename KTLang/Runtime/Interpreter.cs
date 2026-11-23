@@ -38,6 +38,9 @@ namespace KTLang.Runtime
             if (expr is ArrayExpression array)
                 return EvalArrayExpr(array);
 
+            if (expr is MemberExpression member)
+                return EvalMemberExpr(member);
+
             throw new Exception($"Unknown expression type: {expr.GetType().Name}");
         }
 
@@ -196,8 +199,38 @@ namespace KTLang.Runtime
             return value is null ? throw new Exception($"Variable {name} was used before being assigned") : value;
         }
 
+        private KTLangType? EvalMemberMethodExpr(CallExpression call, MemberExpression member)
+        {
+            var target = Evaluate(member.Target) ?? throw new Exception("Cannot call method on null");
+            var name = member.Name?.RawString;
+
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            var args = new List<KTLangType?>();
+
+            foreach (var arg in call.Args)
+                args.Add(Evaluate(arg));
+
+            return target.CallMethod(name, args);
+        }
+
+        private KTLangType? EvalMemberExpr(MemberExpression member)
+        {
+            var target = Evaluate(member.Target) ?? throw new Exception("Cannot access property on null");
+            var name = member.Name?.RawString;
+
+            if (string.IsNullOrEmpty(name))
+                return null;
+
+            return target.GetMember(name);
+        }
+
         private KTLangType? EvalCallExpr(CallExpression call)
         {
+            if (call.Callee is MemberExpression member)
+                return EvalMemberMethodExpr(call, member);
+
             if (call.Callee is VariableExpression varExpr)
             {
                 var name = varExpr.Name?.RawString;

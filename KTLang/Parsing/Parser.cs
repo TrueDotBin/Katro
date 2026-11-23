@@ -235,22 +235,33 @@ namespace KTLang.Parsing
         {
             var expr = Primary();
 
-            while (Match(TokenType.LParen))
+            while (true)
             {
-                var args = new List<Expression>();
-
-                if (!Check(TokenType.RParen))
+                if (Match(TokenType.LParen))
                 {
-                    do
+                    var args = new List<Expression>();
+
+                    if (!Check(TokenType.RParen))
                     {
-                        var arg = Expression();
-                        args.Add(arg);
-                    } while (Match(TokenType.Comma));
+                        do
+                        {
+                            var arg = Expression();
+                            args.Add(arg);
+                        } while (Match(TokenType.Comma));
+                    }
+
+                    Consume(TokenType.RParen, "Expected ')' after arguments");
+                    expr = new CallExpression(expr, args);
                 }
-
-                Consume(TokenType.RParen, "Expected ')' after arguments");
-
-                expr = new CallExpression(expr, args);
+                else if (Match(TokenType.Dot))
+                {
+                    var name = Consume(TokenType.Identifier, "Expected property or method name after '.'");
+                    expr = new MemberExpression(expr, name);
+                }
+                else
+                {
+                    break;
+                }
             }
 
             return expr;

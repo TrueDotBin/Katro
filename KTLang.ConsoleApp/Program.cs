@@ -81,6 +81,11 @@ namespace KTLang.ConsoleApp
                 Console.WriteLine($"{indent}Array:");
                 foreach (var val in array.Values) PrintAst(val, indent + "  ");
             }
+            else if (expr is MemberExpression member)
+            {
+                Console.WriteLine($"{indent}Member: {member.Name?.RawString}");
+                PrintAst(member.Target, indent + "  ");
+            }
         }
 
         public static void Main()
