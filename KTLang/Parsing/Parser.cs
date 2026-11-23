@@ -33,10 +33,37 @@ namespace KTLang.Parsing
         
         private Statement Declaration()
         {
+            if (Match(TokenType.Fn))
+                return FunctionDecl();
+
             if (Match(TokenType.Var))
                 return VariableDecl();
 
             return Statement();
+        }
+
+        private FunctionStatement FunctionDecl()
+        {
+            var name = Consume(TokenType.Identifier, "Expected function name");
+            Consume(TokenType.LParen, "Expected '(' after function name");
+
+            var parameters = new List<Token>();
+
+            if (!Check(TokenType.RParen))
+            {
+                do
+                {
+                    var param = Consume(TokenType.Identifier, "Expected parameter name");
+                    parameters.Add(param);
+                } while (Match(TokenType.Comma));
+            }
+
+            Consume(TokenType.RParen, "Expected ')' after parameters");
+
+            Consume(TokenType.LBrace, "Expected '{' before function body");
+            var body = Block();
+
+            return new FunctionStatement(name, parameters, body);
         }
 
         private VariableStatement VariableDecl()
@@ -62,7 +89,21 @@ namespace KTLang.Parsing
             if (Match(TokenType.LBrace))
                 return Block();
 
+            if (Match(TokenType.Return))
+                return Return();
+
             return ExpressionStatement();
+        }
+
+        private ReturnStatement Return()
+        {
+            if (Match(TokenType.Semicolon))
+                return new(null);
+
+            var value = Expression();
+            Consume(TokenType.Semicolon, "Expected ';' after return value");
+
+            return new(value);
         }
 
         private ExpressionStatement ExpressionStatement()

@@ -47,6 +47,30 @@ namespace KTLang.ConsoleApp
                 Console.WriteLine($"{indent}  Do:");
                 PrintAst(whiteStmt.Body, indent + "    ");
             }
+            else if (stmt is FunctionStatement funcStmt)
+            {
+                Console.WriteLine($"{indent}Function:");
+                Console.WriteLine($"{indent}  Parameters:");
+
+                foreach (var param in funcStmt.Parameters)
+                {
+                    Console.WriteLine($"{indent}    {param.RawString}");
+                }
+
+                Console.WriteLine($"{indent}  Do:");
+                PrintAst(funcStmt.Body, indent + "    ");
+            }
+            else if (stmt is ReturnStatement returnStmt)
+            {
+                if (returnStmt.Value is null)
+                {
+                    Console.WriteLine($"{indent}Return");
+                    return;
+                }
+
+                Console.WriteLine($"{indent}Return:");
+                PrintAst(returnStmt.Value, indent + "    ");
+            }
         }
 
         public static void PrintAst(Expression expr, string indent = "")

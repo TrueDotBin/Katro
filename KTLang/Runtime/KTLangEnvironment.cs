@@ -8,14 +8,14 @@ namespace KTLang.Runtime
     /// <summary>
     /// Manages KTLang's variables.
     /// </summary>
-    public class Environment(Environment? enclosing = null)
+    public class KTLangEnvironment(KTLangEnvironment? enclosing = null)
     {
         private readonly Dictionary<string, KTLangType?> _vars = [];
 
         /// <summary>
         /// The parent scope's environment.
         /// </summary>
-        public Environment? Enclosing { get; private set; } = enclosing;
+        public KTLangEnvironment? Enclosing { get; private set; } = enclosing;
 
         /// <summary>
         /// Gets a variable by its name.

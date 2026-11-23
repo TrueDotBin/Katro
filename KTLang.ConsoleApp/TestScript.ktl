@@ -1,5 +1,17 @@
 ﻿# This is a comment, it is ignored by the interpreter.
 
+fn hello() {
+    println("Hello, world!");
+}
+
+fn greet(name) {
+    println("Hello,", name + "!");
+}
+
+fn returnParam(param) {
+    return param;
+}
+
 var a = 5;
 println(a);
 
@@ -63,3 +75,9 @@ var last = arr.pop();
 
 println("There are now", arr.length, "elements because the script popped one!");
 println("Last element before popping:", last);
+
+hello();
+greet("person");
+
+var result = returnParam("Hi");
+println(result);

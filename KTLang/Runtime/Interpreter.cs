@@ -1,4 +1,5 @@
 ﻿using KTLang.Builtins;
+using KTLang.Exceptions;
 using KTLang.Nodes.Expressions;
 using KTLang.Nodes.Statements;
 using KTLang.Runtime.Types;
@@ -13,7 +14,7 @@ namespace KTLang.Runtime
     public class Interpreter(IHost host)
     {
         private IHost _host = host;
-        private Environment _env = new();
+        private KTLangEnvironment _env = new();
 
         /// <summary>
         /// Returns the actual value of an expression.
@@ -79,6 +80,18 @@ namespace KTLang.Runtime
                 return;
             }
 
+            if (statement is FunctionStatement func)
+            {
+                ExecFuncStatement(func);
+                return;
+            }
+
+            if (statement is ReturnStatement ret)
+            {
+                ExecReturnStatement(ret);
+                return;
+            }
+
             throw new Exception($"Unknown statement type: {statement.GetType().Name}");
         }
 
@@ -91,6 +104,25 @@ namespace KTLang.Runtime
             foreach (var statement in statements)
             {
                 Execute(statement);
+            }
+        }
+
+        /// <summary>
+        /// Executes a block statement.
+        /// </summary>
+        public void ExecuteBlock(BlockStatement block, KTLangEnvironment environment)
+        {
+            var previous = _env;
+            try
+            {
+                _env = environment;
+
+                foreach (var statement in block.Statements)
+                    Execute(statement);
+            }
+            finally
+            {
+                _env = previous;
             }
         }
 
@@ -109,7 +141,7 @@ namespace KTLang.Runtime
                         if (left is KTLangString lStr && right is KTLangString rStr)
                             return lStr + rStr;
 
-                        throw new Exception("Operands must be numbers or strings.");
+                        throw new Exception("Operands must be numbers or strings");
                     }
 
                 case TokenType.Subtract:
@@ -117,7 +149,7 @@ namespace KTLang.Runtime
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
                             return lNum - rNum;
 
-                        throw new Exception("Operands must be numbers.");
+                        throw new Exception("Operands must be numbers");
                     }
 
                 case TokenType.Multiply:
@@ -125,7 +157,7 @@ namespace KTLang.Runtime
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
                             return lNum * rNum;
 
-                        throw new Exception("Operands must be numbers.");
+                        throw new Exception("Operands must be numbers");
                     }
 
                 case TokenType.Divide:
@@ -133,7 +165,7 @@ namespace KTLang.Runtime
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
                             return lNum / rNum;
 
-                        throw new Exception("Operands must be numbers.");
+                        throw new Exception("Operands must be numbers");
                     }
 
                 case TokenType.Equal:
@@ -147,7 +179,7 @@ namespace KTLang.Runtime
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
                             return new KTLangBoolean(lNum > rNum);
 
-                        throw new Exception("Operands must be numbers.");
+                        throw new Exception("Operands must be numbers");
                     }
 
                 case TokenType.GreaterEqual:
@@ -155,7 +187,7 @@ namespace KTLang.Runtime
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
                             return new KTLangBoolean(lNum.Value >= rNum.Value);
 
-                        throw new Exception("Operands must be numbers.");
+                        throw new Exception("Operands must be numbers");
                     }
 
                 case TokenType.Less:
@@ -163,7 +195,7 @@ namespace KTLang.Runtime
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
                             return new KTLangBoolean(lNum < rNum);
 
-                        throw new Exception("Operands must be numbers.");
+                        throw new Exception("Operands must be numbers");
                     }
 
                 case TokenType.LessEqual:
@@ -171,7 +203,7 @@ namespace KTLang.Runtime
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
                             return new KTLangBoolean(lNum <= rNum);
 
-                        throw new Exception("Operands must be numbers.");
+                        throw new Exception("Operands must be numbers");
                     }
 
                 case TokenType.Modulo:
@@ -179,7 +211,7 @@ namespace KTLang.Runtime
                         if (left is KTLangNumber lNum && right is KTLangNumber rNum)
                             return lNum % rNum;
 
-                        throw new Exception("Operands must be numbers.");
+                        throw new Exception("Operands must be numbers");
                     }
 
                 default:
@@ -238,17 +270,22 @@ namespace KTLang.Runtime
                 if (string.IsNullOrEmpty(name))
                     throw new NullReferenceException("Function name was null or empty");
 
-                if (BuiltinsRegistry.Registry.TryGetValue(name, out var builtin))
+                var args = new List<KTLangType?>();
+                foreach (var arg in call.Args)
                 {
-                    var args = new List<KTLangType?>();
-                    foreach (var arg in call.Args)
-                    {
-                        var value = Evaluate(arg);
-                        args.Add(value);
-                    }
-
-                    return builtin(args, _host);
+                    var value = Evaluate(arg);
+                    args.Add(value);
                 }
+
+                if (BuiltinsRegistry.Registry.TryGetValue(name, out var builtin))
+                    return builtin(args, _host);
+
+                var variable = _env.Get(name);
+
+                if (variable is KTLangFunction func)
+                    return func.Call(this, args, _host);
+
+                throw new Exception($"Undefinied function '{name}'");
             }
 
             throw new Exception("Undefinied function");
@@ -277,6 +314,29 @@ namespace KTLang.Runtime
             return list;
         }
 
+        private void ExecReturnStatement(ReturnStatement ret)
+        {
+            KTLangType? value = null;
+
+            if (ret.Value is not null)
+                value = Evaluate(ret.Value);
+
+            throw new ReturnException(value);
+        }
+
+        private void ExecFuncStatement(FunctionStatement func)
+        {
+            var expr = new FunctionExpression(func);
+            var function = new KTLangFunction(expr, _env);
+
+            var name = func.Name?.RawString;
+
+            if (string.IsNullOrEmpty(name))
+                return;
+
+            _env.Define(name, function);
+        }
+
         private void ExecVarStatement(VariableStatement var)
         {
             var name = var.Name?.RawString;
@@ -298,7 +358,7 @@ namespace KTLang.Runtime
 
             try
             {
-                _env = new Environment(previous);
+                _env = new KTLangEnvironment(previous);
 
                 foreach (var statement in block.Statements)
                 {

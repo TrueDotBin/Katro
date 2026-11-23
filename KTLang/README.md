@@ -35,3 +35,4 @@ else
 - Comparisons (support for >, >=, <, <=, ==, !=)
 - Control flow (if statements)
 - Dynamic typing
+- Support for user-defined functioons
