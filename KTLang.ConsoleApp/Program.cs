@@ -76,6 +76,11 @@ namespace KTLang.ConsoleApp
                 Console.WriteLine($"{indent}Assign: {assign.Name?.RawString}");
                 PrintAst(assign.Value, indent + "    ");
             }
+            else if (expr is ArrayExpression array)
+            {
+                Console.WriteLine($"{indent}Array:");
+                foreach (var val in array.Values) PrintAst(val, indent + "  ");
+            }
         }
 
         public static void Main()

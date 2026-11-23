@@ -33,6 +33,9 @@ namespace KTLang.Runner
             if (expr is AssignmentExpression assign)
                 return EvalAssignExpr(assign);
 
+            if (expr is ArrayExpression array)
+                return EvalArrayExpr(array);
+
             throw new Exception($"Unknown expression type: {expr.GetType().Name}");
         }
 
@@ -227,6 +230,16 @@ namespace KTLang.Runner
             _env.Assign(name, value);
 
             return value;
+        }
+
+        private object? EvalArrayExpr(ArrayExpression array)
+        {
+            var list = new List<object?>();
+
+            foreach (var value in array.Values)
+                list.Add(Evaluate(value));
+
+            return list;
         }
 
         private void ExecVarStatement(VariableStatement var)

@@ -50,7 +50,7 @@ namespace KTLang
         }
 
         /// <summary>
-        /// Implementation for len(args): Determines the length of a string.
+        /// Implementation for len(args): Determines the length of a string or an array.
         /// </summary>
         public static object? Len(List<object?> args, IHost host)
         {
@@ -59,7 +59,10 @@ namespace KTLang
             if (firstArgument is string str)
                 return (double)str.Length;
 
-            throw new Exception("Invalid type for len(), must be string");
+            if (firstArgument is List<object?> list)
+                return list.Count;
+
+            throw new Exception("Invalid type for len(), must be string or array");
         }
 
         /// <summary>

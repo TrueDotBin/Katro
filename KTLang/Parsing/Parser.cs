@@ -54,10 +54,10 @@ namespace KTLang.Parsing
         private Statement Statement()
         {
             if (Match(TokenType.If))
-                return IfStatement();
+                return If();
 
             if (Match(TokenType.While))
-                return WhileStatement();
+                return While();
 
             if (Match(TokenType.LBrace))
                 return Block();
@@ -73,7 +73,7 @@ namespace KTLang.Parsing
             return new ExpressionStatement(expr);
         }
 
-        private Statement IfStatement()
+        private Statement If()
         {
             var condition = Expression();
             var thenBranch = Statement();
@@ -85,7 +85,7 @@ namespace KTLang.Parsing
             return new IfStatement(condition, thenBranch, elseBranch);
         }
 
-        private Statement WhileStatement()
+        private Statement While()
         {
             var condition = Expression();
             var body = Statement();
@@ -125,8 +125,27 @@ namespace KTLang.Parsing
                 return expr;
             }
 
+            if (Match(TokenType.LSquare))
+                return Array();
+
             var badToken = Peek();
             throw new Exception($"Expected expression, but got {badToken.Type} ('{badToken.RawString}') at line {badToken.Line}");
+        }
+
+        private Expression Array()
+        {
+            var expressions = new List<Expression>();
+
+            if (!Check(TokenType.RSquare))
+            {
+                do
+                {
+                    expressions.Add(Expression());
+                } while (Match(TokenType.Comma));
+            }
+
+            Consume(TokenType.RSquare, "Expected ']' after array");
+            return new ArrayExpression(expressions);
         }
 
         private Expression Expression()

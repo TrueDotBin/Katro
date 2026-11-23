@@ -48,6 +48,12 @@ namespace KTLang.Tokenizer
                 case '}':
                     return CreateToken(TokenType.RBrace);
 
+                case '[':
+                    return CreateToken(TokenType.LSquare);
+
+                case ']':
+                    return CreateToken(TokenType.RSquare);
+
                 case ';':
                     return CreateToken(TokenType.Semicolon);
 

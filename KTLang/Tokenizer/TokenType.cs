@@ -30,6 +30,16 @@ namespace KTLang.Tokenizer
         RBrace,
 
         /// <summary>
+        /// [
+        /// </summary>
+        LSquare,
+
+        /// <summary>
+        /// ]
+        /// </summary>
+        RSquare,
+
+        /// <summary>
         /// ,
         /// </summary>
         Comma,
