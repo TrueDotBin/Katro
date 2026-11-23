@@ -35,7 +35,7 @@ namespace KTLang.Builtins
         /// <summary>
         /// Returns the length of a string or array.
         /// </summary>
-        public static KTLangType? Len(List<KTLangType?> args, IHost host)
+        public static KTLangType? Len(List<KTLangType?> args, IHost _)
         {
             if (args.Count == 0)
                 throw new Exception("len() requires at least one argument");
@@ -52,9 +52,9 @@ namespace KTLang.Builtins
         }
 
         /// <summary>
-        /// Converts a number to a string.
+        /// Converts the provided argument to a string.
         /// </summary>
-        public static KTLangType? ToStr(List<KTLangType?> args, IHost host)
+        public static KTLangType? ToStr(List<KTLangType?> args, IHost _)
         {
             if (args.Count == 0)
                 throw new Exception("toString() requires at least one argument");
@@ -71,7 +71,7 @@ namespace KTLang.Builtins
         /// <summary>
         /// Converts a string to a number.
         /// </summary>
-        public static KTLangType? ToNum(List<KTLangType?> args, IHost host)
+        public static KTLangType? ToNum(List<KTLangType?> args, IHost _)
         {
             if (args.Count == 0)
                 throw new Exception("toNumber() requires at least one argument");
