@@ -13,10 +13,7 @@ namespace KTLang.Builtins
         /// <summary>
         /// The shape of a built-in function.
         /// </summary>
-        /// <param name="parameters"></param>
-        /// <param name="host"></param>
-        /// <returns></returns>
-        public delegate KTLangType? KTLangBuiltin(List<KTLangType?> parameters, IHost host);
+        public delegate KTLangType? KTLangBuiltin(List<KTLangType?> args, IHost host);
 
         /// <summary>
         /// The registry for built-in functions (names that resolve to delegates)
