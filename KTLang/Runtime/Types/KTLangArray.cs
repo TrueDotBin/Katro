@@ -56,5 +56,9 @@ namespace KTLang.Runtime.Types
         /// <inheritdoc/>
         public override int GetHashCode()
             => RuntimeHelpers.GetHashCode(this);
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => string.Join(", ", _values);
     }
 }

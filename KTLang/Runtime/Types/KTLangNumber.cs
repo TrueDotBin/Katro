@@ -18,7 +18,7 @@ namespace KTLang.Runtime.Types
         public override bool Equals(object? obj)
         {
             if (obj is double dbl)
-                return Value == double;
+                return Value == dbl;
 
             if (obj is KTLangNumber other)
                 return Value == other.Value;
@@ -29,5 +29,9 @@ namespace KTLang.Runtime.Types
         /// <inheritdoc/>
         public override int GetHashCode()
             => Value.GetHashCode();
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => Value.ToString();
     }
 }

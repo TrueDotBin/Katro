@@ -29,5 +29,9 @@ namespace KTLang.Runtime.Types
         /// <inheritdoc/>
         public override int GetHashCode()
             => Value.GetHashCode();
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => Value ? "true" : "false"; // C#'s ToString() on boolean makes it capital
     }
 }
