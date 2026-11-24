@@ -1,0 +1,3 @@
+[submodule "KTLang"]
+	path = KTLang
+	url = https://github.com/TrueDotBin/KTLang.git

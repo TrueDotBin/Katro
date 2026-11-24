@@ -23,7 +23,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\KTLang\KTLang.csproj" />
+    <ProjectReference Include="..\KTLang\KTLang\KTLang.csproj" />
   </ItemGroup>
 
 </Project>
