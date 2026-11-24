@@ -11,6 +11,7 @@ using Katro.Output.Sinks;
 using Katro.FileSystem;
 using Katro.Constants.Shell;
 using Katro.Users;
+using Katro.Shell.Commands.Network;
 
 namespace Katro.Shell
 {
@@ -79,6 +80,7 @@ namespace Katro.Shell
             Commands.Add(new Sudo());
             Commands.Add(new RmUser());
             Commands.Add(new Commands.System.KTLang());
+            Commands.Add(new NsResolve());
         }
 
         /// <summary>
