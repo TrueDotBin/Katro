@@ -58,5 +58,12 @@ namespace Katro.Services.Core
 
             return true;
         }
+
+        /// <inheritdoc/>
+        public override void Stop()
+        {
+            Logger.Log(LogLevel.Info, "Closing DHCP client");
+            _dchp.Dispose();
+        }
     }
 }
