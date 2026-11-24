@@ -35,6 +35,9 @@ namespace Katro.Network
         /// </summary>
         public static void Close()
         {
+            if (!_initialized)
+                return;
+
             Icmp.Dispose();
             _initialized = false;
         }

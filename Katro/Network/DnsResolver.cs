@@ -44,6 +44,9 @@ namespace Katro.Network
         /// </summary>
         public static void Close()
         {
+            if (!_initialized)
+                return;
+
             Dns.Dispose();
             _initialized = false;
         }
