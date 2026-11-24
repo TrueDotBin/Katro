@@ -34,7 +34,10 @@ namespace Katro.Network
         /// Closes the ICMP client.
         /// </summary>
         public static void Close()
-            => Icmp.Dispose();
+        {
+            Icmp.Dispose();
+            _initialized = false;
+        }
 
         /// <summary>
         /// Pings a server and returns the result.

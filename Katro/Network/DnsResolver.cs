@@ -43,7 +43,10 @@ namespace Katro.Network
         /// Closes the DNS client.
         /// </summary>
         public static void Close()
-            => Dns.Dispose();
+        {
+            Dns.Dispose();
+            _initialized = false;
+        }
 
         /// <summary>
         /// Resolves a nameserver from the provided domain.
