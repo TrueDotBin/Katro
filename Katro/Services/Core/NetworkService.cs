@@ -1,5 +1,6 @@
 ﻿using Cosmos.Kernel.System.Network;
 using Katro.FileSystem;
+using Katro.Network;
 using Katro.Output;
 using Katro.Services.Abstractions;
 using System.Net.Sockets;
@@ -56,6 +57,9 @@ namespace Katro.Services.Core
                 return false;
             }
 
+            Logger.Log(LogLevel.Info, "Initializing DNS client");
+            DnsResolver.Initialize();
+
             return true;
         }
 
@@ -64,6 +68,9 @@ namespace Katro.Services.Core
         {
             Logger.Log(LogLevel.Info, "Closing DHCP client");
             _dchp.Dispose();
+
+            Logger.Log(LogLevel.Info, "Closing DNS client");
+            DnsResolver.Close();
         }
     }
 }
