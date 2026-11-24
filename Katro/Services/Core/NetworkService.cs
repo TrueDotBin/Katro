@@ -60,6 +60,9 @@ namespace Katro.Services.Core
             Logger.Log(LogLevel.Info, "Initializing DNS client");
             DnsResolver.Initialize();
 
+            Logger.Log(LogLevel.Info, "Initializing ICMP client");
+            Pinger.Initialize();
+
             return true;
         }
 
@@ -71,6 +74,9 @@ namespace Katro.Services.Core
 
             Logger.Log(LogLevel.Info, "Closing DNS client");
             DnsResolver.Close();
+
+            Logger.Log(LogLevel.Info, "Closing ICMP client");
+            Pinger.Close();
         }
     }
 }

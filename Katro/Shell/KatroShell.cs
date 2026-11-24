@@ -81,6 +81,7 @@ namespace Katro.Shell
             Commands.Add(new RmUser());
             Commands.Add(new Commands.System.KTLang());
             Commands.Add(new NsResolve());
+            Commands.Add(new Ping());
         }
 
         /// <summary>
