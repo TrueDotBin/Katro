@@ -82,6 +82,7 @@ namespace Katro.Shell
             Commands.Add(new Commands.System.KTLang());
             Commands.Add(new NsResolve());
             Commands.Add(new Ping());
+            Commands.Add(new IpConfig());
         }
 
         /// <summary>
