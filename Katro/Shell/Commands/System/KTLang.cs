@@ -6,6 +6,7 @@ using Katro.Output;
 using Katro.Scripting;
 using Katro.Security;
 using Katro.Users;
+using KTLang;
 
 namespace Katro.Shell.Commands.System
 {
@@ -28,12 +29,12 @@ namespace Katro.Shell.Commands.System
 
         private void StartRepl()
         {
-            Terminal.WriteLine("KTLang Interpreter");
-            Terminal.WriteLine("Type 'exit' to quit.");
+            Terminal.WriteLine($"KTLang version {KTLangVersionInfo.VersionString}");
+            Terminal.WriteLine("Type 'exit' to quit");
 
             while (true)
             {
-                Terminal.Write("ktlang> ");
+                Terminal.Write("> ");
                 var input = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(input))

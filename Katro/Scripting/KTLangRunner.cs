@@ -57,7 +57,7 @@ namespace Katro.Scripting
             try
             {
                 var lexer = new Lexer(script);
-                var tokens = lexer.Parse();
+                var tokens = lexer.Tokenize();
 
                 var parser = new Parser(tokens);
                 var statements = parser.Parse();
