@@ -28,6 +28,7 @@ namespace Katro
             ServiceHost.StartAll
             (
                 new ConsoleFontService(),
+                new NetworkService(),
                 new FileSystemService(),
                 new UserService(),
                 new ConfigService()
