@@ -11,6 +11,7 @@ A [monolithic kernel][monolithic-kernel] made in [Cosmos gen3][cosmos-gen3]
 - Support for FAT and ext2 file systems
 - A service host
 - A user system
+- DNS, ICMP and HTTP(S) support
 
 ## Roadmap
 
@@ -18,7 +19,7 @@ A [monolithic kernel][monolithic-kernel] made in [Cosmos gen3][cosmos-gen3]
 - [x] Implement file system
 - [x] Add a user system
 - [x] Add a way to run programs (KTLang)
-- [ ] Add basic networking
+- [x] Add networking
 - [ ] Add a desktop interface
   
 ## Building

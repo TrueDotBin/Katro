@@ -27,6 +27,11 @@ namespace Katro.Enums
         /// <summary>
         /// This command makes sound.
         /// </summary>
-        Audio
+        Audio,
+
+        /// <summary>
+        /// This command uses the network.
+        /// </summary>
+        Network
     }
 }
