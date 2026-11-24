@@ -63,6 +63,9 @@ namespace Katro.Services.Core
             Logger.Log(LogLevel.Info, "Initializing ICMP client");
             Pinger.Initialize();
 
+            Logger.Log(LogLevel.Info, "Initializing HTTP client");
+            HttpManager.Initialize();
+
             return true;
         }
 
@@ -77,6 +80,9 @@ namespace Katro.Services.Core
 
             Logger.Log(LogLevel.Info, "Closing ICMP client");
             Pinger.Close();
+
+            Logger.Log(LogLevel.Info, "Closing HTTP client");
+            HttpManager.Close();
         }
     }
 }

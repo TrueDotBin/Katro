@@ -83,6 +83,7 @@ namespace Katro.Shell
             Commands.Add(new NsResolve());
             Commands.Add(new Ping());
             Commands.Add(new IpConfig());
+            Commands.Add(new Curl());
         }
 
         /// <summary>
