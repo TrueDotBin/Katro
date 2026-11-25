@@ -96,6 +96,12 @@ namespace Katro.Output
                 Heading("Stack Trace");
                 WriteLine(ex.StackTrace, ConsoleColor.Red);
             }
+
+            if (ex.InnerException is not null)
+            {
+                WriteLine();
+                CSharpException(ex.InnerException);
+            }
         }
 
         /// <summary>
