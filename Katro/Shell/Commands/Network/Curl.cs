@@ -3,11 +3,15 @@ using Katro.Constants.Shell;
 using Katro.Enums;
 using Katro.Network;
 using Katro.Output;
+using Cosmos.Network.Http;
+using HttpMethod = Cosmos.Network.Http.HttpMethod;
+using HttpRequestMessage = Cosmos.Network.Http.HttpRequestMessage;
+using HttpCompletionOption = Cosmos.Network.Http.HttpCompletionOption;
 
 namespace Katro.Shell.Commands.Network
 {
     /// <summary>
-    /// Gets the contents of a URL and displays them.
+    /// Sends a request to a URL and displays the response.
     /// </summary>
     public sealed class Curl : Command
     {
@@ -15,10 +19,10 @@ namespace Katro.Shell.Commands.Network
         public override string Name { get; } = "curl";
 
         /// <inheritdoc/>
-        public override string Description { get; } = "Gets the contents of a URL and displays them.";
+        public override string Description { get; } = "Sends a request to a URL and displays the response.";
 
         /// <inheritdoc/>
-        public override string Usage { get; } = "curl <url>";
+        public override string Usage { get; } = "curl <url> [--method=GET]";
 
         /// <inheritdoc/>
         public override CommandCategory Category { get; } = CommandCategory.Network;
@@ -33,11 +37,20 @@ namespace Katro.Shell.Commands.Network
 
             url = UrlHelper.Normalize(url);
 
-            using var response = HttpManager.Http.Get(url);
+            if (!ctx.TryGetOption("method", out var methodStr))
+            {
+                Terminal.WriteLine("No method provided, using GET");
+                methodStr = "GET";
+            }
+
+            var method = new HttpMethod(methodStr);
+            var request = new HttpRequestMessage(method, url);
+
+            using var response = HttpManager.Http.Send(request, HttpCompletionOption.ResponseContentRead);
 
             if (!response.IsSuccessStatusCode)
             {
-                Terminal.WriteLine($"GET request to {url} failed");
+                Terminal.WriteLine($"Request to {url} failed");
                 return CommandReturnCode.GeneralFailure;
             }
 
