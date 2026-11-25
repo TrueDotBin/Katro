@@ -84,6 +84,7 @@ namespace Katro.Shell
             Commands.Add(new Ping());
             Commands.Add(new IpConfig());
             Commands.Add(new Curl());
+            Commands.Add(new Download());
         }
 
         /// <summary>
