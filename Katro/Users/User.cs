@@ -37,7 +37,29 @@ namespace Katro.Users
         /// <summary>
         /// The path of the directory where the user's files are stored.
         /// </summary>
-        public string HomeDirectory { get; init; }
+        public string HomeDirectory { get; private set; }
+
+        /// <summary>
+        /// The paths of other additional directories.
+        /// </summary>
+        public Dictionary<UserFolder, string> ExtraDirs { get; private set; } = [];
+
+        private void CreateDirs()
+        {
+            HomeDirectory = Path.Combine(MountPoints.RootPartition, "home", Username);
+            Directory.CreateDirectory(HomeDirectory);
+
+            var values = Enum.GetValues<UserFolder>();
+            foreach (var value in values)
+            {
+                ExtraDirs[value] = Path.Combine(HomeDirectory, value.ToString());
+            }
+
+            foreach (var dir in ExtraDirs.Values)
+            {
+                Directory.CreateDirectory(dir);
+            }
+        }
 
         /// <summary>
         /// Creates a new <see cref="User"/> object.
@@ -52,8 +74,7 @@ namespace Katro.Users
             Hash = PasswordHasher.Hash(Salt, password);
             Type = type;
 
-            HomeDirectory = Path.Combine(MountPoints.RootPartition, "home", Username);
-            Directory.CreateDirectory(HomeDirectory);
+            CreateDirs();
         }
 
         internal User(string username, byte[] hash, byte[] salt, UserType type = UserType.Normal)
@@ -63,8 +84,7 @@ namespace Katro.Users
             Hash = hash;
             Type = type;
 
-            HomeDirectory = Path.Combine(MountPoints.RootPartition, "home", Username);
-            Directory.CreateDirectory(HomeDirectory);
+            CreateDirs();
         }
 
         /// <summary>

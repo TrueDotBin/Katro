@@ -5,6 +5,7 @@ using Katro.Network;
 using Katro.Output;
 using Cosmos.Network.Http;
 using Katro.FileSystem;
+using Katro.Users;
 
 namespace Katro.Shell.Commands.Network
 {
@@ -42,9 +43,13 @@ namespace Katro.Shell.Commands.Network
 
                 if (string.IsNullOrEmpty(output))
                     output = "web-download";
-            }
 
-            output = PathHelper.Resolve(ctx.Shell.CurrentDirectory, output);
+                output = PathHelper.Resolve(UserManager.CurrentUser.ExtraDirs[UserFolder.Downloads], output);
+            }
+            else
+            {
+                output = PathHelper.Resolve(ctx.Shell.CurrentDirectory, output);
+            }
 
             using var stream = HttpManager.Http.GetStream(url);
             using var fs = new FileStream(output, FileMode.OpenOrCreate);
