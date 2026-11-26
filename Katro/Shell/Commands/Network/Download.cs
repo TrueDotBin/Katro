@@ -51,11 +51,27 @@ namespace Katro.Shell.Commands.Network
                 output = PathHelper.Resolve(ctx.Shell.CurrentDirectory, output);
             }
 
+            var withoutExtension = Path.GetFileNameWithoutExtension(output);
+            var extension = Path.GetExtension(output);
+
+            var basePath = Path.GetDirectoryName(output);
+            if (string.IsNullOrEmpty(basePath))
+                return CommandReturnCode.GeneralFailure;
+
+            var dest = output;
+            var counter = 1;
+
+            while (File.Exists(dest))
+            {
+                var fileName = $"{withoutExtension} ({counter++}){extension}";
+                dest = Path.Combine(basePath, fileName);
+            }
+
             using var stream = HttpManager.Http.GetStream(url);
-            using var fs = new FileStream(output, FileMode.OpenOrCreate);
+            using var fs = new FileStream(dest, FileMode.CreateNew);
             stream.CopyTo(fs);
 
-            Terminal.WriteLine($"Saved {url} to {output}");
+            Terminal.WriteLine($"Saved {url} to {dest}");
 
             return CommandReturnCode.Success;
         }
