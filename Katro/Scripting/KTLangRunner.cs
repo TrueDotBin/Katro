@@ -34,6 +34,8 @@ namespace Katro.Scripting
 
             _host = host;
             _interpreter = new Interpreter(_host);
+            _interpreter.RegisterDefaultModules();
+
             Initialized = true;
         }
 
@@ -43,6 +45,7 @@ namespace Katro.Scripting
         public static void Reinitialize()
         {
             _interpreter = new Interpreter(_host);
+            _interpreter.RegisterDefaultModules();
         }
 
         /// <summary>
